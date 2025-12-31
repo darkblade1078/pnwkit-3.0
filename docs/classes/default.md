@@ -6,7 +6,7 @@
 
 # Class: default
 
-Defined in: [index.ts:15](https://github.com/darkblade1078/pnwkit-3.0/blob/e28a0fb83d5810e801cb9a64f1a0a0116e78f04f/src/index.ts#L15)
+Defined in: [index.ts:18](https://github.com/darkblade1078/pnwkit-3.0/blob/ea48e0f3b703efbc233330b63a96c5ea5ab68707/src/index.ts#L18)
 
 Main PnWKit client for interacting with the Politics & War API
 
@@ -14,8 +14,11 @@ Main PnWKit client for interacting with the Politics & War API
 
 ```typescript
 const pnwkit = new PnWKit("your-api-key");
-const nations = await pnwkit.nationsQuery()
+
+// Access the nations query builder directly
+const nations = await pnwkit.nationsQuery
   .select('id', 'nation_name', 'score')
+  .where({ min_score: 1000 })
   .first(10)
   .execute();
 ```
@@ -28,11 +31,11 @@ const nations = await pnwkit.nationsQuery()
 
 ### Constructor
 
-> **new default**(`apiKey`, `botKey?`): `PnWKit`
+> **new default**(`apiKey`): `PnWKit`
 
-Defined in: [index.ts:22](https://github.com/darkblade1078/pnwkit-3.0/blob/e28a0fb83d5810e801cb9a64f1a0a0116e78f04f/src/index.ts#L22)
+Defined in: [index.ts:36](https://github.com/darkblade1078/pnwkit-3.0/blob/ea48e0f3b703efbc233330b63a96c5ea5ab68707/src/index.ts#L36)
 
-Create a new PnWKit instance
+Main PnWKit client for interacting with the Politics & War API
 
 #### Parameters
 
@@ -40,46 +43,46 @@ Create a new PnWKit instance
 
 `string`
 
-Your Politics & War API key
-
-##### botKey?
-
-`string`
-
-Optional bot key for additional permissions
-
 #### Returns
 
 `PnWKit`
+
+#### Example
+
+```typescript
+const pnwkit = new PnWKit("your-api-key");
+
+// Access the nations query builder directly
+const nations = await pnwkit.nationsQuery
+  .select('id', 'nation_name', 'score')
+  .where({ min_score: 1000 })
+  .first(10)
+  .execute();
+```
 
 #### Overrides
 
 `PnwKitApi.constructor`
 
-## Methods
+## Other
 
-### nationsQuery()
+### apiKey
 
-> **nationsQuery**(): `NationsQuery`\<\[\], \{ \}\>
+> `protected` `readonly` **apiKey**: `string`
 
-Defined in: [api/index.ts:22](https://github.com/darkblade1078/pnwkit-3.0/blob/e28a0fb83d5810e801cb9a64f1a0a0116e78f04f/src/api/index.ts#L22)
+Defined in: [api/index.ts:8](https://github.com/darkblade1078/pnwkit-3.0/blob/ea48e0f3b703efbc233330b63a96c5ea5ab68707/src/api/index.ts#L8)
 
-Create a new nations query
+#### Inherited from
 
-#### Returns
+`PnwKitApi.apiKey`
 
-`NationsQuery`\<\[\], \{ \}\>
+***
 
-A NationsQuery builder instance
+### nationsQuery
 
-#### Example
+> `readonly` **nationsQuery**: [`NationsQuery`](NationsQuery.md)
 
-```typescript
-const query = pnwkit.nationsQuery()
-  .select('id', 'nation_name')
-  .where({ min_score: 1000 })
-  .first(50);
-```
+Defined in: [api/index.ts:6](https://github.com/darkblade1078/pnwkit-3.0/blob/ea48e0f3b703efbc233330b63a96c5ea5ab68707/src/api/index.ts#L6)
 
 #### Inherited from
 

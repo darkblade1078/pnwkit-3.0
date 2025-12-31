@@ -3,12 +3,26 @@ import QueryBuilder from "../../builders/queryBuilder.js";
 import graphQLService from "../../services/graphQL.js";
 import type { NationFields, NationQueryParams, NationRelations } from "../../types/queries/nation.js";
 import type { paginatorInfo } from "../../types/others.js";
+import type PnwKitApi from "../index.js";
 
 /**
  * Query builder for fetching nation data from the Politics & War API
  * @category Query Builders
  * @template F - Selected field names as a readonly tuple
  * @template I - Included relations as a record type
+ * @example
+ * ```typescript
+ * const nations = await pnwkit.nationsQuery
+ *   .select('id', 'nation_name', 'score', 'alliance_id')
+ *   .where({ 
+ *     min_score: 1000, 
+ *     max_score: 5000,
+ *     orderBy: [{ column: 'SCORE', order: 'DESC' }]
+ *   })
+ *   .include('alliance', ['id', 'name'])
+ *   .first(100)
+ *   .execute();
+ * ```
 */
 class NationsQuery<
     F extends readonly (keyof NationFields)[] = [], // Selected fields
@@ -21,9 +35,14 @@ NationQueryParams   // Filter parameters
 {
     protected queryName = 'nations';
 
-    constructor(apiKey: string) {
+    /**
+     * Create a new NationsQuery instance
+     * @param kit - The PnWKit instance containing API credentials
+     * @internal
+    */
+    constructor(private kit: PnwKitApi) {
         super();
-        this.apiKey = apiKey;
+        this.kit = kit;
     }
 
     /**
@@ -81,10 +100,8 @@ NationQueryParams   // Filter parameters
         return this as any;
     }
 
-
     /**
      * Execute the nations query and return results
-     * @param withPaginator - Whether to include pagination info (default: false)
      * @returns Array of nations, or object with data and paginatorInfo if withPaginator is true
      * @throws Error if the query fails or returns no data
      * @example
@@ -95,8 +112,8 @@ NationQueryParams   // Filter parameters
      * const result = await query.execute(true);
      * console.log(result.data, result.paginatorInfo);
     */
-    async execute(): Promise<SelectFields<NationFields, F, I>[]>; // default without paginator
-    async execute(withPaginator: true): Promise<{ // with paginator
+    async execute(): Promise<SelectFields<NationFields, F, I>[]>;
+    async execute(withPaginator: true): Promise<{ 
         data: SelectFields<NationFields, F, I>[], 
         paginatorInfo: paginatorInfo 
     }>;
@@ -111,7 +128,7 @@ NationQueryParams   // Filter parameters
             const query = this.buildQuery(withPaginator);
 
             // Execute the query
-            const result = await graphQLService.queryCall(this.apiKey, query);
+            const result = await graphQLService.queryCall(this.kit['apiKey'], query);
             const queryData = result[this.queryName];
 
             if(!queryData?.data)

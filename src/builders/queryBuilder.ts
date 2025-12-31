@@ -24,6 +24,10 @@ TQueryParams = any // Type of the query parameters
      * Set the maximum number of records to retrieve
      * @param count - Number of records (max 500)
      * @returns This query instance for method chaining
+     * @example
+     * ```typescript
+     * .first(100) // Get up to 100 records
+     * ```
     */
     first(count: number): this
     {
@@ -33,8 +37,12 @@ TQueryParams = any // Type of the query parameters
 
     /**
      * Set the page number for pagination
-     * @param pageNumber - The page number to retrieve
+     * @param pageNumber - The page number to retrieve (1-based)
      * @returns This query instance for method chaining
+     * @example
+     * ```typescript
+     * .page(2) // Get the second page of results
+     * ```
     */
     page(pageNumber: number): this
     {

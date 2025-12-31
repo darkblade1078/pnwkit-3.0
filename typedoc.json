@@ -1,6 +1,5 @@
 {
   "entryPoints": ["src/index.ts"],
-  "entryPointStrategy": "expand",
   "out": "docs",
   "exclude": ["**/*test.ts", "**/node_modules/**"],
   "excludePrivate": true,
@@ -10,9 +9,7 @@
   "name": "PnWKit 3.0",
   "includeVersion": true,
   "plugin": ["typedoc-plugin-markdown"],
-  "githubPages": false,
-  "navigation": {
-    "includeCategories": true,
-    "includeGroups": true
+  "validation": {
+    "notExported": false
   }
 }
