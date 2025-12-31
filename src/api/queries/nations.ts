@@ -6,6 +6,7 @@ import type { paginatorInfo } from "../../types/others.js";
 
 /**
  * Query builder for fetching nation data from the Politics & War API
+ * @category Query Builders
  * @template F - Selected field names as a readonly tuple
  * @template I - Included relations as a record type
 */

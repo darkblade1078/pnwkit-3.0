@@ -4,6 +4,6 @@
 
 # PnWKit 3.0 v3.0.0
 
-## Classes
+## Main
 
 - [default](classes/default.md)

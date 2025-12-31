@@ -1,5 +1,7 @@
 /**
  * Abstract base class for building GraphQL queries with type safety
+ * @category Internal
+ * @internal
  * @template TFields - The type of fields available for selection
  * @template TQueryParams - The type of query parameters/filters
 */
