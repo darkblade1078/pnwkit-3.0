@@ -24,7 +24,7 @@ import type PnwKitApi from "../index.js";
  *   .execute();
  * ```
 */
-class NationsQuery<
+export class NationsQuery<
     F extends readonly (keyof NationFields)[] = [], // Selected fields
     I extends Record<string, any> = {}  // Included relations
 > 
@@ -149,5 +149,3 @@ NationQueryParams   // Filter parameters
         }
     }
 }
-
-export default NationsQuery;

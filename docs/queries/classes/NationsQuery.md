@@ -1,8 +1,8 @@
-[**PnWKit 3.0 v3.0.0**](../README.md)
+[**Query Builders**](../README.md)
 
 ***
 
-[PnWKit 3.0](../globals.md) / NationsQuery
+[Query Builders](../globals.md) / NationsQuery
 
 # Class: NationsQuery\<F, I\>
 
@@ -27,13 +27,13 @@ const nations = await pnwkit.nationsQuery
 
 ## Extends
 
-- `QueryBuilder`\<[`NationFields`](../interfaces/NationFields.md), [`NationQueryParams`](../interfaces/NationQueryParams.md)\>
+- `QueryBuilder`\<`NationFields`, `NationQueryParams`\>
 
 ## Type Parameters
 
 ### F
 
-`F` *extends* readonly keyof [`NationFields`](../interfaces/NationFields.md)[] = \[\]
+`F` *extends* readonly keyof `NationFields`[] = \[\]
 
 Selected field names as a readonly tuple
 
@@ -42,6 +42,34 @@ Selected field names as a readonly tuple
 `I` *extends* `Record`\<`string`, `any`\> = \{ \}
 
 Included relations as a record type
+
+## Constructors
+
+### Constructor
+
+> **new NationsQuery**\<`F`, `I`\>(`kit`): `NationsQuery`\<`F`, `I`\>
+
+Defined in: [api/queries/nations.ts:43](https://github.com/darkblade1078/pnwkit-3.0/blob/cc95a87004632e21c2da620d9706a754d4350f73/src/api/queries/nations.ts#L43)
+
+**`Internal`**
+
+Create a new NationsQuery instance
+
+#### Parameters
+
+##### kit
+
+`PnwKitApi`
+
+The PnWKit instance containing API credentials
+
+#### Returns
+
+`NationsQuery`\<`F`, `I`\>
+
+#### Overrides
+
+`QueryBuilder< NationFields, // Main entity fields NationQueryParams // Filter parameters >.constructor`
 
 ## Properties
 
@@ -59,7 +87,7 @@ Defined in: [builders/queryBuilder.ts:15](https://github.com/darkblade1078/pnwki
 
 ### filters
 
-> `protected` **filters**: [`NationQueryParams`](../interfaces/NationQueryParams.md)
+> `protected` **filters**: `NationQueryParams`
 
 Defined in: [builders/queryBuilder.ts:18](https://github.com/darkblade1078/pnwkit-3.0/blob/cc95a87004632e21c2da620d9706a754d4350f73/src/builders/queryBuilder.ts#L18)
 
@@ -107,7 +135,7 @@ Defined in: [api/queries/nations.ts:36](https://github.com/darkblade1078/pnwkit-
 
 ### selectedFields
 
-> `protected` **selectedFields**: keyof [`NationFields`](../interfaces/NationFields.md)[] = `[]`
+> `protected` **selectedFields**: keyof `NationFields`[] = `[]`
 
 Defined in: [builders/queryBuilder.ts:17](https://github.com/darkblade1078/pnwkit-3.0/blob/cc95a87004632e21c2da620d9706a754d4350f73/src/builders/queryBuilder.ts#L17)
 
@@ -165,7 +193,7 @@ Error if field names are too long or filters contain invalid values
 
 #### Call Signature
 
-> **execute**(): `Promise`\<[`SelectFields`](../type-aliases/SelectFields.md)\<[`NationFields`](../interfaces/NationFields.md), `F`, `I`\>[]\>
+> **execute**(): `Promise`\<`SelectFields`\<`NationFields`, `F`, `I`\>[]\>
 
 Defined in: [api/queries/nations.ts:115](https://github.com/darkblade1078/pnwkit-3.0/blob/cc95a87004632e21c2da620d9706a754d4350f73/src/api/queries/nations.ts#L115)
 
@@ -173,7 +201,7 @@ Execute the nations query and return results
 
 ##### Returns
 
-`Promise`\<[`SelectFields`](../type-aliases/SelectFields.md)\<[`NationFields`](../interfaces/NationFields.md), `F`, `I`\>[]\>
+`Promise`\<`SelectFields`\<`NationFields`, `F`, `I`\>[]\>
 
 Array of nations, or object with data and paginatorInfo if withPaginator is true
 
@@ -194,7 +222,7 @@ console.log(result.data, result.paginatorInfo);
 
 #### Call Signature
 
-> **execute**(`withPaginator`): `Promise`\<\{ `data`: [`SelectFields`](../type-aliases/SelectFields.md)\<[`NationFields`](../interfaces/NationFields.md), `F`, `I`\>[]; `paginatorInfo`: [`paginatorInfo`](../type-aliases/paginatorInfo.md); \}\>
+> **execute**(`withPaginator`): `Promise`\<\{ `data`: `SelectFields`\<`NationFields`, `F`, `I`\>[]; `paginatorInfo`: `paginatorInfo`; \}\>
 
 Defined in: [api/queries/nations.ts:116](https://github.com/darkblade1078/pnwkit-3.0/blob/cc95a87004632e21c2da620d9706a754d4350f73/src/api/queries/nations.ts#L116)
 
@@ -208,7 +236,7 @@ Execute the nations query and return results
 
 ##### Returns
 
-`Promise`\<\{ `data`: [`SelectFields`](../type-aliases/SelectFields.md)\<[`NationFields`](../interfaces/NationFields.md), `F`, `I`\>[]; `paginatorInfo`: [`paginatorInfo`](../type-aliases/paginatorInfo.md); \}\>
+`Promise`\<\{ `data`: `SelectFields`\<`NationFields`, `F`, `I`\>[]; `paginatorInfo`: `paginatorInfo`; \}\>
 
 Array of nations, or object with data and paginatorInfo if withPaginator is true
 
@@ -265,7 +293,7 @@ This query instance for method chaining
 
 ### include()
 
-> **include**\<`K`, `R`\>(`relation`, `fields`): `NationsQuery`\<`F`, `I` & `Record`\<`K`, `Pick`\<[`NationRelations`](../interfaces/NationRelations.md)\[`K`\], `R`\[`number`\]\>[]\>\>
+> **include**\<`K`, `R`\>(`relation`, `fields`): `NationsQuery`\<`F`, `I` & `Record`\<`K`, `Pick`\<`NationRelations`\[`K`\], `R`\[`number`\]\>[]\>\>
 
 Defined in: [api/queries/nations.ts:89](https://github.com/darkblade1078/pnwkit-3.0/blob/cc95a87004632e21c2da620d9706a754d4350f73/src/api/queries/nations.ts#L89)
 
@@ -275,11 +303,11 @@ Include related data in the query results
 
 ##### K
 
-`K` *extends* keyof [`NationRelations`](../interfaces/NationRelations.md)
+`K` *extends* keyof `NationRelations`
 
 ##### R
 
-`R` *extends* readonly keyof [`NationRelations`](../interfaces/NationRelations.md)\[`K`\][]
+`R` *extends* readonly keyof `NationRelations`\[`K`\][]
 
 #### Parameters
 
@@ -297,7 +325,7 @@ Fields to select from the relation
 
 #### Returns
 
-`NationsQuery`\<`F`, `I` & `Record`\<`K`, `Pick`\<[`NationRelations`](../interfaces/NationRelations.md)\[`K`\], `R`\[`number`\]\>[]\>\>
+`NationsQuery`\<`F`, `I` & `Record`\<`K`, `Pick`\<`NationRelations`\[`K`\], `R`\[`number`\]\>[]\>\>
 
 New query instance with included relation
 
@@ -387,7 +415,7 @@ Select specific fields to retrieve from nations
 
 ##### Fields
 
-`Fields` *extends* readonly keyof [`NationFields`](../interfaces/NationFields.md)[]
+`Fields` *extends* readonly keyof `NationFields`[]
 
 #### Parameters
 
@@ -495,7 +523,7 @@ Apply filters to the query
 
 ##### filters
 
-[`NationQueryParams`](../interfaces/NationQueryParams.md)
+`NationQueryParams`
 
 Query parameters for filtering results
 

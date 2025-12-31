@@ -1,4 +1,4 @@
-import NationsQuery from "./queries/nations.js";
+import { NationsQuery } from "./queries/nations.js";
 
 
 export default class PnwKitApi

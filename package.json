@@ -9,7 +9,7 @@
   "scripts": {
     "test": "node build/test.js",
     "build": "tsc",
-    "docs": "typedoc --out docs src/index.ts"
+    "docs": "typedoc && typedoc --options typedoc.queries.json"
   },
   "devDependencies": {
     "typedoc": "^0.28.15",
