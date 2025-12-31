@@ -1,0 +1,9 @@
+{
+  "name": "pnwkit-3.0",
+  "version": "3.0.0",
+  "description": "The 3.0 version of the PnWKit library.",
+  "license": "MIT",
+  "author": "Darkblade",
+  "type": "module",
+  "main": "build/index.js"
+}
