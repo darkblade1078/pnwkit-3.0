@@ -9,7 +9,7 @@
   "scripts": {
     "test": "node build/test.js",
     "build": "tsc",
-    "docs": "typedoc && typedoc --options typedoc.queries.json"
+    "docs": "typedoc && typedoc --options typedoc.queries.json && node scripts/flatten-docs.js"
   },
   "devDependencies": {
     "typedoc": "^0.28.15",

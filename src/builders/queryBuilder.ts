@@ -26,7 +26,7 @@ TQueryParams = any // Type of the query parameters
      * @returns This query instance for method chaining
      * @example
      * ```typescript
-     * .first(100) // Get up to 100 records
+     * .first(500) // Get up to 500 records
      * ```
     */
     first(count: number): this

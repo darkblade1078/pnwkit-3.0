@@ -1,62 +1,59 @@
 import type { SelectFields } from "../../types/others.js";
 import QueryBuilder from "../../builders/queryBuilder.js";
 import graphQLService from "../../services/graphQL.js";
-import type { NationFields, NationQueryParams, NationRelations } from "../../types/queries/nation.js";
 import type { paginatorInfo } from "../../types/others.js";
 import type PnwKitApi from "../index.js";
+import type { AllianceFields, AllianceQueryParams, AllianceRelations } from "../../types/queries/alliance.js";
 
 /**
- * Query builder for fetching nation data from the Politics & War API
+ * Query builder for fetching alliance data from the Politics & War API
  * @category Query Builders
  * @template F - Selected field names as a readonly tuple
  * @template I - Included relations as a record type
  * @example
  * ```typescript
- * const nations = await pnwkit.nationsQuery
- *   .select('id', 'nation_name', 'score', 'alliance_id')
+ * const alliances = await pnwkit.alliancesQuery
+ *   .select('id', 'name', 'score', 'color')
  *   .where({ 
- *     min_score: 1000, 
- *     max_score: 5000,
+ *     name: ['Rose', 'Grumpy'],
  *     orderBy: [{ column: 'SCORE', order: 'DESC' }]
  *   })
- *   .include('alliance', ['id', 'name'])
- *   .first(100)
+ *   .include('bankrecs', ['id', 'date', 'money'])
+ *   .first(50)
  *   .execute();
  * ```
 */
-export class NationsQuery<
-    F extends readonly (keyof NationFields)[] = [], // Selected fields
-    I extends Record<string, any> = {}  // Included relations
+export class AlliancesQuery<
+    F extends readonly (keyof AllianceFields)[] = [], 
+    I extends Record<string, any> = {}
 > 
-extends QueryBuilder<
-NationFields,   // Main entity fields
-NationQueryParams   // Filter parameters
->
+extends QueryBuilder<AllianceFields, AllianceQueryParams>
 {
-    protected queryName = 'nations';
+    protected queryName = 'alliances';
 
     /**
-     * Create a new NationsQuery instance
+     * Create a new AlliancesQuery instance
      * @param kit - The PnWKit instance containing API credentials
      * @internal
     */
     constructor(private kit: PnwKitApi) {
         super();
-        this.kit = kit;
     }
 
     /**
-     * Select specific fields to retrieve from nations
+     * Select specific fields to retrieve from alliances
      * @param fields - Field names to select
      * @returns New query instance with selected fields
      * @throws Error if no fields are provided
      * @example
-     * .select('id', 'nation_name', 'score')
+     * ```typescript
+     * .select('id', 'name', 'score', 'color')
+     * ```
     */
-    select<const Fields extends readonly (keyof NationFields)[]>
+    select<const Fields extends readonly (keyof AllianceFields)[]>
     (
         ...fields: Fields
-    ): NationsQuery<Fields> 
+    ): AlliancesQuery<Fields> 
     {
         if(fields.length === 0)
             throw new Error("At least one field must be selected.");
@@ -70,9 +67,14 @@ NationQueryParams   // Filter parameters
      * @param filters - Query parameters for filtering results
      * @returns This query instance for method chaining
      * @example
-     * .where({ min_score: 1000, max_score: 5000 })
+     * ```typescript
+     * .where({ 
+     *   name: ['Rose', 'Grumpy'], 
+     *   color: ['AQUA', 'BLUE'] 
+     * })
+     * ```
     */
-    where(filters: NationQueryParams): this
+    where(filters: AllianceQueryParams): this
     {
         this.filters = filters;
         return this;
@@ -84,43 +86,46 @@ NationQueryParams   // Filter parameters
      * @param fields - Fields to select from the relation
      * @returns New query instance with included relation
      * @example
-     * .include('cities', ['id', 'city_name', 'infrastructure'])
+     * ```typescript
+     * .include('bankrecs', ['id', 'date', 'money', 'note'])
+     * ```
     */
     include<
-    K extends keyof NationRelations,    // Relation key
-    R extends readonly (keyof NationRelations[K])[] // Fields to include
+    K extends keyof AllianceRelations,
+    R extends readonly (keyof AllianceRelations[K])[]
     >(
-        relation: K, // Relation name
-        fields: R   // Fields to select from the relation
-    ): NationsQuery<
-    F,  // Selected fields
-    I & Record<K, Pick<NationRelations[K], R[number]>[]>> // Included relations
+        relation: K,
+        fields: R
+    ): AlliancesQuery<
+    F,
+    I & Record<K, Pick<AllianceRelations[K], R[number]>[]>>
     {
         this.subqueries.set(relation as string, fields as readonly string[]);
         return this as any;
     }
 
     /**
-     * Execute the nations query and return results
-     * @returns Array of nations, or object with data and paginatorInfo if withPaginator is true
+     * Execute the alliances query and return results
+     * @returns Array of alliances, or object with data and paginatorInfo if withPaginator is true
      * @throws Error if the query fails or returns no data
      * @example
+     * ```typescript
      * // Without paginator
-     * const result = await query.execute();
-     * console.log(result);
+     * const alliances = await query.execute();
      * 
      * // With paginator
      * const result = await query.execute(true);
      * console.log(result.data, result.paginatorInfo);
+     * ```
     */
-    async execute(): Promise<SelectFields<NationFields, F, I>[]>;
+    async execute(): Promise<SelectFields<AllianceFields, F, I>[]>;
     async execute(withPaginator: true): Promise<{ 
-        data: SelectFields<NationFields, F, I>[], 
+        data: SelectFields<AllianceFields, F, I>[], 
         paginatorInfo: paginatorInfo 
     }>;
     async execute(withPaginator: boolean = false): Promise<
-    SelectFields<NationFields, F, I>[] | 
-    { data: SelectFields<NationFields, F, I>[], paginatorInfo: paginatorInfo }
+    SelectFields<AllianceFields, F, I>[] | 
+    { data: SelectFields<AllianceFields, F, I>[], paginatorInfo: paginatorInfo }
     >
     {
         try
@@ -146,7 +151,7 @@ NationQueryParams   // Filter parameters
         catch(error: unknown)
         {
             const message = error instanceof Error ? error.message : String(error);
-            throw new Error(`Failed to execute nations query: ${message}`);
+            throw new Error(`Failed to execute ${this.queryName} query: ${message}`);
         }
     }
 }

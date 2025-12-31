@@ -1,4 +1,9 @@
+import type { SortOrder } from "../others.js";
+import type { AlliancePositionFields } from "./alliancePosition.js";
+import type { BankTaxrecFields } from "./bankTaxRec.js";
+import type { BulletinFields } from "./bullentin.js";
 import type { NationFields } from "./nation.js";
+import type { TaxBracketFields } from "./taxBrackets.js";
 import type { WarFields } from "./war.js";
 
 export interface AllianceFields {
@@ -28,3 +33,30 @@ export interface AllianceFields {
   food?: number;
   rank?: number;
 }
+
+export interface AllianceQueryParams {
+  id?: number[];
+  name?: string[];
+  color?: string[];
+  orderBy?: QueryAlliancesOrderByOrderByClause[];
+}
+
+export interface AllianceRelations {
+  alliance_positions: AlliancePositionFields;
+  bankrecs: BankTaxrecFields;
+  bulletins: BulletinFields;
+  nations: NationFields;
+  taxrecs: BankTaxrecFields;
+  tax_brackets: TaxBracketFields;
+  wars: WarFields;
+}
+
+export type QueryAlliancesOrderByOrderByClause = {
+  column: QueryAlliancesOrderByColumn;
+  order: SortOrder;
+}
+
+export type QueryAlliancesOrderByColumn = 
+  | 'ID'
+  | 'NAME'
+  | 'DATE'

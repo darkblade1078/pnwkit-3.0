@@ -6,7 +6,7 @@
 
 # Interface: NationFields
 
-Defined in: [types/queries/nation.ts:14](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L14)
+Defined in: [types/queries/nation.ts:14](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L14)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [types/queries/nation.ts:14](https://github.com/darkblade1078/pnwkit
 
 > `optional` **activity\_center**: `boolean`
 
-Defined in: [types/queries/nation.ts:102](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L102)
+Defined in: [types/queries/nation.ts:102](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L102)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [types/queries/nation.ts:102](https://github.com/darkblade1078/pnwki
 
 > `optional` **advanced\_engineering\_corps**: `boolean`
 
-Defined in: [types/queries/nation.ts:96](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L96)
+Defined in: [types/queries/nation.ts:96](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L96)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [types/queries/nation.ts:96](https://github.com/darkblade1078/pnwkit
 
 > `optional` **advanced\_pirate\_economy**: `boolean`
 
-Defined in: [types/queries/nation.ts:104](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L104)
+Defined in: [types/queries/nation.ts:104](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L104)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [types/queries/nation.ts:104](https://github.com/darkblade1078/pnwki
 
 > `optional` **advanced\_urban\_planning**: `boolean`
 
-Defined in: [types/queries/nation.ts:85](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L85)
+Defined in: [types/queries/nation.ts:85](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L85)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [types/queries/nation.ts:85](https://github.com/darkblade1078/pnwkit
 
 > `optional` **aircraft**: `number`
 
-Defined in: [types/queries/nation.ts:39](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L39)
+Defined in: [types/queries/nation.ts:39](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L39)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [types/queries/nation.ts:39](https://github.com/darkblade1078/pnwkit
 
 > `optional` **aircraft\_casualties**: `number`
 
-Defined in: [types/queries/nation.ts:123](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L123)
+Defined in: [types/queries/nation.ts:123](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L123)
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: [types/queries/nation.ts:123](https://github.com/darkblade1078/pnwki
 
 > `optional` **aircraft\_kills**: `number`
 
-Defined in: [types/queries/nation.ts:124](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L124)
+Defined in: [types/queries/nation.ts:124](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L124)
 
 ***
 
@@ -70,7 +70,7 @@ Defined in: [types/queries/nation.ts:124](https://github.com/darkblade1078/pnwki
 
 > `optional` **aircraft\_today**: `number`
 
-Defined in: [types/queries/nation.ts:46](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L46)
+Defined in: [types/queries/nation.ts:46](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L46)
 
 ***
 
@@ -78,7 +78,7 @@ Defined in: [types/queries/nation.ts:46](https://github.com/darkblade1078/pnwkit
 
 > `optional` **alliance\_id**: `number`
 
-Defined in: [types/queries/nation.ts:16](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L16)
+Defined in: [types/queries/nation.ts:16](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L16)
 
 ***
 
@@ -86,7 +86,7 @@ Defined in: [types/queries/nation.ts:16](https://github.com/darkblade1078/pnwkit
 
 > `optional` **alliance\_join\_date**: `string`
 
-Defined in: [types/queries/nation.ts:146](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L146)
+Defined in: [types/queries/nation.ts:146](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L146)
 
 ***
 
@@ -94,7 +94,7 @@ Defined in: [types/queries/nation.ts:146](https://github.com/darkblade1078/pnwki
 
 > `optional` **alliance\_position**: `string`
 
-Defined in: [types/queries/nation.ts:17](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L17)
+Defined in: [types/queries/nation.ts:17](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L17)
 
 ***
 
@@ -102,7 +102,7 @@ Defined in: [types/queries/nation.ts:17](https://github.com/darkblade1078/pnwkit
 
 > `optional` **alliance\_position\_id**: `number`
 
-Defined in: [types/queries/nation.ts:18](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L18)
+Defined in: [types/queries/nation.ts:18](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L18)
 
 ***
 
@@ -110,7 +110,7 @@ Defined in: [types/queries/nation.ts:18](https://github.com/darkblade1078/pnwkit
 
 > `optional` **alliance\_seniority**: `number`
 
-Defined in: [types/queries/nation.ts:116](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L116)
+Defined in: [types/queries/nation.ts:116](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L116)
 
 ***
 
@@ -118,7 +118,7 @@ Defined in: [types/queries/nation.ts:116](https://github.com/darkblade1078/pnwki
 
 > `optional` **aluminum**: `number`
 
-Defined in: [types/queries/nation.ts:65](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L65)
+Defined in: [types/queries/nation.ts:65](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L65)
 
 ***
 
@@ -126,7 +126,7 @@ Defined in: [types/queries/nation.ts:65](https://github.com/darkblade1078/pnwkit
 
 > `optional` **arable\_land\_agency**: `boolean`
 
-Defined in: [types/queries/nation.ts:93](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L93)
+Defined in: [types/queries/nation.ts:93](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L93)
 
 ***
 
@@ -134,7 +134,7 @@ Defined in: [types/queries/nation.ts:93](https://github.com/darkblade1078/pnwkit
 
 > `optional` **arms\_stockpile**: `boolean`
 
-Defined in: [types/queries/nation.ts:72](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L72)
+Defined in: [types/queries/nation.ts:72](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L72)
 
 ***
 
@@ -142,7 +142,7 @@ Defined in: [types/queries/nation.ts:72](https://github.com/darkblade1078/pnwkit
 
 > `optional` **bauxite**: `number`
 
-Defined in: [types/queries/nation.ts:60](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L60)
+Defined in: [types/queries/nation.ts:60](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L60)
 
 ***
 
@@ -150,7 +150,7 @@ Defined in: [types/queries/nation.ts:60](https://github.com/darkblade1078/pnwkit
 
 > `optional` **bauxite\_works**: `boolean`
 
-Defined in: [types/queries/nation.ts:71](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L71)
+Defined in: [types/queries/nation.ts:71](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L71)
 
 ***
 
@@ -158,7 +158,7 @@ Defined in: [types/queries/nation.ts:71](https://github.com/darkblade1078/pnwkit
 
 > `optional` **beige\_turns**: `number`
 
-Defined in: [types/queries/nation.ts:33](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L33)
+Defined in: [types/queries/nation.ts:33](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L33)
 
 ***
 
@@ -166,7 +166,7 @@ Defined in: [types/queries/nation.ts:33](https://github.com/darkblade1078/pnwkit
 
 > `optional` **bureau\_of\_domestic\_affairs**: `boolean`
 
-Defined in: [types/queries/nation.ts:103](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L103)
+Defined in: [types/queries/nation.ts:103](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L103)
 
 ***
 
@@ -174,7 +174,7 @@ Defined in: [types/queries/nation.ts:103](https://github.com/darkblade1078/pnwki
 
 > `optional` **center\_for\_civil\_engineering**: `boolean`
 
-Defined in: [types/queries/nation.ts:81](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L81)
+Defined in: [types/queries/nation.ts:81](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L81)
 
 ***
 
@@ -182,7 +182,7 @@ Defined in: [types/queries/nation.ts:81](https://github.com/darkblade1078/pnwkit
 
 > `optional` **central\_intelligence\_agency**: `boolean`
 
-Defined in: [types/queries/nation.ts:80](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L80)
+Defined in: [types/queries/nation.ts:80](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L80)
 
 ***
 
@@ -190,7 +190,7 @@ Defined in: [types/queries/nation.ts:80](https://github.com/darkblade1078/pnwkit
 
 > `optional` **cities\_discount**: `number`
 
-Defined in: [types/queries/nation.ts:147](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L147)
+Defined in: [types/queries/nation.ts:147](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L147)
 
 ***
 
@@ -198,7 +198,7 @@ Defined in: [types/queries/nation.ts:147](https://github.com/darkblade1078/pnwki
 
 > `optional` **clinical\_research\_center**: `boolean`
 
-Defined in: [types/queries/nation.ts:94](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L94)
+Defined in: [types/queries/nation.ts:94](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L94)
 
 ***
 
@@ -206,7 +206,7 @@ Defined in: [types/queries/nation.ts:94](https://github.com/darkblade1078/pnwkit
 
 > `optional` **coal**: `number`
 
-Defined in: [types/queries/nation.ts:56](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L56)
+Defined in: [types/queries/nation.ts:56](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L56)
 
 ***
 
@@ -214,7 +214,7 @@ Defined in: [types/queries/nation.ts:56](https://github.com/darkblade1078/pnwkit
 
 > `optional` **color**: `string`
 
-Defined in: [types/queries/nation.ts:26](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L26)
+Defined in: [types/queries/nation.ts:26](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L26)
 
 ***
 
@@ -222,7 +222,7 @@ Defined in: [types/queries/nation.ts:26](https://github.com/darkblade1078/pnwkit
 
 > `optional` **commendations**: `number`
 
-Defined in: [types/queries/nation.ts:138](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L138)
+Defined in: [types/queries/nation.ts:138](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L138)
 
 ***
 
@@ -230,7 +230,7 @@ Defined in: [types/queries/nation.ts:138](https://github.com/darkblade1078/pnwki
 
 > `optional` **continent**: `string`
 
-Defined in: [types/queries/nation.ts:21](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L21)
+Defined in: [types/queries/nation.ts:21](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L21)
 
 ***
 
@@ -238,7 +238,7 @@ Defined in: [types/queries/nation.ts:21](https://github.com/darkblade1078/pnwkit
 
 > `optional` **credits**: `number`
 
-Defined in: [types/queries/nation.ts:67](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L67)
+Defined in: [types/queries/nation.ts:67](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L67)
 
 ***
 
@@ -246,7 +246,7 @@ Defined in: [types/queries/nation.ts:67](https://github.com/darkblade1078/pnwkit
 
 > `optional` **credits\_redeemed\_this\_month**: `number`
 
-Defined in: [types/queries/nation.ts:145](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L145)
+Defined in: [types/queries/nation.ts:145](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L145)
 
 ***
 
@@ -254,7 +254,7 @@ Defined in: [types/queries/nation.ts:145](https://github.com/darkblade1078/pnwki
 
 > `optional` **date**: `string`
 
-Defined in: [types/queries/nation.ts:36](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L36)
+Defined in: [types/queries/nation.ts:36](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L36)
 
 ***
 
@@ -262,7 +262,7 @@ Defined in: [types/queries/nation.ts:36](https://github.com/darkblade1078/pnwkit
 
 > `optional` **defensive\_wars\_count**: `number`
 
-Defined in: [types/queries/nation.ts:141](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L141)
+Defined in: [types/queries/nation.ts:141](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L141)
 
 ***
 
@@ -270,7 +270,7 @@ Defined in: [types/queries/nation.ts:141](https://github.com/darkblade1078/pnwki
 
 > `optional` **denouncements**: `number`
 
-Defined in: [types/queries/nation.ts:139](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L139)
+Defined in: [types/queries/nation.ts:139](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L139)
 
 ***
 
@@ -278,7 +278,7 @@ Defined in: [types/queries/nation.ts:139](https://github.com/darkblade1078/pnwki
 
 > `optional` **discord**: `string`
 
-Defined in: [types/queries/nation.ts:51](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L51)
+Defined in: [types/queries/nation.ts:51](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L51)
 
 ***
 
@@ -286,7 +286,7 @@ Defined in: [types/queries/nation.ts:51](https://github.com/darkblade1078/pnwkit
 
 > `optional` **discord\_id**: `string`
 
-Defined in: [types/queries/nation.ts:52](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L52)
+Defined in: [types/queries/nation.ts:52](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L52)
 
 ***
 
@@ -294,7 +294,7 @@ Defined in: [types/queries/nation.ts:52](https://github.com/darkblade1078/pnwkit
 
 > `optional` **domestic\_policy**: `domesticPolicy`
 
-Defined in: [types/queries/nation.ts:24](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L24)
+Defined in: [types/queries/nation.ts:24](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L24)
 
 ***
 
@@ -302,7 +302,7 @@ Defined in: [types/queries/nation.ts:24](https://github.com/darkblade1078/pnwkit
 
 > `optional` **domestic\_policy\_turns**: `number`
 
-Defined in: [types/queries/nation.ts:25](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L25)
+Defined in: [types/queries/nation.ts:25](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L25)
 
 ***
 
@@ -310,7 +310,7 @@ Defined in: [types/queries/nation.ts:25](https://github.com/darkblade1078/pnwkit
 
 > `optional` **economic\_policy**: `economicPolicy`
 
-Defined in: [types/queries/nation.ts:142](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L142)
+Defined in: [types/queries/nation.ts:142](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L142)
 
 ***
 
@@ -318,7 +318,7 @@ Defined in: [types/queries/nation.ts:142](https://github.com/darkblade1078/pnwki
 
 > `optional` **emergency\_gasoline\_reserve**: `boolean`
 
-Defined in: [types/queries/nation.ts:73](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L73)
+Defined in: [types/queries/nation.ts:73](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L73)
 
 ***
 
@@ -326,7 +326,7 @@ Defined in: [types/queries/nation.ts:73](https://github.com/darkblade1078/pnwkit
 
 > `optional` **espionage\_available**: `boolean`
 
-Defined in: [types/queries/nation.ts:34](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L34)
+Defined in: [types/queries/nation.ts:34](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L34)
 
 ***
 
@@ -334,7 +334,7 @@ Defined in: [types/queries/nation.ts:34](https://github.com/darkblade1078/pnwkit
 
 > `optional` **fallout\_shelter**: `boolean`
 
-Defined in: [types/queries/nation.ts:101](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L101)
+Defined in: [types/queries/nation.ts:101](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L101)
 
 ***
 
@@ -342,7 +342,7 @@ Defined in: [types/queries/nation.ts:101](https://github.com/darkblade1078/pnwki
 
 > `optional` **flag**: `string`
 
-Defined in: [types/queries/nation.ts:31](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L31)
+Defined in: [types/queries/nation.ts:31](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L31)
 
 ***
 
@@ -350,7 +350,7 @@ Defined in: [types/queries/nation.ts:31](https://github.com/darkblade1078/pnwkit
 
 > `optional` **food**: `number`
 
-Defined in: [types/queries/nation.ts:66](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L66)
+Defined in: [types/queries/nation.ts:66](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L66)
 
 ***
 
@@ -358,7 +358,7 @@ Defined in: [types/queries/nation.ts:66](https://github.com/darkblade1078/pnwkit
 
 > `optional` **gasoline**: `number`
 
-Defined in: [types/queries/nation.ts:62](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L62)
+Defined in: [types/queries/nation.ts:62](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L62)
 
 ***
 
@@ -366,7 +366,7 @@ Defined in: [types/queries/nation.ts:62](https://github.com/darkblade1078/pnwkit
 
 > `optional` **government\_support\_agency**: `boolean`
 
-Defined in: [types/queries/nation.ts:97](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L97)
+Defined in: [types/queries/nation.ts:97](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L97)
 
 ***
 
@@ -374,7 +374,7 @@ Defined in: [types/queries/nation.ts:97](https://github.com/darkblade1078/pnwkit
 
 > `optional` **government\_type**: `govermentType`
 
-Defined in: [types/queries/nation.ts:144](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L144)
+Defined in: [types/queries/nation.ts:144](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L144)
 
 ***
 
@@ -382,7 +382,7 @@ Defined in: [types/queries/nation.ts:144](https://github.com/darkblade1078/pnwki
 
 > `optional` **green\_technologies**: `boolean`
 
-Defined in: [types/queries/nation.ts:92](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L92)
+Defined in: [types/queries/nation.ts:92](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L92)
 
 ***
 
@@ -390,7 +390,7 @@ Defined in: [types/queries/nation.ts:92](https://github.com/darkblade1078/pnwkit
 
 > `optional` **gross\_domestic\_product**: `number`
 
-Defined in: [types/queries/nation.ts:118](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L118)
+Defined in: [types/queries/nation.ts:118](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L118)
 
 ***
 
@@ -398,7 +398,7 @@ Defined in: [types/queries/nation.ts:118](https://github.com/darkblade1078/pnwki
 
 > `optional` **gross\_national\_income**: `number`
 
-Defined in: [types/queries/nation.ts:117](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L117)
+Defined in: [types/queries/nation.ts:117](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L117)
 
 ***
 
@@ -406,7 +406,7 @@ Defined in: [types/queries/nation.ts:117](https://github.com/darkblade1078/pnwki
 
 > `optional` **guiding\_satellite**: `boolean`
 
-Defined in: [types/queries/nation.ts:107](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L107)
+Defined in: [types/queries/nation.ts:107](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L107)
 
 ***
 
@@ -414,7 +414,7 @@ Defined in: [types/queries/nation.ts:107](https://github.com/darkblade1078/pnwki
 
 > `optional` **id**: `string`
 
-Defined in: [types/queries/nation.ts:15](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L15)
+Defined in: [types/queries/nation.ts:15](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L15)
 
 ***
 
@@ -422,7 +422,7 @@ Defined in: [types/queries/nation.ts:15](https://github.com/darkblade1078/pnwkit
 
 > `optional` **international\_trade\_center**: `boolean`
 
-Defined in: [types/queries/nation.ts:75](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L75)
+Defined in: [types/queries/nation.ts:75](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L75)
 
 ***
 
@@ -430,7 +430,7 @@ Defined in: [types/queries/nation.ts:75](https://github.com/darkblade1078/pnwkit
 
 > `optional` **iron**: `number`
 
-Defined in: [types/queries/nation.ts:59](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L59)
+Defined in: [types/queries/nation.ts:59](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L59)
 
 ***
 
@@ -438,7 +438,7 @@ Defined in: [types/queries/nation.ts:59](https://github.com/darkblade1078/pnwkit
 
 > `optional` **iron\_dome**: `boolean`
 
-Defined in: [types/queries/nation.ts:78](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L78)
+Defined in: [types/queries/nation.ts:78](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L78)
 
 ***
 
@@ -446,7 +446,7 @@ Defined in: [types/queries/nation.ts:78](https://github.com/darkblade1078/pnwkit
 
 > `optional` **iron\_works**: `boolean`
 
-Defined in: [types/queries/nation.ts:70](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L70)
+Defined in: [types/queries/nation.ts:70](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L70)
 
 ***
 
@@ -454,7 +454,7 @@ Defined in: [types/queries/nation.ts:70](https://github.com/darkblade1078/pnwkit
 
 > `optional` **last\_active**: `string`
 
-Defined in: [types/queries/nation.ts:35](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L35)
+Defined in: [types/queries/nation.ts:35](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L35)
 
 ***
 
@@ -462,7 +462,7 @@ Defined in: [types/queries/nation.ts:35](https://github.com/darkblade1078/pnwkit
 
 > `optional` **lead**: `number`
 
-Defined in: [types/queries/nation.ts:61](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L61)
+Defined in: [types/queries/nation.ts:61](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L61)
 
 ***
 
@@ -470,7 +470,7 @@ Defined in: [types/queries/nation.ts:61](https://github.com/darkblade1078/pnwkit
 
 > `optional` **leader\_name**: `string`
 
-Defined in: [types/queries/nation.ts:20](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L20)
+Defined in: [types/queries/nation.ts:20](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L20)
 
 ***
 
@@ -478,7 +478,7 @@ Defined in: [types/queries/nation.ts:20](https://github.com/darkblade1078/pnwkit
 
 > `optional` **mars\_landing**: `boolean`
 
-Defined in: [types/queries/nation.ts:105](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L105)
+Defined in: [types/queries/nation.ts:105](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L105)
 
 ***
 
@@ -486,7 +486,7 @@ Defined in: [types/queries/nation.ts:105](https://github.com/darkblade1078/pnwki
 
 > `optional` **mars\_landing\_date**: `string`
 
-Defined in: [types/queries/nation.ts:112](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L112)
+Defined in: [types/queries/nation.ts:112](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L112)
 
 ***
 
@@ -494,7 +494,7 @@ Defined in: [types/queries/nation.ts:112](https://github.com/darkblade1078/pnwki
 
 > `optional` **mass\_irrigation**: `boolean`
 
-Defined in: [types/queries/nation.ts:74](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L74)
+Defined in: [types/queries/nation.ts:74](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L74)
 
 ***
 
@@ -502,7 +502,7 @@ Defined in: [types/queries/nation.ts:74](https://github.com/darkblade1078/pnwkit
 
 > `optional` **metropolitan\_planning**: `boolean`
 
-Defined in: [types/queries/nation.ts:99](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L99)
+Defined in: [types/queries/nation.ts:99](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L99)
 
 ***
 
@@ -510,7 +510,7 @@ Defined in: [types/queries/nation.ts:99](https://github.com/darkblade1078/pnwkit
 
 > `optional` **military\_doctrine**: `boolean`
 
-Defined in: [types/queries/nation.ts:110](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L110)
+Defined in: [types/queries/nation.ts:110](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L110)
 
 ***
 
@@ -518,7 +518,7 @@ Defined in: [types/queries/nation.ts:110](https://github.com/darkblade1078/pnwki
 
 > `optional` **military\_research\_center**: `boolean`
 
-Defined in: [types/queries/nation.ts:109](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L109)
+Defined in: [types/queries/nation.ts:109](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L109)
 
 ***
 
@@ -526,7 +526,7 @@ Defined in: [types/queries/nation.ts:109](https://github.com/darkblade1078/pnwki
 
 > `optional` **military\_salvage**: `boolean`
 
-Defined in: [types/queries/nation.ts:100](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L100)
+Defined in: [types/queries/nation.ts:100](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L100)
 
 ***
 
@@ -534,7 +534,7 @@ Defined in: [types/queries/nation.ts:100](https://github.com/darkblade1078/pnwki
 
 > `optional` **missile\_casualties**: `number`
 
-Defined in: [types/queries/nation.ts:127](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L127)
+Defined in: [types/queries/nation.ts:127](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L127)
 
 ***
 
@@ -542,7 +542,7 @@ Defined in: [types/queries/nation.ts:127](https://github.com/darkblade1078/pnwki
 
 > `optional` **missile\_kills**: `number`
 
-Defined in: [types/queries/nation.ts:128](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L128)
+Defined in: [types/queries/nation.ts:128](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L128)
 
 ***
 
@@ -550,7 +550,7 @@ Defined in: [types/queries/nation.ts:128](https://github.com/darkblade1078/pnwki
 
 > `optional` **missile\_launch\_pad**: `boolean`
 
-Defined in: [types/queries/nation.ts:76](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L76)
+Defined in: [types/queries/nation.ts:76](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L76)
 
 ***
 
@@ -558,7 +558,7 @@ Defined in: [types/queries/nation.ts:76](https://github.com/darkblade1078/pnwkit
 
 > `optional` **missiles**: `number`
 
-Defined in: [types/queries/nation.ts:41](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L41)
+Defined in: [types/queries/nation.ts:41](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L41)
 
 ***
 
@@ -566,7 +566,7 @@ Defined in: [types/queries/nation.ts:41](https://github.com/darkblade1078/pnwkit
 
 > `optional` **missiles\_today**: `number`
 
-Defined in: [types/queries/nation.ts:48](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L48)
+Defined in: [types/queries/nation.ts:48](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L48)
 
 ***
 
@@ -574,7 +574,7 @@ Defined in: [types/queries/nation.ts:48](https://github.com/darkblade1078/pnwkit
 
 > `optional` **money**: `number`
 
-Defined in: [types/queries/nation.ts:55](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L55)
+Defined in: [types/queries/nation.ts:55](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L55)
 
 ***
 
@@ -582,7 +582,7 @@ Defined in: [types/queries/nation.ts:55](https://github.com/darkblade1078/pnwkit
 
 > `optional` **money\_looted**: `number`
 
-Defined in: [types/queries/nation.ts:134](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L134)
+Defined in: [types/queries/nation.ts:134](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L134)
 
 ***
 
@@ -590,7 +590,7 @@ Defined in: [types/queries/nation.ts:134](https://github.com/darkblade1078/pnwki
 
 > `optional` **moon\_landing**: `boolean`
 
-Defined in: [types/queries/nation.ts:88](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L88)
+Defined in: [types/queries/nation.ts:88](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L88)
 
 ***
 
@@ -598,7 +598,7 @@ Defined in: [types/queries/nation.ts:88](https://github.com/darkblade1078/pnwkit
 
 > `optional` **moon\_landing\_date**: `string`
 
-Defined in: [types/queries/nation.ts:111](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L111)
+Defined in: [types/queries/nation.ts:111](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L111)
 
 ***
 
@@ -606,7 +606,7 @@ Defined in: [types/queries/nation.ts:111](https://github.com/darkblade1078/pnwki
 
 > `optional` **munitions**: `number`
 
-Defined in: [types/queries/nation.ts:63](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L63)
+Defined in: [types/queries/nation.ts:63](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L63)
 
 ***
 
@@ -614,7 +614,7 @@ Defined in: [types/queries/nation.ts:63](https://github.com/darkblade1078/pnwkit
 
 > `optional` **nation\_name**: `string`
 
-Defined in: [types/queries/nation.ts:19](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L19)
+Defined in: [types/queries/nation.ts:19](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L19)
 
 ***
 
@@ -622,7 +622,7 @@ Defined in: [types/queries/nation.ts:19](https://github.com/darkblade1078/pnwkit
 
 > `optional` **nuclear\_launch\_facility**: `boolean`
 
-Defined in: [types/queries/nation.ts:108](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L108)
+Defined in: [types/queries/nation.ts:108](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L108)
 
 ***
 
@@ -630,7 +630,7 @@ Defined in: [types/queries/nation.ts:108](https://github.com/darkblade1078/pnwki
 
 > `optional` **nuclear\_research\_facility**: `boolean`
 
-Defined in: [types/queries/nation.ts:77](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L77)
+Defined in: [types/queries/nation.ts:77](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L77)
 
 ***
 
@@ -638,7 +638,7 @@ Defined in: [types/queries/nation.ts:77](https://github.com/darkblade1078/pnwkit
 
 > `optional` **nuke\_casualties**: `number`
 
-Defined in: [types/queries/nation.ts:129](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L129)
+Defined in: [types/queries/nation.ts:129](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L129)
 
 ***
 
@@ -646,7 +646,7 @@ Defined in: [types/queries/nation.ts:129](https://github.com/darkblade1078/pnwki
 
 > `optional` **nuke\_kills**: `number`
 
-Defined in: [types/queries/nation.ts:130](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L130)
+Defined in: [types/queries/nation.ts:130](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L130)
 
 ***
 
@@ -654,7 +654,7 @@ Defined in: [types/queries/nation.ts:130](https://github.com/darkblade1078/pnwki
 
 > `optional` **nukes**: `number`
 
-Defined in: [types/queries/nation.ts:42](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L42)
+Defined in: [types/queries/nation.ts:42](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L42)
 
 ***
 
@@ -662,7 +662,7 @@ Defined in: [types/queries/nation.ts:42](https://github.com/darkblade1078/pnwkit
 
 > `optional` **nukes\_today**: `number`
 
-Defined in: [types/queries/nation.ts:49](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L49)
+Defined in: [types/queries/nation.ts:49](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L49)
 
 ***
 
@@ -670,7 +670,7 @@ Defined in: [types/queries/nation.ts:49](https://github.com/darkblade1078/pnwkit
 
 > `optional` **num\_cities**: `number`
 
-Defined in: [types/queries/nation.ts:27](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L27)
+Defined in: [types/queries/nation.ts:27](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L27)
 
 ***
 
@@ -678,7 +678,7 @@ Defined in: [types/queries/nation.ts:27](https://github.com/darkblade1078/pnwkit
 
 > `optional` **offensive\_wars\_count**: `number`
 
-Defined in: [types/queries/nation.ts:140](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L140)
+Defined in: [types/queries/nation.ts:140](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L140)
 
 ***
 
@@ -686,7 +686,7 @@ Defined in: [types/queries/nation.ts:140](https://github.com/darkblade1078/pnwki
 
 > `optional` **oil**: `number`
 
-Defined in: [types/queries/nation.ts:57](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L57)
+Defined in: [types/queries/nation.ts:57](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L57)
 
 ***
 
@@ -694,7 +694,7 @@ Defined in: [types/queries/nation.ts:57](https://github.com/darkblade1078/pnwkit
 
 > `optional` **pirate\_economy**: `boolean`
 
-Defined in: [types/queries/nation.ts:89](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L89)
+Defined in: [types/queries/nation.ts:89](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L89)
 
 ***
 
@@ -702,7 +702,7 @@ Defined in: [types/queries/nation.ts:89](https://github.com/darkblade1078/pnwkit
 
 > `optional` **population**: `number`
 
-Defined in: [types/queries/nation.ts:30](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L30)
+Defined in: [types/queries/nation.ts:30](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L30)
 
 ***
 
@@ -710,7 +710,7 @@ Defined in: [types/queries/nation.ts:30](https://github.com/darkblade1078/pnwkit
 
 > `optional` **project\_bits**: `string`
 
-Defined in: [types/queries/nation.ts:69](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L69)
+Defined in: [types/queries/nation.ts:69](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L69)
 
 ***
 
@@ -718,7 +718,7 @@ Defined in: [types/queries/nation.ts:69](https://github.com/darkblade1078/pnwkit
 
 > `optional` **projects**: `number`
 
-Defined in: [types/queries/nation.ts:68](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L68)
+Defined in: [types/queries/nation.ts:68](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L68)
 
 ***
 
@@ -726,7 +726,7 @@ Defined in: [types/queries/nation.ts:68](https://github.com/darkblade1078/pnwkit
 
 > `optional` **propaganda\_bureau**: `boolean`
 
-Defined in: [types/queries/nation.ts:82](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L82)
+Defined in: [types/queries/nation.ts:82](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L82)
 
 ***
 
@@ -734,7 +734,7 @@ Defined in: [types/queries/nation.ts:82](https://github.com/darkblade1078/pnwkit
 
 > `optional` **recycling\_initiative**: `boolean`
 
-Defined in: [types/queries/nation.ts:90](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L90)
+Defined in: [types/queries/nation.ts:90](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L90)
 
 ***
 
@@ -742,7 +742,7 @@ Defined in: [types/queries/nation.ts:90](https://github.com/darkblade1078/pnwkit
 
 > `optional` **research\_and\_development\_center**: `boolean`
 
-Defined in: [types/queries/nation.ts:98](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L98)
+Defined in: [types/queries/nation.ts:98](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L98)
 
 ***
 
@@ -750,7 +750,7 @@ Defined in: [types/queries/nation.ts:98](https://github.com/darkblade1078/pnwkit
 
 > `optional` **score**: `number`
 
-Defined in: [types/queries/nation.ts:28](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L28)
+Defined in: [types/queries/nation.ts:28](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L28)
 
 ***
 
@@ -758,7 +758,7 @@ Defined in: [types/queries/nation.ts:28](https://github.com/darkblade1078/pnwkit
 
 > `optional` **ship\_casualties**: `number`
 
-Defined in: [types/queries/nation.ts:125](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L125)
+Defined in: [types/queries/nation.ts:125](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L125)
 
 ***
 
@@ -766,7 +766,7 @@ Defined in: [types/queries/nation.ts:125](https://github.com/darkblade1078/pnwki
 
 > `optional` **ship\_kills**: `number`
 
-Defined in: [types/queries/nation.ts:126](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L126)
+Defined in: [types/queries/nation.ts:126](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L126)
 
 ***
 
@@ -774,7 +774,7 @@ Defined in: [types/queries/nation.ts:126](https://github.com/darkblade1078/pnwki
 
 > `optional` **ships**: `number`
 
-Defined in: [types/queries/nation.ts:40](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L40)
+Defined in: [types/queries/nation.ts:40](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L40)
 
 ***
 
@@ -782,7 +782,7 @@ Defined in: [types/queries/nation.ts:40](https://github.com/darkblade1078/pnwkit
 
 > `optional` **ships\_today**: `number`
 
-Defined in: [types/queries/nation.ts:47](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L47)
+Defined in: [types/queries/nation.ts:47](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L47)
 
 ***
 
@@ -790,7 +790,7 @@ Defined in: [types/queries/nation.ts:47](https://github.com/darkblade1078/pnwkit
 
 > `optional` **social\_policy**: `socialPolicy`
 
-Defined in: [types/queries/nation.ts:143](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L143)
+Defined in: [types/queries/nation.ts:143](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L143)
 
 ***
 
@@ -798,7 +798,7 @@ Defined in: [types/queries/nation.ts:143](https://github.com/darkblade1078/pnwki
 
 > `optional` **soldier\_casualties**: `number`
 
-Defined in: [types/queries/nation.ts:119](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L119)
+Defined in: [types/queries/nation.ts:119](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L119)
 
 ***
 
@@ -806,7 +806,7 @@ Defined in: [types/queries/nation.ts:119](https://github.com/darkblade1078/pnwki
 
 > `optional` **soldier\_kills**: `number`
 
-Defined in: [types/queries/nation.ts:120](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L120)
+Defined in: [types/queries/nation.ts:120](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L120)
 
 ***
 
@@ -814,7 +814,7 @@ Defined in: [types/queries/nation.ts:120](https://github.com/darkblade1078/pnwki
 
 > `optional` **soldiers**: `number`
 
-Defined in: [types/queries/nation.ts:37](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L37)
+Defined in: [types/queries/nation.ts:37](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L37)
 
 ***
 
@@ -822,7 +822,7 @@ Defined in: [types/queries/nation.ts:37](https://github.com/darkblade1078/pnwkit
 
 > `optional` **soldiers\_today**: `number`
 
-Defined in: [types/queries/nation.ts:44](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L44)
+Defined in: [types/queries/nation.ts:44](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L44)
 
 ***
 
@@ -830,7 +830,7 @@ Defined in: [types/queries/nation.ts:44](https://github.com/darkblade1078/pnwkit
 
 > `optional` **space\_program**: `boolean`
 
-Defined in: [types/queries/nation.ts:86](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L86)
+Defined in: [types/queries/nation.ts:86](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L86)
 
 ***
 
@@ -838,7 +838,7 @@ Defined in: [types/queries/nation.ts:86](https://github.com/darkblade1078/pnwkit
 
 > `optional` **specialized\_police\_training\_program**: `boolean`
 
-Defined in: [types/queries/nation.ts:95](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L95)
+Defined in: [types/queries/nation.ts:95](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L95)
 
 ***
 
@@ -846,7 +846,7 @@ Defined in: [types/queries/nation.ts:95](https://github.com/darkblade1078/pnwkit
 
 > `optional` **spies**: `number`
 
-Defined in: [types/queries/nation.ts:43](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L43)
+Defined in: [types/queries/nation.ts:43](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L43)
 
 ***
 
@@ -854,7 +854,7 @@ Defined in: [types/queries/nation.ts:43](https://github.com/darkblade1078/pnwkit
 
 > `optional` **spies\_today**: `number`
 
-Defined in: [types/queries/nation.ts:50](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L50)
+Defined in: [types/queries/nation.ts:50](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L50)
 
 ***
 
@@ -862,7 +862,7 @@ Defined in: [types/queries/nation.ts:50](https://github.com/darkblade1078/pnwkit
 
 > `optional` **spy\_attacks**: `number`
 
-Defined in: [types/queries/nation.ts:133](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L133)
+Defined in: [types/queries/nation.ts:133](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L133)
 
 ***
 
@@ -870,7 +870,7 @@ Defined in: [types/queries/nation.ts:133](https://github.com/darkblade1078/pnwki
 
 > `optional` **spy\_casualties**: `number`
 
-Defined in: [types/queries/nation.ts:131](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L131)
+Defined in: [types/queries/nation.ts:131](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L131)
 
 ***
 
@@ -878,7 +878,7 @@ Defined in: [types/queries/nation.ts:131](https://github.com/darkblade1078/pnwki
 
 > `optional` **spy\_kills**: `number`
 
-Defined in: [types/queries/nation.ts:132](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L132)
+Defined in: [types/queries/nation.ts:132](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L132)
 
 ***
 
@@ -886,7 +886,7 @@ Defined in: [types/queries/nation.ts:132](https://github.com/darkblade1078/pnwki
 
 > `optional` **spy\_satellite**: `boolean`
 
-Defined in: [types/queries/nation.ts:87](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L87)
+Defined in: [types/queries/nation.ts:87](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L87)
 
 ***
 
@@ -894,7 +894,7 @@ Defined in: [types/queries/nation.ts:87](https://github.com/darkblade1078/pnwkit
 
 > `optional` **steel**: `number`
 
-Defined in: [types/queries/nation.ts:64](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L64)
+Defined in: [types/queries/nation.ts:64](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L64)
 
 ***
 
@@ -902,7 +902,7 @@ Defined in: [types/queries/nation.ts:64](https://github.com/darkblade1078/pnwkit
 
 > `optional` **surveillance\_network**: `boolean`
 
-Defined in: [types/queries/nation.ts:106](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L106)
+Defined in: [types/queries/nation.ts:106](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L106)
 
 ***
 
@@ -910,7 +910,7 @@ Defined in: [types/queries/nation.ts:106](https://github.com/darkblade1078/pnwki
 
 > `optional` **tank\_casualties**: `number`
 
-Defined in: [types/queries/nation.ts:121](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L121)
+Defined in: [types/queries/nation.ts:121](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L121)
 
 ***
 
@@ -918,7 +918,7 @@ Defined in: [types/queries/nation.ts:121](https://github.com/darkblade1078/pnwki
 
 > `optional` **tank\_kills**: `number`
 
-Defined in: [types/queries/nation.ts:122](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L122)
+Defined in: [types/queries/nation.ts:122](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L122)
 
 ***
 
@@ -926,7 +926,7 @@ Defined in: [types/queries/nation.ts:122](https://github.com/darkblade1078/pnwki
 
 > `optional` **tanks**: `number`
 
-Defined in: [types/queries/nation.ts:38](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L38)
+Defined in: [types/queries/nation.ts:38](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L38)
 
 ***
 
@@ -934,7 +934,7 @@ Defined in: [types/queries/nation.ts:38](https://github.com/darkblade1078/pnwkit
 
 > `optional` **tanks\_today**: `number`
 
-Defined in: [types/queries/nation.ts:45](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L45)
+Defined in: [types/queries/nation.ts:45](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L45)
 
 ***
 
@@ -942,7 +942,7 @@ Defined in: [types/queries/nation.ts:45](https://github.com/darkblade1078/pnwkit
 
 > `optional` **tax\_id**: `number`
 
-Defined in: [types/queries/nation.ts:115](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L115)
+Defined in: [types/queries/nation.ts:115](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L115)
 
 ***
 
@@ -950,7 +950,7 @@ Defined in: [types/queries/nation.ts:115](https://github.com/darkblade1078/pnwki
 
 > `optional` **telecommunications\_satellite**: `boolean`
 
-Defined in: [types/queries/nation.ts:91](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L91)
+Defined in: [types/queries/nation.ts:91](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L91)
 
 ***
 
@@ -958,7 +958,7 @@ Defined in: [types/queries/nation.ts:91](https://github.com/darkblade1078/pnwkit
 
 > `optional` **total\_infrastructure\_destroyed**: `number`
 
-Defined in: [types/queries/nation.ts:135](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L135)
+Defined in: [types/queries/nation.ts:135](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L135)
 
 ***
 
@@ -966,7 +966,7 @@ Defined in: [types/queries/nation.ts:135](https://github.com/darkblade1078/pnwki
 
 > `optional` **total\_infrastructure\_lost**: `number`
 
-Defined in: [types/queries/nation.ts:136](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L136)
+Defined in: [types/queries/nation.ts:136](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L136)
 
 ***
 
@@ -974,7 +974,7 @@ Defined in: [types/queries/nation.ts:136](https://github.com/darkblade1078/pnwki
 
 > `optional` **turns\_since\_last\_city**: `number`
 
-Defined in: [types/queries/nation.ts:53](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L53)
+Defined in: [types/queries/nation.ts:53](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L53)
 
 ***
 
@@ -982,7 +982,7 @@ Defined in: [types/queries/nation.ts:53](https://github.com/darkblade1078/pnwkit
 
 > `optional` **turns\_since\_last\_project**: `number`
 
-Defined in: [types/queries/nation.ts:54](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L54)
+Defined in: [types/queries/nation.ts:54](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L54)
 
 ***
 
@@ -990,7 +990,7 @@ Defined in: [types/queries/nation.ts:54](https://github.com/darkblade1078/pnwkit
 
 > `optional` **update\_tz**: `number`
 
-Defined in: [types/queries/nation.ts:29](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L29)
+Defined in: [types/queries/nation.ts:29](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L29)
 
 ***
 
@@ -998,7 +998,7 @@ Defined in: [types/queries/nation.ts:29](https://github.com/darkblade1078/pnwkit
 
 > `optional` **uranium**: `number`
 
-Defined in: [types/queries/nation.ts:58](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L58)
+Defined in: [types/queries/nation.ts:58](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L58)
 
 ***
 
@@ -1006,7 +1006,7 @@ Defined in: [types/queries/nation.ts:58](https://github.com/darkblade1078/pnwkit
 
 > `optional` **uranium\_enrichment\_program**: `boolean`
 
-Defined in: [types/queries/nation.ts:83](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L83)
+Defined in: [types/queries/nation.ts:83](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L83)
 
 ***
 
@@ -1014,7 +1014,7 @@ Defined in: [types/queries/nation.ts:83](https://github.com/darkblade1078/pnwkit
 
 > `optional` **urban\_planning**: `boolean`
 
-Defined in: [types/queries/nation.ts:84](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L84)
+Defined in: [types/queries/nation.ts:84](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L84)
 
 ***
 
@@ -1022,7 +1022,7 @@ Defined in: [types/queries/nation.ts:84](https://github.com/darkblade1078/pnwkit
 
 > `optional` **vacation\_mode\_turns**: `number`
 
-Defined in: [types/queries/nation.ts:32](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L32)
+Defined in: [types/queries/nation.ts:32](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L32)
 
 ***
 
@@ -1030,7 +1030,7 @@ Defined in: [types/queries/nation.ts:32](https://github.com/darkblade1078/pnwkit
 
 > `optional` **vip**: `boolean`
 
-Defined in: [types/queries/nation.ts:137](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L137)
+Defined in: [types/queries/nation.ts:137](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L137)
 
 ***
 
@@ -1038,7 +1038,7 @@ Defined in: [types/queries/nation.ts:137](https://github.com/darkblade1078/pnwki
 
 > `optional` **vital\_defense\_system**: `boolean`
 
-Defined in: [types/queries/nation.ts:79](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L79)
+Defined in: [types/queries/nation.ts:79](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L79)
 
 ***
 
@@ -1046,7 +1046,7 @@ Defined in: [types/queries/nation.ts:79](https://github.com/darkblade1078/pnwkit
 
 > `optional` **war\_policy**: `warPolicy`
 
-Defined in: [types/queries/nation.ts:22](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L22)
+Defined in: [types/queries/nation.ts:22](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L22)
 
 ***
 
@@ -1054,7 +1054,7 @@ Defined in: [types/queries/nation.ts:22](https://github.com/darkblade1078/pnwkit
 
 > `optional` **war\_policy\_turns**: `number`
 
-Defined in: [types/queries/nation.ts:23](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L23)
+Defined in: [types/queries/nation.ts:23](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L23)
 
 ***
 
@@ -1062,7 +1062,7 @@ Defined in: [types/queries/nation.ts:23](https://github.com/darkblade1078/pnwkit
 
 > `optional` **wars\_lost**: `number`
 
-Defined in: [types/queries/nation.ts:114](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L114)
+Defined in: [types/queries/nation.ts:114](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L114)
 
 ***
 
@@ -1070,4 +1070,4 @@ Defined in: [types/queries/nation.ts:114](https://github.com/darkblade1078/pnwki
 
 > `optional` **wars\_won**: `number`
 
-Defined in: [types/queries/nation.ts:113](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L113)
+Defined in: [types/queries/nation.ts:113](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/types/queries/nation.ts#L113)

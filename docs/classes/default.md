@@ -6,7 +6,7 @@
 
 # Class: default
 
-Defined in: [index.ts:18](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/index.ts#L18)
+Defined in: [index.ts:18](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/index.ts#L18)
 
 Main PnWKit client for interacting with the Politics & War API
 
@@ -33,7 +33,7 @@ const nations = await pnwkit.nationsQuery
 
 > **new default**(`apiKey`): `PnWKit`
 
-Defined in: [index.ts:36](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/index.ts#L36)
+Defined in: [index.ts:36](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/index.ts#L36)
 
 Main PnWKit client for interacting with the Politics & War API
 
@@ -66,11 +66,23 @@ const nations = await pnwkit.nationsQuery
 
 ## Other
 
+### alliancesQuery
+
+> `readonly` **alliancesQuery**: `AlliancesQuery`
+
+Defined in: [api/index.ts:8](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/api/index.ts#L8)
+
+#### Inherited from
+
+`PnwKitApi.alliancesQuery`
+
+***
+
 ### apiKey
 
 > `protected` `readonly` **apiKey**: `string`
 
-Defined in: [api/index.ts:8](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/api/index.ts#L8)
+Defined in: [api/index.ts:10](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/api/index.ts#L10)
 
 #### Inherited from
 
@@ -82,7 +94,7 @@ Defined in: [api/index.ts:8](https://github.com/darkblade1078/pnwkit-3.0/blob/e8
 
 > `readonly` **nationsQuery**: `NationsQuery`
 
-Defined in: [api/index.ts:6](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/api/index.ts#L6)
+Defined in: [api/index.ts:7](https://github.com/darkblade1078/pnwkit-3.0/blob/1eb4395bcdc033fe1c217703338f514e9d6a7a9a/src/api/index.ts#L7)
 
 #### Inherited from
 
