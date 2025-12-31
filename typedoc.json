@@ -1,7 +1,11 @@
 {
   "entryPoints": ["src/index.ts"],
   "out": "docs",
-  "exclude": ["**/*test.ts", "**/node_modules/**"],
+  "exclude": [
+    "**/*test.ts", 
+    "**/node_modules/**",
+    "src/api/queries/**"
+  ],
   "excludePrivate": true,
   "excludeProtected": false,
   "excludeInternal": true,

@@ -15,7 +15,3 @@
 - [NationRelations](interfaces/NationRelations.md)
 - [paginatorInfo](type-aliases/paginatorInfo.md)
 - [SelectFields](type-aliases/SelectFields.md)
-
-## Query Builders
-
-- [NationsQuery](classes/NationsQuery.md)

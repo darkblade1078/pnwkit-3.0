@@ -6,7 +6,7 @@
 
 # Interface: NationRelations
 
-Defined in: [types/queries/nation.ts:281](https://github.com/darkblade1078/pnwkit-3.0/blob/cc95a87004632e21c2da620d9706a754d4350f73/src/types/queries/nation.ts#L281)
+Defined in: [types/queries/nation.ts:281](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L281)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [types/queries/nation.ts:281](https://github.com/darkblade1078/pnwki
 
 > **alliance**: `AllianceFields`
 
-Defined in: [types/queries/nation.ts:282](https://github.com/darkblade1078/pnwkit-3.0/blob/cc95a87004632e21c2da620d9706a754d4350f73/src/types/queries/nation.ts#L282)
+Defined in: [types/queries/nation.ts:282](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L282)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [types/queries/nation.ts:282](https://github.com/darkblade1078/pnwki
 
 > **alliance\_position\_info**: `AlliancePositionFields`
 
-Defined in: [types/queries/nation.ts:283](https://github.com/darkblade1078/pnwkit-3.0/blob/cc95a87004632e21c2da620d9706a754d4350f73/src/types/queries/nation.ts#L283)
+Defined in: [types/queries/nation.ts:283](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L283)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [types/queries/nation.ts:283](https://github.com/darkblade1078/pnwki
 
 > **awards**: `AwardFields`
 
-Defined in: [types/queries/nation.ts:284](https://github.com/darkblade1078/pnwkit-3.0/blob/cc95a87004632e21c2da620d9706a754d4350f73/src/types/queries/nation.ts#L284)
+Defined in: [types/queries/nation.ts:284](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L284)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [types/queries/nation.ts:284](https://github.com/darkblade1078/pnwki
 
 > **bankrecs**: `BankTaxrecFields`
 
-Defined in: [types/queries/nation.ts:285](https://github.com/darkblade1078/pnwkit-3.0/blob/cc95a87004632e21c2da620d9706a754d4350f73/src/types/queries/nation.ts#L285)
+Defined in: [types/queries/nation.ts:285](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L285)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [types/queries/nation.ts:285](https://github.com/darkblade1078/pnwki
 
 > **bounties**: `BountyFields`
 
-Defined in: [types/queries/nation.ts:286](https://github.com/darkblade1078/pnwkit-3.0/blob/cc95a87004632e21c2da620d9706a754d4350f73/src/types/queries/nation.ts#L286)
+Defined in: [types/queries/nation.ts:286](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L286)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [types/queries/nation.ts:286](https://github.com/darkblade1078/pnwki
 
 > **bulletin\_replies**: `BulletinReplyFields`
 
-Defined in: [types/queries/nation.ts:288](https://github.com/darkblade1078/pnwkit-3.0/blob/cc95a87004632e21c2da620d9706a754d4350f73/src/types/queries/nation.ts#L288)
+Defined in: [types/queries/nation.ts:288](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L288)
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: [types/queries/nation.ts:288](https://github.com/darkblade1078/pnwki
 
 > **bulletins**: `BulletinFields`
 
-Defined in: [types/queries/nation.ts:287](https://github.com/darkblade1078/pnwkit-3.0/blob/cc95a87004632e21c2da620d9706a754d4350f73/src/types/queries/nation.ts#L287)
+Defined in: [types/queries/nation.ts:287](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L287)
 
 ***
 
@@ -70,7 +70,7 @@ Defined in: [types/queries/nation.ts:287](https://github.com/darkblade1078/pnwki
 
 > **cities**: `CityFields`
 
-Defined in: [types/queries/nation.ts:289](https://github.com/darkblade1078/pnwkit-3.0/blob/cc95a87004632e21c2da620d9706a754d4350f73/src/types/queries/nation.ts#L289)
+Defined in: [types/queries/nation.ts:289](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L289)
 
 ***
 
@@ -78,7 +78,7 @@ Defined in: [types/queries/nation.ts:289](https://github.com/darkblade1078/pnwki
 
 > **taxrecs**: `BankTaxrecFields`
 
-Defined in: [types/queries/nation.ts:291](https://github.com/darkblade1078/pnwkit-3.0/blob/cc95a87004632e21c2da620d9706a754d4350f73/src/types/queries/nation.ts#L291)
+Defined in: [types/queries/nation.ts:291](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L291)
 
 ***
 
@@ -86,7 +86,7 @@ Defined in: [types/queries/nation.ts:291](https://github.com/darkblade1078/pnwki
 
 > **trades**: `TradeFields`
 
-Defined in: [types/queries/nation.ts:290](https://github.com/darkblade1078/pnwkit-3.0/blob/cc95a87004632e21c2da620d9706a754d4350f73/src/types/queries/nation.ts#L290)
+Defined in: [types/queries/nation.ts:290](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L290)
 
 ***
 
@@ -94,7 +94,7 @@ Defined in: [types/queries/nation.ts:290](https://github.com/darkblade1078/pnwki
 
 > **treasures**: `TreasureFields`
 
-Defined in: [types/queries/nation.ts:292](https://github.com/darkblade1078/pnwkit-3.0/blob/cc95a87004632e21c2da620d9706a754d4350f73/src/types/queries/nation.ts#L292)
+Defined in: [types/queries/nation.ts:292](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L292)
 
 ***
 
@@ -102,4 +102,4 @@ Defined in: [types/queries/nation.ts:292](https://github.com/darkblade1078/pnwki
 
 > **wars**: `WarFields`
 
-Defined in: [types/queries/nation.ts:293](https://github.com/darkblade1078/pnwkit-3.0/blob/cc95a87004632e21c2da620d9706a754d4350f73/src/types/queries/nation.ts#L293)
+Defined in: [types/queries/nation.ts:293](https://github.com/darkblade1078/pnwkit-3.0/blob/e8d462ec21a6294d066bef674e269315fa58ba31/src/types/queries/nation.ts#L293)
