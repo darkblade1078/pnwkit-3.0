@@ -1,13 +1,10 @@
-import { NationsQuery } from "./api/index.js";
+import PnwKitApi from "./api/index.js";
 
-class Kit
+class Kit extends PnwKitApi
 {
-    constructor(private apiKey: string, private botKey?: string)
+    constructor(apiKey: string, botKey?: string)
     {
-    }
-
-    get nations() {
-        return new NationsQuery(this.apiKey);
+        super(apiKey, botKey);
     }
 }
 

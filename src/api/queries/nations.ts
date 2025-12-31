@@ -4,18 +4,35 @@ import graphQLService from "../../services/graphQL.js";
 import type { NationFields, NationQueryParams, NationRelations } from "../../types/queries/nation.js";
 import type { paginatorInfo } from "../../types/others.js";
 
+/**
+ * Query builder for fetching nation data from the Politics & War API
+ * @template F - Selected field names as a readonly tuple
+ * @template I - Included relations as a record type
+*/
 class NationsQuery<
-    F extends readonly (keyof NationFields)[] = [],
-    I extends Record<string, any> = {}
-> extends QueryBuilder
+    F extends readonly (keyof NationFields)[] = [], // Selected fields
+    I extends Record<string, any> = {}  // Included relations
+> 
+extends QueryBuilder<
+NationFields,   // Main entity fields
+NationQueryParams   // Filter parameters
+>
 {
-    private selectedFields: (keyof NationFields)[] = [];
-    private filters: NationQueryParams = {};
+    protected queryName = 'nations';
 
     constructor(apiKey: string) {
-        super(apiKey);
+        super();
+        this.apiKey = apiKey;
     }
 
+    /**
+     * Select specific fields to retrieve from nations
+     * @param fields - Field names to select
+     * @returns New query instance with selected fields
+     * @throws Error if no fields are provided
+     * @example
+     * .select('id', 'nation_name', 'score')
+    */
     select<const Fields extends readonly (keyof NationFields)[]>
     (
         ...fields: Fields
@@ -28,108 +45,57 @@ class NationsQuery<
         return this as any;
     }
 
-
+    /**
+     * Apply filters to the query
+     * @param filters - Query parameters for filtering results
+     * @returns This query instance for method chaining
+     * @example
+     * .where({ min_score: 1000, max_score: 5000 })
+    */
     where(filters: NationQueryParams): this
     {
         this.filters = filters;
         return this;
     }
 
+    /**
+     * Include related data in the query results
+     * @param relation - The relation name to include
+     * @param fields - Fields to select from the relation
+     * @returns New query instance with included relation
+     * @example
+     * .include('cities', ['id', 'city_name', 'infrastructure'])
+    */
     include<
-    K extends keyof NationRelations, 
-    R extends readonly (keyof NationRelations[K])[]
+    K extends keyof NationRelations,    // Relation key
+    R extends readonly (keyof NationRelations[K])[] // Fields to include
     >(
-        relation: K,
-        fields: R
+        relation: K, // Relation name
+        fields: R   // Fields to select from the relation
     ): NationsQuery<
-    F, 
-    I & Record<K, Pick<NationRelations[K], R[number]>[]>>
+    F,  // Selected fields
+    I & Record<K, Pick<NationRelations[K], R[number]>[]>> // Included relations
     {
         this.subqueries.set(relation as string, fields as readonly string[]);
         return this as any;
     }
 
-    private buildQuery(includePaginator: boolean): string
-    {
-        // Build the fields string including subqueries
-        const mainFields = this.selectedFields
-        .filter(f => !this.subqueries.has(f as string))
-        .join('\n                        ');
 
-        // Build subquery strings
-        const subqueryStrings: string[] = [];
-
-        this.subqueries
-        .forEach((fields, relation) => {
-            const fieldList = fields.join('\n                            ');
-            subqueryStrings.push(`
-                ${relation} {
-                    ${fieldList}
-                }`);
-        });
-
-
-        // Combine main fields and subqueries
-        const allFields = [mainFields, ...subqueryStrings]
-        .filter(s => s.length > 0).join('\n                        ');
-
-        const variables: string[] = [];
-
-        if (this.limit)
-            variables.push(`first: ${this.limit}`);
-
-        if (this.pageNum)
-            variables.push(`page: ${this.pageNum}`);
-
-        Object.entries(this.filters)
-        .forEach(([key, value]) => 
-        {
-            if (Array.isArray(value))
-            {
-                const formatted = value.map(v => 
-                typeof v === 'string' ? `"${v.replace(/"/g, '\\"')}"` : v)
-                .join(', ');
-
-                variables.push(`${key}: [${formatted}]`);
-            }
-
-            else if (typeof value === 'string')
-                variables.push(`${key}: "${value.replace(/"/g, '\\"')}"`);
-
-            else
-                variables.push(`${key}: ${value}`);
-        });
-
-        const varString = variables.length > 0 ? `(${variables.join(', ')})` : '';
-
-        const paginatorFields = includePaginator ? `
-            paginatorInfo {
-                count
-                currentPage
-                firstItem
-                hasMorePages
-                lastItem
-                lastPage
-                perPage
-                total
-            }
-        ` : '';
-
-
-        return `
-            query {
-                nations${varString} {
-                    data {
-                        ${allFields}
-                    }${paginatorFields}
-                }
-            }
-        `.trim();
-    }
-
-    async execute(): Promise<SelectFields<NationFields, F, I>[]>;
-    async execute(withPaginator: false): Promise<SelectFields<NationFields, F, I>[]>;
-    async execute(withPaginator: true): Promise<{ 
+    /**
+     * Execute the nations query and return results
+     * @param withPaginator - Whether to include pagination info (default: false)
+     * @returns Array of nations, or object with data and paginatorInfo if withPaginator is true
+     * @throws Error if the query fails or returns no data
+     * @example
+     * // Without paginator
+     * const nations = await query.execute();
+     * 
+     * // With paginator
+     * const result = await query.execute(true);
+     * console.log(result.data, result.paginatorInfo);
+    */
+    async execute(): Promise<SelectFields<NationFields, F, I>[]>; // default without paginator
+    async execute(withPaginator: true): Promise<{ // with paginator
         data: SelectFields<NationFields, F, I>[], 
         paginatorInfo: paginatorInfo 
     }>;
@@ -140,19 +106,23 @@ class NationsQuery<
     {
         try
         {
+            // Build the query
             const query = this.buildQuery(withPaginator);
-            const result = await graphQLService.queryCall(this.apiKey, query);
 
-            if(!result.nations.data)
-                throw new Error("No data returned from nations query.");
+            // Execute the query
+            const result = await graphQLService.queryCall(this.apiKey, query);
+            const queryData = result[this.queryName];
+
+            if(!queryData?.data)
+                throw new Error(`No data returned from ${this.queryName} query.`);
 
             if(withPaginator)
                 return {
-                    data: result.nations.data,
-                    paginatorInfo: result.nations.paginatorInfo
+                    data: queryData.data,
+                    paginatorInfo: queryData.paginatorInfo
                 };
             
-            return result.nations.data;
+            return queryData.data;
         }
         catch(error: unknown)
         {

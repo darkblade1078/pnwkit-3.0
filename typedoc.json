@@ -1,0 +1,11 @@
+{
+  "entryPoints": ["src/index.ts"],
+  "out": "docs",
+  "exclude": ["**/*test.ts", "**/node_modules/**"],
+  "excludePrivate": true,
+  "excludeProtected": false,
+  "readme": "README.md",
+  "name": "PnWKit 3.0",
+  "includeVersion": true,
+  "plugin": ["typedoc-plugin-markdown"]
+}

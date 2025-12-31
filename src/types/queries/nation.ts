@@ -9,6 +9,7 @@ import type { CityFields } from "./cities.js";
 import type { TradeFields } from "./trade.js";
 import type { TreasureFields } from "./treasure.js";
 import type { WarFields } from "./war.js";
+import type { SortOrder } from "../others.js";
 
 export interface NationFields {
   id?: string;
@@ -18,9 +19,9 @@ export interface NationFields {
   nation_name?: string;
   leader_name?: string;
   continent?: string;
-  war_policy?: string;
+  war_policy?: warPolicy;
   war_policy_turns?: number;
-  domestic_policy?: string;
+  domestic_policy?: domesticPolicy;
   domestic_policy_turns?: number;
   color?: string;
   num_cities?: number;
@@ -138,9 +139,9 @@ export interface NationFields {
   denouncements?: number;
   offensive_wars_count?: number;
   defensive_wars_count?: number;
-  economic_policy?: string;
-  social_policy?: string;
-  government_type?: string;
+  economic_policy?: economicPolicy;
+  social_policy?: socialPolicy;
+  government_type?: govermentType;
   credits_redeemed_this_month?: number;
   alliance_join_date?: string;
   cities_discount?: number;
@@ -169,21 +170,125 @@ export interface NationQueryParams {
   discord?: string[];
   discord_id?: string[];
   tax_id?: number[];
-  //continent?: Continents[];
-  //orderBy?: QueryNationsOrderByOrderByClause[];
+  continent?: Continents[];
+  orderBy?: QueryNationsOrderByOrderByClause[];
+}
+
+export type QueryNationsOrderByOrderByClause = {
+  column: QueryNationsOrderByColumn
+  order: SortOrder
+}
+
+export type QueryNationsOrderByColumn = 
+  | 'ID'
+  | 'DATE'
+  | 'SOLDIERS'
+  | 'TANKS'
+  | 'AIRCRAFT'
+  | 'SHIPS'
+  | 'MISSILES'
+  | 'NUKES'
+  | 'CITIES'
+
+export enum warPolicy {
+  ATTRITION = "ATTRITION",
+  TURTLE = "TURTLE",
+  BLITZKRIEG = "BLITZKRIEG",
+  FORTRESS = "FORTRESS",
+  MONEYBAGS = "MONEYBAGS",
+  PIRATE = "PIRATE",
+  TACTICIAN = "TACTICIAN",
+  GUARDIAN = "GUARDIAN",
+  COVERT = "COVERT",
+  ARCANE = "ARCANE",
+}
+
+export enum domesticPolicy {
+  MANIFEST_DESTINY = "MANIFEST_DESTINY",
+  OPEN_MARKETS = "OPEN_MARKETS",
+  TECHNOLOGICAL_ADVANCEMENT = "TECHNOLOGICAL_ADVANCEMENT",
+  IMPERIALISM = "IMPERIALISM",
+  URBANIZATION = "URBANIZATION",
+  RAPID_EXPANSION = "RAPID_EXPANSION",
+}
+
+export enum economicPolicy {
+  EXTREME_LEFT = "EXTREME_LEFT",
+  FAR_LEFT = "FAR_LEFT",
+  LEFT = "LEFT",
+  MODERATE = "MODERATE",
+  RIGHT = "RIGHT",
+  FAR_RIGHT = "FAR_RIGHT",
+  EXTREME_RIGHT = "EXTREME_RIGHT",
+}
+
+export enum socialPolicy {
+  ANARCHIST = "ANARCHIST",
+  LIBERTARIAN = "LIBERTARIAN",
+  LIBERAL = "LIBERAL",
+  MODERATE = "MODERATE",
+  CONSERVATIVE = "CONSERVATIVE",
+  AUTHORITARIAN = "AUTHORITARIAN",
+  FASCIST = "FASCIST",
+}
+
+export enum govermentType {
+  ABSOLUTE_MONARCHY = "ABSOLUTE_MONARCHY",
+  ANARCHY = "ANARCHY",
+  ARISTOCRACY = "ARISTOCRACY",
+  BANANA_REPUBLIC = "BANANA_REPUBLIC",
+  COMMUNIST_DEMOCRACY = "COMMUNIST_DEMOCRACY",
+  COMMUNIST_DICTATORSHIP = "COMMUNIST_DICTATORSHIP",
+  COMMUNIST_MONARCHY = "COMMUNIST_MONARCHY",
+  COMMUNIST_REPUBLIC = "COMMUNIST_REPUBLIC",
+  COMMUNIST_THEOCRACY= "COMMUNIST_THEOCRACY",
+  CONSTITUTIONAL_MONARCHY = "CONSTITUTIONAL_MONARCHY",
+  CONSTITUTIONAL_REPUBLIC = "CONSTITUTIONAL_REPUBLIC",
+  DEMARCHY = "DEMARCHY",
+  DEMOCRACY = "DEMOCRACY",
+  DEMOCRATIC_REPUBLIC = "DEMOCRATIC_REPUBLIC",
+  DICTATORSHIP = "DICTATORSHIP",
+  FEDERAL_REPUBLIC = "FEDERAL_REPUBLIC",
+  MONARCHY = "MONARCHY",
+  NOOCRACY = "NOOCRACY",
+  OLIGARCHY = "OLIGARCHY",
+  PARLIAMENTARY_DEMOCRACY = "PARLIAMENTARY_DEMOCRACY",
+  PARLIAMENTARY_REPUBLIC = "PARLIAMENTARY_REPUBLIC",
+  PEOPLES_REPUBLIC = "PEOPLES_REPUBLIC",
+  REPUBLIC = "REPUBLIC",
+  SOCIAL_DEMOCRACY = "SOCIAL_DEMOCRACY",
+  SOCIALIST_DICTATORSHIP = "SOCIALIST_DICTATORSHIP",
+  SOCIALIST_REPUBLIC = "SOCIALIST_REPUBLIC",
+  SOCIALIST_THEOCRACY = "SOCIALIST_THEOCRACY",
+  STRATOCRACY = "STRATOCRACY",
+  TECHNOCRACY = "TECHNOCRACY",
+  THEOCRACY = "THEOCRACY",
+  THEOCRATIC_DEMOCRACY = "THEOCRATIC_DEMOCRACY",
+  THEOCRATIC_DICTATORSHIP = "THEOCRATIC_DICTATORSHIP",
+  THEOCRATIC_REPUBLIC = "THEOCRATIC_REPUBLIC",
+}
+
+export enum Continents {
+  AFRICA = "AFRICA",
+  ANTARCTICA = "ANTARCTICA",
+  ASIA = "ASIA",
+  AUSTRALIA = "AUSTRALIA",
+  EUROPE = "EUROPE",
+  NORTH_AMERICA = "NORTH_AMERICA",
+  SOUTH_AMERICA = "SOUTH_AMERICA"
 }
 
 export interface NationRelations {
-    alliance: AllianceFields;
-    alliance_position_info: AlliancePositionFields;
-    awards: AwardFields;
-    bankrecs: BankTaxrecFields;
-    bounties: BountyFields;
-    bulletins: BulletinFields;
-    bulletin_replies: BulletinReplyFields;
-    cities: CityFields;
-    trades: TradeFields;
-    taxrecs: BankTaxrecFields;
-    treasures: TreasureFields;
-    wars: WarFields;
+  alliance: AllianceFields;
+  alliance_position_info: AlliancePositionFields;
+  awards: AwardFields;
+  bankrecs: BankTaxrecFields;
+  bounties: BountyFields;
+  bulletins: BulletinFields;
+  bulletin_replies: BulletinReplyFields;
+  cities: CityFields;
+  trades: TradeFields;
+  taxrecs: BankTaxrecFields;
+  treasures: TreasureFields;
+  wars: WarFields;
 }

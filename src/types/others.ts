@@ -14,3 +14,5 @@ export type paginatorInfo = {
     perPage: number;
     total: number;
 }
+
+export type SortOrder = 'ASC' | 'DESC';
