@@ -1,17 +1,24 @@
 import type { SelectFields } from "../../types/others.js";
-import QueryBuilder from "../../builders/queryBuilder.js";
+import { QueryBuilder, type SubqueryConfig } from "../../builders/queryBuilder.js";
 import graphQLService from "../../services/graphQL.js";
 import type { NationFields, NationQueryParams, NationRelations } from "../../types/queries/nation.js";
 import type { paginatorInfo } from "../../types/others.js";
 import type PnwKitApi from "../index.js";
+import type { GetRelationsFor } from "../../types/relationMappings.js";
 
 /**
  * Query builder for fetching nation data from the Politics & War API
+ * 
+ * Supports two levels of nested queries:
+ * - Level 1: Use builder functions to configure subqueries with full type support
+ * - Level 2: Use field arrays for nested subqueries
+ * 
  * @category Query Builders
  * @template F - Selected field names as a readonly tuple
  * @template I - Included relations as a record type
  * @example
  * ```typescript
+ * // Simple query with flat includes
  * const nations = await pnwkit.nationsQuery
  *   .select('id', 'nation_name', 'score', 'alliance_id')
  *   .where({ 
@@ -19,8 +26,18 @@ import type PnwKitApi from "../index.js";
  *     max_score: 5000,
  *     orderBy: [{ column: 'SCORE', order: 'DESC' }]
  *   })
- *   .include('alliance', ['id', 'name'])
+ *   .include('cities', ['id', 'name', 'infrastructure'])
  *   .first(100)
+ *   .execute();
+ * 
+ * // Nested query (two levels deep)
+ * const nations = await pnwkit.nationsQuery
+ *   .select('id', 'nation_name', 'alliance_id')
+ *   .include('alliance', builder => builder
+ *     .select('id', 'name', 'score')
+ *     .include('nations', ['id', 'nation_name'])  // Nested subquery
+ *   )
+ *   .first(50)
  *   .execute();
  * ```
 */
@@ -80,23 +97,39 @@ NationQueryParams   // Filter parameters
 
     /**
      * Include related data in the query results
+     * 
+     * Supports two formats:
+     * 1. Field array - Simple list of fields to select from the relation
+     * 2. Builder function - For relations that have their own nested relations
+     * 
+     * When using builder functions, the nested include() only accepts field arrays.
+     * This provides two levels of nesting: query -> subquery -> nested subquery
+     * 
      * @param relation - The relation name to include
-     * @param fields - Fields to select from the relation
+     * @param config - Either an array of fields OR a builder function for nested queries
      * @returns New query instance with included relation
      * @example
-     * .include('cities', ['id', 'city_name', 'infrastructure'])
+     * ```typescript
+     * // Simple field array (one level)
+     * .include('cities', ['id', 'name', 'infrastructure'])
+     * 
+     * // Builder function with nested relations (two levels)
+     * .include('alliance', builder => builder
+     *   .select('id', 'name', 'score')  // Select fields from alliance
+     *   .include('nations', ['id', 'nation_name'])  // Nested: only arrays allowed
+     *   .include('tax_brackets', ['id', 'tax_rate'])  // Can include multiple nested relations
+     * )
+     * 
+     * // Important: Always select at least one scalar field at each level
+     * // GraphQL requires this - you cannot query an object without selecting fields
+     * ```
     */
-    include<
-    K extends keyof NationRelations,    // Relation key
-    R extends readonly (keyof NationRelations[K])[] // Fields to include
-    >(
-        relation: K, // Relation name
-        fields: R   // Fields to select from the relation
-    ): NationsQuery<
-    F,  // Selected fields
-    I & Record<K, Pick<NationRelations[K], R[number]>[]>> // Included relations
+    include<K extends keyof NationRelations>(
+        relation: K,
+        config: SubqueryConfig<NationRelations[K], GetRelationsFor<NationRelations[K]>>
+    ): NationsQuery<F, I & Record<K, any>>
     {
-        this.subqueries.set(relation as string, fields as readonly string[]);
+        this.subqueries.set(relation as string, config);
         return this as any;
     }
 
