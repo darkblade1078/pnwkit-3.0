@@ -8,7 +8,7 @@
 
 > **SelectFields**\<`T`, `F`, `I`\> = `Pick`\<`T`, `F`\[`number`\]\> & `I`
 
-Defined in: [types/others.ts:1](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/types/others.ts#L1)
+Defined in: [types/others.ts:1](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/types/others.ts#L1)
 
 ## Type Parameters
 

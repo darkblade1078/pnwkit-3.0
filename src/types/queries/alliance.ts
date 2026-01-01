@@ -7,6 +7,7 @@ import type { TaxBracketFields } from "./taxBrackets.js";
 import type { WarFields } from "./war.js";
 
 export interface AllianceFields {
+  __typename?: 'Alliance';
   id?: string;
   name?: string;
   acronym?: string;

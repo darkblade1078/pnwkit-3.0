@@ -8,7 +8,7 @@
 
 > **paginatorInfo** = `object`
 
-Defined in: [types/others.ts:7](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/types/others.ts#L7)
+Defined in: [types/others.ts:7](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/types/others.ts#L7)
 
 ## Properties
 
@@ -16,7 +16,7 @@ Defined in: [types/others.ts:7](https://github.com/darkblade1078/pnwkit-3.0/blob
 
 > **count**: `number`
 
-Defined in: [types/others.ts:8](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/types/others.ts#L8)
+Defined in: [types/others.ts:8](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/types/others.ts#L8)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [types/others.ts:8](https://github.com/darkblade1078/pnwkit-3.0/blob
 
 > **currentPage**: `number`
 
-Defined in: [types/others.ts:9](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/types/others.ts#L9)
+Defined in: [types/others.ts:9](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/types/others.ts#L9)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [types/others.ts:9](https://github.com/darkblade1078/pnwkit-3.0/blob
 
 > `optional` **firstItem**: `number` \| `null`
 
-Defined in: [types/others.ts:10](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/types/others.ts#L10)
+Defined in: [types/others.ts:10](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/types/others.ts#L10)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [types/others.ts:10](https://github.com/darkblade1078/pnwkit-3.0/blo
 
 > **hasMorePages**: `boolean`
 
-Defined in: [types/others.ts:11](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/types/others.ts#L11)
+Defined in: [types/others.ts:11](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/types/others.ts#L11)
 
 ***
 
@@ -48,7 +48,7 @@ Defined in: [types/others.ts:11](https://github.com/darkblade1078/pnwkit-3.0/blo
 
 > `optional` **lastItem**: `number` \| `null`
 
-Defined in: [types/others.ts:12](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/types/others.ts#L12)
+Defined in: [types/others.ts:12](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/types/others.ts#L12)
 
 ***
 
@@ -56,7 +56,7 @@ Defined in: [types/others.ts:12](https://github.com/darkblade1078/pnwkit-3.0/blo
 
 > **lastPage**: `number`
 
-Defined in: [types/others.ts:13](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/types/others.ts#L13)
+Defined in: [types/others.ts:13](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/types/others.ts#L13)
 
 ***
 
@@ -64,7 +64,7 @@ Defined in: [types/others.ts:13](https://github.com/darkblade1078/pnwkit-3.0/blo
 
 > **perPage**: `number`
 
-Defined in: [types/others.ts:14](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/types/others.ts#L14)
+Defined in: [types/others.ts:14](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/types/others.ts#L14)
 
 ***
 
@@ -72,4 +72,4 @@ Defined in: [types/others.ts:14](https://github.com/darkblade1078/pnwkit-3.0/blo
 
 > **total**: `number`
 
-Defined in: [types/others.ts:15](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/types/others.ts#L15)
+Defined in: [types/others.ts:15](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/types/others.ts#L15)

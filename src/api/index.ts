@@ -1,5 +1,5 @@
 import { NationsQuery } from "./queries/nations.js";
-import { AlliancesQuery } from "./queries/alliance.js";
+import { AlliancesQuery } from "./queries/alliances.js";
 
 
 export default class PnwKitApi

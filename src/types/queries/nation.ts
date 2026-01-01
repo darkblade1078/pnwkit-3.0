@@ -12,6 +12,7 @@ import type { WarFields } from "./war.js";
 import type { SortOrder } from "../others.js";
 
 export interface NationFields {
+  __typename?: 'Nation';
   id?: string;
   alliance_id?: number;
   alliance_position?: string;

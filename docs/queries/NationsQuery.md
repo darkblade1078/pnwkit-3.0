@@ -6,18 +6,18 @@
 
 # Class: NationsQuery\<F, I\>
 
-Defined in: [api/queries/nations.ts:44](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/api/queries/nations.ts#L44)
+Defined in: [api/queries/nations.ts:50](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/api/queries/nations.ts#L50)
 
 Query builder for fetching nation data from the Politics & War API
 
-Supports two levels of nested queries:
-- Level 1: Use builder functions to configure subqueries with full type support
-- Level 2: Use field arrays for nested subqueries
+Supports unlimited recursive nesting with full type inference at every level.
+Each nested builder function receives complete type safety for fields, relations,
+and query parameters specific to that entity.
 
 ## Example
 
 ```typescript
-// Simple query with flat includes
+// Query with filters and field selection
 const nations = await pnwkit.nationsQuery
   .select('id', 'nation_name', 'score', 'alliance_id')
   .where({ 
@@ -25,16 +25,22 @@ const nations = await pnwkit.nationsQuery
     max_score: 5000,
     orderBy: [{ column: 'SCORE', order: 'DESC' }]
   })
-  .include('cities', ['id', 'name', 'infrastructure'])
   .first(100)
   .execute();
 
-// Nested query (two levels deep)
+// Deeply nested query with unlimited depth
 const nations = await pnwkit.nationsQuery
   .select('id', 'nation_name', 'alliance_id')
   .include('alliance', builder => builder
     .select('id', 'name', 'score')
-    .include('nations', ['id', 'nation_name'])  // Nested subquery
+    .where({ min_score: 5000 })
+    .include('nations', builder2 => builder2  // Unlimited nesting!
+      .select('id', 'nation_name')
+      .where({ min_score: 1000 })
+      .include('cities', builder3 => builder3
+        .select('id', 'name', 'infrastructure')
+      )
+    )
   )
   .first(50)
   .execute();
@@ -64,7 +70,7 @@ Included relations as a record type
 
 > **new NationsQuery**\<`F`, `I`\>(`kit`): `NationsQuery`\<`F`, `I`\>
 
-Defined in: [api/queries/nations.ts:60](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/api/queries/nations.ts#L60)
+Defined in: [api/queries/nations.ts:66](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/api/queries/nations.ts#L66)
 
 **`Internal`**
 
@@ -92,7 +98,7 @@ The PnWKit instance containing API credentials
 
 > `protected` **apiKey**: `string`
 
-Defined in: [builders/queryBuilder.ts:129](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/builders/queryBuilder.ts#L129)
+Defined in: [builders/queryBuilder.ts:157](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/builders/queryBuilder.ts#L157)
 
 #### Inherited from
 
@@ -104,7 +110,7 @@ Defined in: [builders/queryBuilder.ts:129](https://github.com/darkblade1078/pnwk
 
 > `protected` **filters**: `NationQueryParams`
 
-Defined in: [builders/queryBuilder.ts:135](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/builders/queryBuilder.ts#L135)
+Defined in: [builders/queryBuilder.ts:163](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/builders/queryBuilder.ts#L163)
 
 #### Inherited from
 
@@ -116,7 +122,7 @@ Defined in: [builders/queryBuilder.ts:135](https://github.com/darkblade1078/pnwk
 
 > `protected` `optional` **limit**: `number`
 
-Defined in: [builders/queryBuilder.ts:127](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/builders/queryBuilder.ts#L127)
+Defined in: [builders/queryBuilder.ts:155](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/builders/queryBuilder.ts#L155)
 
 #### Inherited from
 
@@ -128,7 +134,7 @@ Defined in: [builders/queryBuilder.ts:127](https://github.com/darkblade1078/pnwk
 
 > `protected` `optional` **pageNum**: `number`
 
-Defined in: [builders/queryBuilder.ts:128](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/builders/queryBuilder.ts#L128)
+Defined in: [builders/queryBuilder.ts:156](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/builders/queryBuilder.ts#L156)
 
 #### Inherited from
 
@@ -140,7 +146,7 @@ Defined in: [builders/queryBuilder.ts:128](https://github.com/darkblade1078/pnwk
 
 > `protected` **queryName**: `string` = `'nations'`
 
-Defined in: [api/queries/nations.ts:53](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/api/queries/nations.ts#L53)
+Defined in: [api/queries/nations.ts:59](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/api/queries/nations.ts#L59)
 
 #### Overrides
 
@@ -152,7 +158,7 @@ Defined in: [api/queries/nations.ts:53](https://github.com/darkblade1078/pnwkit-
 
 > `protected` **selectedFields**: keyof `NationFields`[] = `[]`
 
-Defined in: [builders/queryBuilder.ts:134](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/builders/queryBuilder.ts#L134)
+Defined in: [builders/queryBuilder.ts:162](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/builders/queryBuilder.ts#L162)
 
 #### Inherited from
 
@@ -162,9 +168,9 @@ Defined in: [builders/queryBuilder.ts:134](https://github.com/darkblade1078/pnwk
 
 ### subqueries
 
-> `protected` **subqueries**: `Map`\<`string`, `SubqueryConfig`\<`any`, \{ \} \| `NationRelations` \| `AllianceRelations`\>\>
+> `protected` **subqueries**: `Map`\<`string`, `SubqueryConfig`\<`any`, \{ \}, `Record`\<`string`, `any`\>\>\>
 
-Defined in: [builders/queryBuilder.ts:132](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/builders/queryBuilder.ts#L132)
+Defined in: [builders/queryBuilder.ts:160](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/builders/queryBuilder.ts#L160)
 
 #### Inherited from
 
@@ -176,7 +182,7 @@ Defined in: [builders/queryBuilder.ts:132](https://github.com/darkblade1078/pnwk
 
 > `protected` **buildQuery**(`includePaginator`): `string`
 
-Defined in: [builders/queryBuilder.ts:283](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/builders/queryBuilder.ts#L283)
+Defined in: [builders/queryBuilder.ts:368](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/builders/queryBuilder.ts#L368)
 
 Build the final GraphQL query string
 
@@ -204,15 +210,15 @@ Error if field names are too long or filters contain invalid values
 
 ***
 
-### buildSubqueryString()
+### buildSubqueryFields()
 
-> `protected` **buildSubqueryString**(`config`, `depth`): `string`
+> `protected` **buildSubqueryFields**(`config`, `baseIndent`): `object`
 
-Defined in: [builders/queryBuilder.ts:235](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/builders/queryBuilder.ts#L235)
+Defined in: [builders/queryBuilder.ts:331](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/builders/queryBuilder.ts#L331)
 
 **`Internal`**
 
-Recursively build subquery string from config
+Recursively build subquery fields with proper indentation
 
 #### Parameters
 
@@ -220,19 +226,69 @@ Recursively build subquery string from config
 
 `SubqueryConfig`\<`any`\>
 
-Either an array of fields or a builder function
+The subquery configuration
 
-##### depth
+##### baseIndent
 
-`number` = `0`
+`number`
 
-Current nesting depth (for indentation)
+Base indentation level
 
 #### Returns
 
-`string`
+`object`
 
-GraphQL string for the subquery fields
+Object with paramString and fieldList
+
+##### fieldList
+
+> **fieldList**: `string`
+
+##### paramString
+
+> **paramString**: `string`
+
+#### Inherited from
+
+`QueryBuilder.buildSubqueryFields`
+
+***
+
+### buildSubqueryString()
+
+> `protected` **buildSubqueryString**(`config`): `object`
+
+Defined in: [builders/queryBuilder.ts:262](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/builders/queryBuilder.ts#L262)
+
+**`Internal`**
+
+Build subquery configuration into structured data
+
+#### Parameters
+
+##### config
+
+`SubqueryConfig`\<`any`\>
+
+A builder function for configuring the subquery
+
+#### Returns
+
+`object`
+
+Object containing scalar fields, nested relations, and filter parameters
+
+##### nested
+
+> **nested**: `object`[]
+
+##### params
+
+> **params**: `Record`\<`string`, `any`\>
+
+##### scalar
+
+> **scalar**: `string`[]
 
 #### Inherited from
 
@@ -246,7 +302,7 @@ GraphQL string for the subquery fields
 
 > **execute**(): `Promise`\<`SelectFields`\<`NationFields`, `F`, `I`\>[]\>
 
-Defined in: [api/queries/nations.ts:149](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/api/queries/nations.ts#L149)
+Defined in: [api/queries/nations.ts:161](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/api/queries/nations.ts#L161)
 
 Execute the nations query and return results
 
@@ -276,7 +332,7 @@ console.log(result.data, result.paginatorInfo);
 
 > **execute**(`withPaginator`): `Promise`\<\{ `data`: `SelectFields`\<`NationFields`, `F`, `I`\>[]; `paginatorInfo`: `paginatorInfo`; \}\>
 
-Defined in: [api/queries/nations.ts:150](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/api/queries/nations.ts#L150)
+Defined in: [api/queries/nations.ts:162](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/api/queries/nations.ts#L162)
 
 Execute the nations query and return results
 
@@ -314,7 +370,7 @@ console.log(result.data, result.paginatorInfo);
 
 > **first**(`count`): `this`
 
-Defined in: [builders/queryBuilder.ts:149](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/builders/queryBuilder.ts#L149)
+Defined in: [builders/queryBuilder.ts:177](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/builders/queryBuilder.ts#L177)
 
 Set the maximum number of records to retrieve
 
@@ -348,16 +404,12 @@ This query instance for method chaining
 
 > **include**\<`K`\>(`relation`, `config`): `NationsQuery`\<`F`, `I` & `Record`\<`K`, `any`\>\>
 
-Defined in: [api/queries/nations.ts:127](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/api/queries/nations.ts#L127)
+Defined in: [api/queries/nations.ts:139](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/api/queries/nations.ts#L139)
 
 Include related data in the query results
 
-Supports two formats:
-1. Field array - Simple list of fields to select from the relation
-2. Builder function - For relations that have their own nested relations
-
-When using builder functions, the nested include() only accepts field arrays.
-This provides two levels of nesting: query -> subquery -> nested subquery
+Supports unlimited recursive nesting with full type inference at every level.
+Each nested builder receives complete type safety for fields, relations, and query parameters.
 
 #### Type Parameters
 
@@ -375,9 +427,9 @@ The relation name to include
 
 ##### config
 
-`SubqueryConfig`\<`NationRelations`\[`K`\], `GetRelationsFor`\<`NationRelations`\[`K`\]\>\>
+`SubqueryConfig`\<`NationRelations`\[`K`\], `GetRelationsFor`\<`NationRelations`\[`K`\]\>, `GetQueryParamsFor`\<`NationRelations`\[`K`\]\>\>
 
-Either an array of fields OR a builder function for nested queries
+A builder function for configuring the subquery
 
 #### Returns
 
@@ -388,14 +440,28 @@ New query instance with included relation
 #### Example
 
 ```typescript
-// Simple field array (one level)
-.include('cities', ['id', 'name', 'infrastructure'])
+// Basic subquery with field selection
+.include('cities', builder => builder
+  .select('id', 'name', 'infrastructure')
+)
 
-// Builder function with nested relations (two levels)
+// Subquery with filtering
 .include('alliance', builder => builder
-  .select('id', 'name', 'score')  // Select fields from alliance
-  .include('nations', ['id', 'nation_name'])  // Nested: only arrays allowed
-  .include('tax_brackets', ['id', 'tax_rate'])  // Can include multiple nested relations
+  .select('id', 'name', 'score')
+  .where({ id: [1234] })
+)
+
+// Deeply nested subquery with unlimited depth
+.include('alliance', builder => builder
+  .select('id', 'name', 'score')
+  .where({ min_score: 1000 })
+  .include('nations', builder2 => builder2  // Unlimited nesting!
+    .select('id', 'nation_name')
+    .where({ min_score: 500 })
+    .include('cities', builder3 => builder3
+      .select('id', 'name', 'infrastructure')
+    )
+  )
 )
 
 // Important: Always select at least one scalar field at each level
@@ -408,7 +474,7 @@ New query instance with included relation
 
 > **page**(`pageNumber`): `this`
 
-Defined in: [builders/queryBuilder.ts:164](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/builders/queryBuilder.ts#L164)
+Defined in: [builders/queryBuilder.ts:192](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/builders/queryBuilder.ts#L192)
 
 Set the page number for pagination
 
@@ -442,7 +508,7 @@ This query instance for method chaining
 
 > `protected` **sanitizeString**(`str`): `string`
 
-Defined in: [builders/queryBuilder.ts:176](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/builders/queryBuilder.ts#L176)
+Defined in: [builders/queryBuilder.ts:204](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/builders/queryBuilder.ts#L204)
 
 Sanitize and escape a string value for safe GraphQL usage
 
@@ -474,7 +540,7 @@ Error if string exceeds maximum length
 
 > **select**\<`Fields`\>(...`fields`): `NationsQuery`\<`Fields`\>
 
-Defined in: [api/queries/nations.ts:73](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/api/queries/nations.ts#L73)
+Defined in: [api/queries/nations.ts:78](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/api/queries/nations.ts#L78)
 
 Select specific fields to retrieve from nations
 
@@ -510,11 +576,41 @@ Error if no fields are provided
 
 ***
 
+### serializeFilterValue()
+
+> `protected` **serializeFilterValue**(`value`): `string`
+
+Defined in: [builders/queryBuilder.ts:303](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/builders/queryBuilder.ts#L303)
+
+**`Internal`**
+
+Serialize filter value for GraphQL query
+
+#### Parameters
+
+##### value
+
+`any`
+
+The filter value to serialize
+
+#### Returns
+
+`string`
+
+Serialized string representation
+
+#### Inherited from
+
+`QueryBuilder.serializeFilterValue`
+
+***
+
 ### serializeObject()
 
 > `protected` **serializeObject**(`obj`): `string`
 
-Defined in: [builders/queryBuilder.ts:196](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/builders/queryBuilder.ts#L196)
+Defined in: [builders/queryBuilder.ts:224](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/builders/queryBuilder.ts#L224)
 
 Serialize an object to GraphQL format (enum values without quotes)
 
@@ -546,7 +642,7 @@ Error if object is null/undefined or contains invalid field names
 
 > `protected` **validateInputLength**(`str`, `maxLength`): `void`
 
-Defined in: [builders/queryBuilder.ts:392](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/builders/queryBuilder.ts#L392)
+Defined in: [builders/queryBuilder.ts:446](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/builders/queryBuilder.ts#L446)
 
 Validate input string length to prevent excessively large queries
 
@@ -582,7 +678,7 @@ Error if string exceeds maximum length
 
 > **where**(`filters`): `this`
 
-Defined in: [api/queries/nations.ts:92](https://github.com/darkblade1078/pnwkit-3.0/blob/cefe16cd02dc363296a7f3269e6bae9eeb0226e7/src/api/queries/nations.ts#L92)
+Defined in: [api/queries/nations.ts:94](https://github.com/darkblade1078/pnwkit-3.0/blob/bd51b74f3b4caf6fb140612b8a7449e108864c8c/src/api/queries/nations.ts#L94)
 
 Apply filters to the query
 

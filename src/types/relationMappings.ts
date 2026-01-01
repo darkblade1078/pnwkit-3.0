@@ -1,19 +1,40 @@
-import type { AllianceFields, AllianceRelations } from "./queries/alliance.js";
-import type { NationFields, NationRelations } from "./queries/nation.js";
+import type { AllianceRelations, AllianceQueryParams } from "./queries/alliance.js";
+import type { NationRelations, NationQueryParams } from "./queries/nation.js";
 
 /**
- * Global registry mapping field types to their relation types
- * Add new entries here when you define relations for a new entity
+ * Explicit lookup table mapping Fields types to their QueryParams types
+ * This uses the __typename discriminator for reliable type resolution
 */
-export interface FieldsToRelationsMap {
-    [key: string]: any;
+export interface FieldsToQueryParamsMap {
+    Alliance: AllianceQueryParams;
+    Nation: NationQueryParams;
 }
 
 /**
- * Lookup the Relations type for a given Fields type
- * Uses conditional type checking to find the match
+ * Explicit lookup table mapping Fields types to their Relations types
+*/
+export interface FieldsToRelationsMap {
+    Alliance: AllianceRelations;
+    Nation: NationRelations;
+}
+
+/**
+ * Extract the __typename from a Fields type
+*/
+type ExtractTypeName<T> = T extends { __typename?: infer U } ? U : never;
+
+/**
+ * Lookup the Relations type for a given Fields type using __typename
 */
 export type GetRelationsFor<TFields> = 
-    TFields extends AllianceFields ? AllianceRelations :
-    TFields extends NationFields ? NationRelations :
-    {}; // Default to empty object for types without relations
+    ExtractTypeName<TFields> extends keyof FieldsToRelationsMap
+        ? FieldsToRelationsMap[ExtractTypeName<TFields>]
+        : {};
+
+/**
+ * Lookup the QueryParams type for a given Fields type using __typename
+*/
+export type GetQueryParamsFor<TFields> = 
+    ExtractTypeName<TFields> extends keyof FieldsToQueryParamsMap
+        ? FieldsToQueryParamsMap[ExtractTypeName<TFields>]
+        : Record<string, any>;

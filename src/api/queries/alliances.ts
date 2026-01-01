@@ -4,37 +4,40 @@ import graphQLService from "../../services/graphQL.js";
 import type { paginatorInfo } from "../../types/others.js";
 import type PnwKitApi from "../index.js";
 import type { AllianceFields, AllianceQueryParams, AllianceRelations } from "../../types/queries/alliance.js";
-import type { GetRelationsFor } from "../../types/relationMappings.js";
+import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMappings.js";
 
 /**
  * Query builder for fetching alliance data from the Politics & War API
  * 
- * Supports two levels of nested queries:
- * - Level 1: Use builder functions to configure subqueries with full type support
- * - Level 2: Use field arrays for nested subqueries
+ * Supports unlimited recursive nesting with full type inference at every level.
+ * Each nested builder function receives complete type safety for fields, relations,
+ * and query parameters specific to that entity.
  * 
  * @category Query Builders
  * @template F - Selected field names as a readonly tuple
  * @template I - Included relations as a record type
  * @example
  * ```typescript
- * // Simple query with flat includes
+ * // Simple query with filters
  * const alliances = await pnwkit.alliancesQuery
  *   .select('id', 'name', 'score', 'color')
  *   .where({ 
  *     name: ['Rose', 'Grumpy'],
  *     orderBy: [{ column: 'SCORE', order: 'DESC' }]
  *   })
- *   .include('bankrecs', ['id', 'date', 'money'])
  *   .first(50)
  *   .execute();
  * 
- * // Nested query (two levels deep)
+ * // Deeply nested query with unlimited depth
  * const alliances = await pnwkit.alliancesQuery
  *   .select('id', 'name', 'score')
  *   .include('nations', builder => builder
  *     .select('id', 'nation_name', 'score')
- *     .include('cities', ['id', 'name', 'infrastructure'])
+ *     .where({ min_score: 1000 })
+ *     .include('cities', builder2 => builder2  // Unlimited nesting!
+ *       .select('id', 'name', 'infrastructure')
+ *       .where({ min_infrastructure: 500 })
+ *     )
  *   )
  *   .first(10)
  *   .execute();
@@ -100,26 +103,36 @@ extends QueryBuilder<AllianceFields, AllianceQueryParams>
     /**
      * Include related data in the query results
      * 
-     * Supports two formats:
-     * 1. Field array - Simple list of fields to select from the relation
-     * 2. Builder function - For relations that have their own nested relations
-     * 
-     * When using builder functions, the nested include() only accepts field arrays.
-     * This provides two levels of nesting: query -> subquery -> nested subquery
+     * Supports unlimited recursive nesting with full type inference at every level.
+     * Each nested builder receives complete type safety for fields, relations, and query parameters.
      * 
      * @param relation - The relation name to include
-     * @param config - Either an array of fields OR a builder function for nested queries
+     * @param config - A builder function for configuring the subquery
      * @returns New query instance with included relation
      * @example
      * ```typescript
-     * // Simple field array (one level)
-     * .include('bankrecs', ['id', 'date', 'money', 'note'])
+     * // Basic subquery with field selection
+     * .include('bankrecs', builder => builder
+     *   .select('id', 'date', 'money', 'note')
+     * )
      * 
-     * // Builder function with nested relations (two levels)
+     * // Subquery with filtering
      * .include('nations', builder => builder
-     *   .select('id', 'nation_name', 'score')  // Select fields from nations
-     *   .include('cities', ['id', 'name', 'infrastructure'])  // Nested: only arrays allowed
-     *   .include('alliance', ['id', 'name'])  // Can include multiple nested relations
+     *   .select('id', 'nation_name', 'score')
+     *   .where({ min_score: 1000 })
+     * )
+     * 
+     * // Deeply nested subquery with unlimited depth
+     * .include('nations', builder => builder
+     *   .select('id', 'nation_name', 'score')
+     *   .where({ min_score: 1000 })
+     *   .include('cities', builder2 => builder2  // Unlimited nesting!
+     *     .select('id', 'name', 'infrastructure')
+     *     .where({ min_infrastructure: 500 })
+     *     .include('buildings', builder3 => builder3
+     *       .select('id', 'type')
+     *     )
+     *   )
      * )
      * 
      * // Important: Always select at least one scalar field at each level
@@ -128,10 +141,10 @@ extends QueryBuilder<AllianceFields, AllianceQueryParams>
     */
     include<K extends keyof AllianceRelations>(
         relation: K,
-        config: SubqueryConfig<AllianceRelations[K], GetRelationsFor<AllianceRelations[K]>>
+        config: SubqueryConfig<AllianceRelations[K], GetRelationsFor<AllianceRelations[K]>, GetQueryParamsFor<AllianceRelations[K]>>
     ): AlliancesQuery<F, I & Record<K, any>>
     {
-        this.subqueries.set(relation as string, config);
+        this.subqueries.set(relation as string, config as SubqueryConfig<any, any, any>);
         return this as any;
     }
 

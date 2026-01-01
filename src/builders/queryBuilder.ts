@@ -1,95 +1,114 @@
-import type { GetRelationsFor } from "../types/relationMappings.js";
+import type { GetRelationsFor, GetQueryParamsFor } from "../types/relationMappings.js";
 
 /**
- * Configuration for a subquery - can be either:
- * - An array of field names for simple field selection
- * - A builder function that configures nested fields with type support (first level only)
+ * Configuration for a subquery - accepts only a builder function.
  * 
- * The builder function receives a SubqueryBuilder with full type inference for the relation's fields
- * and nested relations. Nested includes within the builder only accept field arrays.
+ * The builder function receives a SubqueryBuilder with full type inference for the relation's fields,
+ * relations, and query parameters. Nested includes within the builder only accept field arrays.
  * 
  * @template TFields - The fields type of the relation being included
  * @template TRelations - The relations type of the relation (auto-resolved via GetRelationsFor)
+ * @template TQueryParams - The query params type of the relation (auto-resolved via GetQueryParamsFor)
  * 
  * @example
  * ```typescript
- * // Field array format
- * SubqueryConfig<CityFields> = ['id', 'name', 'infrastructure']
- * 
- * // Builder function format (with nested support)
- * SubqueryConfig<AllianceFields, AllianceRelations> = 
+ * // Builder function format (with nested support and typed where)
+ * SubqueryConfig<AllianceFields, AllianceRelations, AllianceQueryParams> = 
  *   builder => builder
  *     .select('id', 'name')
+ *     .where({ id: [1234], min_score: 1000 })  // Fully typed!
  *     .include('nations', ['id', 'nation_name'])
  * ```
 */
-export type SubqueryConfig<TFields, TRelations = GetRelationsFor<TFields>> = 
-    | readonly (keyof TFields)[]
-    | ((builder: SubqueryBuilder<TFields, TRelations>) => SubqueryBuilder<TFields, TRelations, any>);
+export type SubqueryConfig<TFields, TRelations = GetRelationsFor<TFields>, TQueryParams = GetQueryParamsFor<TFields>> = 
+    (builder: SubqueryBuilder<TFields, TRelations, {}, TQueryParams>) => SubqueryBuilder<TFields, TRelations, any, TQueryParams>;
 
 /**
  * Builder for configuring nested subquery fields and relations
  * 
- * Provides type-safe field selection and relation inclusion for subqueries.
+ * Provides type-safe field selection, filtering, and relation inclusion for subqueries.
  * This builder is used for the first level of nesting. Any relations included
  * within this builder only accept field arrays (no further builder functions).
  * 
  * @template TFields - The fields available for selection in this subquery
  * @template TRelations - The relations available for inclusion in this subquery
  * @template TIncluded - Accumulator type for tracking included relations
+ * @template TQueryParams - The query parameters available for filtering this subquery
  * 
  * @example
  * ```typescript
  * // Used within an include() call
  * .include('alliance', builder => builder
  *   .select('id', 'name', 'score')  // Type-safe: only AllianceFields allowed
+ *   .where({ id: [1234] })  // Type-safe: only AllianceQueryParams allowed
  *   .include('nations', ['id', 'nation_name'])  // Type-safe: only field arrays
  * )
  * ```
 */
-export class SubqueryBuilder<TFields, TRelations = {}, TIncluded extends Record<string, any> = {}>
+export class SubqueryBuilder<TFields, TRelations = {}, TIncluded extends Record<string, any> = {}, TQueryParams = Record<string, any>>
 {
     private fields: (keyof TFields)[] = [];
-    private nestedSubqueries: Map<string, readonly (keyof any)[]> = new Map();
+    private nestedSubqueries: Map<string, SubqueryConfig<any>> = new Map();
+    private filters: Partial<TQueryParams> = {};
 
     /**
      * Select fields from the subquery
     */
     select<const F extends readonly (keyof TFields)[]>(
         ...fields: F
-    ): SubqueryBuilder<TFields, TRelations, TIncluded>
+    ): SubqueryBuilder<TFields, TRelations, TIncluded, TQueryParams>
     {
         this.fields = [...new Set(fields)] as any;
         return this;
     }
 
     /**
-     * Include nested relations (only accepts field arrays, not builder functions)
+     * Apply filters to the subquery
+     * @param filters - Filter parameters for the subquery (fully typed based on the entity)
+     * @returns This builder instance for method chaining
+     * @example
+     * ```typescript
+     * // When including an alliance, filters are typed as AllianceQueryParams
+     * builder
+     *   .select('id', 'name')
+     *   .where({ id: [1234], min_score: 1000 })  // TypeScript will validate these!
+     * ```
+    */
+    where(filters: Partial<TQueryParams>): SubqueryBuilder<TFields, TRelations, TIncluded, TQueryParams>
+    {
+        this.filters = { ...this.filters, ...filters };
+        return this;
+    }
+
+    /**
+     * Include nested relations with full builder support and type inference
      * 
-     * This is the second level of nesting - you can only specify fields to select,
-     * not additional builder functions. This limits nesting to two levels total.
+     * Supports unlimited nesting depth - each nested builder receives full type inference
+     * for its fields, relations, and query parameters.
      * 
      * @param relation - The relation name to include (must be a key of TRelations)
-     * @param fields - Array of fields to select from the relation
+     * @param config - A builder function for configuring the nested subquery
      * @returns This builder instance for method chaining
      * 
      * @example
      * ```typescript
      * builder
      *   .select('id', 'name')
-     *   .include('nations', ['id', 'nation_name', 'score'])
-     *   .include('tax_brackets', ['id', 'tax_rate'])
+     *   .include('nations', builder2 => builder2  // builder2 is fully typed!
+     *     .select('id', 'nation_name', 'score')
+     *     .where({ min_score: 1000 })  // TypeScript validates NationQueryParams
+     *     .include('cities', builder3 => builder3  // builder3 is fully typed!
+     *       .select('id', 'name', 'infrastructure')
+     *     )
+     *   )
      * ```
     */
-    include<
-        K extends keyof TRelations,
-        R extends readonly (keyof TRelations[K])[]
-    >(
+    include<K extends keyof TRelations>(
         relation: K,
-        fields: R
-    ): SubqueryBuilder<TFields, TRelations, TIncluded & Record<K, any>>
+        config: SubqueryConfig<TRelations[K], GetRelationsFor<TRelations[K]>, GetQueryParamsFor<TRelations[K]>>
+    ): SubqueryBuilder<TFields, TRelations, TIncluded & Record<K, any>, TQueryParams>
     {
-        this.nestedSubqueries.set(relation as string, fields as readonly (keyof any)[]);
+        this.nestedSubqueries.set(relation as string, config as SubqueryConfig<any>);
         return this as any;
     }
 
@@ -104,11 +123,20 @@ export class SubqueryBuilder<TFields, TRelations = {}, TIncluded extends Record<
 
     /**
      * @internal
-     * Get nested subqueries (returns field arrays only)
+     * Get nested subqueries (returns builder configs)
     */
-    getNestedSubqueries(): Map<string, readonly (keyof any)[]>
+    getNestedSubqueries(): Map<string, SubqueryConfig<any>>
     {
         return this.nestedSubqueries;
+    }
+
+    /**
+     * @internal
+     * Get the filters for this subquery
+    */
+    getFilters(): Partial<TQueryParams>
+    {
+        return this.filters;
     }
 }
 
@@ -226,52 +254,109 @@ TQueryParams = any // Type of the query parameters
     }
 
     /**
-     * Recursively build subquery string from config
-     * @param config - Either an array of fields or a builder function
-     * @param depth - Current nesting depth (for indentation)
-     * @returns GraphQL string for the subquery fields
+     * Build subquery configuration into structured data
+     * @param config - A builder function for configuring the subquery
+     * @returns Object containing scalar fields, nested relations, and filter parameters
      * @internal
     */
-    protected buildSubqueryString(config: SubqueryConfig<any>, depth: number = 0): string
+    protected buildSubqueryString(config: SubqueryConfig<any>): { 
+        scalar: string[]; 
+        nested: Array<{ relation: string; config: SubqueryConfig<any> }>; 
+        params: Record<string, any> 
+    }
     {
-        const indent = '    '.repeat(depth + 6); // Base indentation
-        const fieldIndent = '    '.repeat(depth + 7);
-
-        // Simple field array
-        if (Array.isArray(config))
-            return config.join(`\n${fieldIndent}`);
-
         if(typeof config !== 'function')
-            throw new Error('Invalid subquery config: expected function or array');
+            throw new Error('Invalid subquery config: expected function');
 
-        // Builder function
         const builder = new SubqueryBuilder<any>();
         const configuredBuilder = config(builder);
         
         const fields = configuredBuilder.getFields();
         const nestedQueries = configuredBuilder.getNestedSubqueries();
+        const filters = configuredBuilder.getFilters();
 
         // Get scalar fields (non-relation fields)
-        const scalarFields = fields
-            .filter(f => !nestedQueries.has(f as string))
-            .join(`\n${fieldIndent}`);
+        const scalarFieldsArray = fields.filter(f => !nestedQueries.has(f as string)).map(f => String(f));
 
-        // Build nested relation strings (these are always arrays at this level)
-        const nestedStrings: string[] = [];
-        nestedQueries.forEach((fieldArray, relation) => {
-            const nestedFields = fieldArray.join(`\n${fieldIndent}    `);
-
-            nestedStrings.push(`
-${fieldIndent}${relation} {
-${fieldIndent}    ${nestedFields}
-${fieldIndent}}`
-            );
+        // Build nested relation objects (recursively process nested builders)
+        const nestedRelations: Array<{ relation: string; config: SubqueryConfig<any> }> = [];
+        nestedQueries.forEach((nestedConfig, relation) => {
+            nestedRelations.push({ 
+                relation: String(relation), 
+                config: nestedConfig
+            });
         });
 
-        // Combine scalar fields and nested relations
-        return [scalarFields, ...nestedStrings]
-            .filter(s => s.length > 0)
-            .join(`\n${fieldIndent}`);
+        return { 
+            scalar: scalarFieldsArray,
+            nested: nestedRelations,
+            params: filters 
+        };
+    }
+
+    /**
+     * Serialize filter value for GraphQL query
+     * @param value - The filter value to serialize
+     * @returns Serialized string representation
+     * @internal
+    */
+    protected serializeFilterValue(value: any): string
+    {
+        if (Array.isArray(value)) {
+            const formatted = value.map(v => {
+                if (typeof v === 'string')
+                    return `"${this.sanitizeString(v)}"`;
+                if (typeof v === 'object' && v !== null)
+                    return this.serializeObject(v);
+                if (typeof v === 'number' || typeof v === 'boolean')
+                    return String(v);
+                throw new Error(`Unsupported array value type: ${typeof v}`);
+            }).join(', ');
+            return `[${formatted}]`;
+        }
+        if (typeof value === 'string')
+            return `"${this.sanitizeString(value)}"`;
+        if (typeof value === 'number' || typeof value === 'boolean')
+            return String(value);
+        throw new Error(`Unsupported filter value type: ${typeof value}`);
+    }
+
+    /**
+     * Recursively build subquery fields with proper indentation
+     * @param config - The subquery configuration
+     * @param baseIndent - Base indentation level
+     * @returns Object with paramString and fieldList
+     * @internal
+    */
+    protected buildSubqueryFields(config: SubqueryConfig<any>, baseIndent: number): { paramString: string; fieldList: string }
+    {
+        const { scalar, nested, params } = this.buildSubqueryString(config);
+        
+        // Build parameter string
+        const paramString = Object.keys(params).length > 0
+            ? `(${Object.entries(params)
+                .filter(([_, value]) => value !== null && value !== undefined)
+                .map(([key, value]) => `${key}: ${this.serializeFilterValue(value)}`)
+                .join(', ')})`
+            : '';
+        
+        const indent = '    '.repeat(baseIndent);
+        const fieldLines: string[] = [];
+        
+        // Add scalar fields
+        scalar.forEach((field: string) => {
+            fieldLines.push(`${indent}    ${field}`);
+        });
+        
+        // Add nested relations (recursively)
+        nested.forEach(({ relation: nestedRel, config: nestedConfig }: { relation: string; config: SubqueryConfig<any> }) => {
+            const nestedResult = this.buildSubqueryFields(nestedConfig, baseIndent + 1);
+            fieldLines.push(`${indent}    ${nestedRel}${nestedResult.paramString} {`);
+            fieldLines.push(nestedResult.fieldList);
+            fieldLines.push(`${indent}    }`);
+        });
+        
+        return { paramString, fieldList: fieldLines.join('\n') };
     }
 
     /**
@@ -287,30 +372,27 @@ ${fieldIndent}}`
         .filter((f: keyof TFields) => !this.subqueries.has(f as string))
         .join('\n                        ');
 
-        // Build subquery strings (now supports nesting)
+// Build subquery strings
         const subqueryStrings: string[] = [];
 
         this.subqueries.forEach((config, relation) => {
-            const fieldList = this.buildSubqueryString(config, 0);
+            const result = this.buildSubqueryFields(config, 5);
             subqueryStrings.push(`
-                ${relation} {
-                    ${fieldList}
-                }`);
+                ${relation}${result.paramString} {
+                    ${result.fieldList}
+                }
+            `);
         });
 
-        // Combine main fields and subqueries
         const allFields = [mainFields, ...subqueryStrings]
-        .filter(s => s.length > 0).join('\n                        ');
+            .filter(s => s.length > 0)
+            .join('\n                        ');
 
         const variables: string[] = [];
 
         // Add pagination variables
-        if (this.limit)
-            variables.push(`first: ${this.limit}`);
-
-        // Add page variable
-        if (this.pageNum)
-            variables.push(`page: ${this.pageNum}`);
+        if (this.limit) variables.push(`first: ${this.limit}`);
+        if (this.pageNum) variables.push(`page: ${this.pageNum}`);
 
         // Validate field names length
         this.selectedFields.forEach(f => {
@@ -319,39 +401,12 @@ ${fieldIndent}}`
                 throw new Error(`Field name too long: ${fieldName.substring(0, 50)}...`);
         });
 
-        // Add filters to prevent injections and other forms of abuse
+        // Add main query filters
         Object.entries(this.filters as Record<string, any>)
-        .filter(([_, value]) => value !== null && value !== undefined)
-        .forEach(([key, value]) => 
-        {
-            if (Array.isArray(value))
-            {
-                // Serialize array values
-                const formatted = value.map(v => {
-                    if (typeof v === 'string')
-                        return `"${this.sanitizeString(v)}"`;
-                    else if (typeof v === 'object' && v !== null)
-                        return this.serializeObject(v);
-                    else if (typeof v === 'number' || typeof v === 'boolean')
-                        return String(v);
-                    else
-                        throw new Error(`Unsupported array value type: ${typeof v}`);
-                }).join(', ');
-
-                variables.push(`${key}: [${formatted}]`);
-            }
-
-            // Sanitize string values
-            else if (typeof value === 'string')
-                variables.push(`${key}: "${this.sanitizeString(value)}"`);
-
-            // push number and boolean values directly
-            else if (typeof value === 'number' || typeof value === 'boolean')
-                variables.push(`${key}: ${value}`);
-            
-            else
-                throw new Error(`Unsupported filter value type for ${key}: ${typeof value}`);
-        });
+            .filter(([_, value]) => value !== null && value !== undefined)
+            .forEach(([key, value]) => {
+                variables.push(`${key}: ${this.serializeFilterValue(value)}`);
+            });
 
         // Construct variable string
         const varString = variables.length > 0 ? `(${variables.join(', ')})` : '';
@@ -370,8 +425,7 @@ ${fieldIndent}}`
             }
         ` : '';
 
-
-        // return the final query string
+        // Return the final query string
         return `
             query {
                 ${this.queryName}${varString} {

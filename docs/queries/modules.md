@@ -6,5 +6,5 @@
 
 ## Modules
 
-- [alliance](alliance/README.md)
+- [alliances](alliances/README.md)
 - [nations](nations/README.md)
