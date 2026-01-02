@@ -282,14 +282,14 @@ export enum Continents {
 export interface NationRelations {
   alliance: AllianceFields;
   alliance_position_info: AlliancePositionFields;
-  awards: AwardFields;
-  bankrecs: BankTaxrecFields;
-  bounties: BountyFields;
-  bulletins: BulletinFields;
-  bulletin_replies: BulletinReplyFields;
-  cities: CityFields;
-  trades: TradeFields;
-  taxrecs: BankTaxrecFields;
-  treasures: TreasureFields;
-  wars: WarFields;
+  awards: AwardFields[];
+  bankrecs: BankTaxrecFields[];
+  bounties: BountyFields[];
+  bulletins: BulletinFields[];
+  bulletin_replies: BulletinReplyFields[];
+  cities: CityFields[];
+  trades: TradeFields[];
+  taxrecs: BankTaxrecFields[];
+  treasures: TreasureFields[];
+  wars: WarFields[];
 }

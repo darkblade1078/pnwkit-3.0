@@ -7,11 +7,3 @@
 ## Main
 
 - [default](classes/default.md)
-
-## Other
-
-- [NationFields](interfaces/NationFields.md)
-- [NationQueryParams](interfaces/NationQueryParams.md)
-- [NationRelations](interfaces/NationRelations.md)
-- [paginatorInfo](type-aliases/paginatorInfo.md)
-- [SelectFields](type-aliases/SelectFields.md)

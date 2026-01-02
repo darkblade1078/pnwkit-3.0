@@ -1,4 +1,4 @@
-import type { SelectFields } from "../../types/others.js";
+import type { SelectFields, InferSubqueryType } from "../../types/others.js";
 import { QueryBuilder, type SubqueryConfig } from "../../builders/queryBuilder.js";
 import graphQLService from "../../services/graphQL.js";
 import type { paginatorInfo } from "../../types/others.js";
@@ -7,19 +7,29 @@ import type { AllianceFields, AllianceQueryParams, AllianceRelations } from "../
 import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMappings.js";
 
 /**
- * Query builder for fetching alliance data from the Politics & War API
+ * Query builder for fetching alliance data from the Politics & War API.
  * 
- * Supports unlimited recursive nesting with full type inference at every level.
- * Each nested builder function receives complete type safety for fields, relations,
- * and query parameters specific to that entity.
+ * Create new instances using the factory method: `pnwkit.queries.alliances()`
+ * Each call creates a fresh instance with no shared state, preventing filter pollution.
+ * 
+ * Features:
+ * - Type-safe field selection and filtering
+ * - Unlimited recursive nesting with automatic type inference
+ * - Automatic cardinality detection (all alliance relations are arrays)
+ * - Pagination support with optional paginatorInfo
+ * 
+ * Return types:
+ * - `execute()` → Returns array of alliances
+ * - `execute(true)` → Returns `{ data: Alliance[], paginatorInfo: {...} }`
  * 
  * @category Query Builders
- * @template F - Selected field names as a readonly tuple
- * @template I - Included relations as a record type
+ * @template F - Selected field names (tracked through chaining for precise autocomplete)
+ * @template I - Included relations (tracked through chaining, all arrays for alliances)
+ * 
  * @example
  * ```typescript
- * // Simple query with filters
- * const alliances = await pnwkit.alliancesQuery
+ * // Basic query with filtering
+ * const alliances = await pnwkit.queries.alliances()
  *   .select('id', 'name', 'score', 'color')
  *   .where({ 
  *     name: ['Rose', 'Grumpy'],
@@ -27,20 +37,46 @@ import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMap
  *   })
  *   .first(50)
  *   .execute();
+ * // Type: { id: number, name: string, score: number, color: string }[]
  * 
- * // Deeply nested query with unlimited depth
- * const alliances = await pnwkit.alliancesQuery
- *   .select('id', 'name', 'score')
- *   .include('nations', builder => builder
+ * // Nested query with array relations (all alliance relations return arrays)
+ * const alliances = await pnwkit.queries.alliances()
+ *   .select('id', 'name')
+ *   .include('nations', builder => builder  // Array: returns nation[]
  *     .select('id', 'nation_name', 'score')
  *     .where({ min_score: 1000 })
- *     .include('cities', builder2 => builder2  // Unlimited nesting!
+ *   )
+ *   .include('bankrecs', builder => builder  // Array: returns bankrec[]
+ *     .select('id', 'date', 'money')
+ *   )
+ *   .first(10)
+ *   .execute();
+ * // Type: { 
+ * //   id: number, 
+ * //   name: string,
+ * //   nations: { id: number, nation_name: string, score: number }[],
+ * //   bankrecs: { id: number, date: string, money: number }[]
+ * // }[]
+ * 
+ * // Unlimited nesting depth
+ * const alliances = await pnwkit.queries.alliances()
+ *   .select('id', 'name')
+ *   .include('nations', b1 => b1
+ *     .select('id', 'nation_name')
+ *     .include('cities', b2 => b2  // Unlimited nesting!
  *       .select('id', 'name', 'infrastructure')
  *       .where({ min_infrastructure: 500 })
  *     )
  *   )
- *   .first(10)
  *   .execute();
+ * 
+ * // With pagination info
+ * const result = await pnwkit.queries.alliances()
+ *   .select('id', 'name')
+ *   .first(100)
+ *   .execute(true);
+ * console.log(result.data);           // Alliances array
+ * console.log(result.paginatorInfo);  // Pagination metadata
  * ```
 */
 export class AlliancesQuery<
@@ -139,27 +175,47 @@ extends QueryBuilder<AllianceFields, AllianceQueryParams>
      * // GraphQL requires this - you cannot query an object without selecting fields
      * ```
     */
-    include<K extends keyof AllianceRelations>(
+    include<
+        K extends keyof AllianceRelations,
+        TConfig extends SubqueryConfig<AllianceRelations[K], GetRelationsFor<AllianceRelations[K]>, GetQueryParamsFor<AllianceRelations[K]>>,
+        TNestedResult = InferSubqueryType<ReturnType<TConfig>>,
+        TWrappedResult = AllianceRelations[K] extends any[] ? TNestedResult[] : TNestedResult
+    >(
         relation: K,
-        config: SubqueryConfig<AllianceRelations[K], GetRelationsFor<AllianceRelations[K]>, GetQueryParamsFor<AllianceRelations[K]>>
-    ): AlliancesQuery<F, I & Record<K, any>>
+        config: TConfig
+    ): AlliancesQuery<F, I & Record<K, TWrappedResult>>
     {
         this.subqueries.set(relation as string, config as SubqueryConfig<any, any, any>);
         return this as any;
     }
 
     /**
-     * Execute the alliances query and return results
+     * Execute the alliances query and return results.
+     * 
+     * Return type changes based on withPaginator parameter:
+     * - `execute()` or `execute(false)` → Returns array of alliances
+     * - `execute(true)` → Returns object with data array and paginatorInfo
+     * 
+     * Results only include selected fields and included relations.
+     * All other fields are excluded from the response.
+     * 
+     * @param withPaginator - Whether to include pagination metadata in response
      * @returns Array of alliances, or object with data and paginatorInfo if withPaginator is true
      * @throws Error if the query fails or returns no data
+     * 
      * @example
      * ```typescript
-     * // Without paginator
+     * // Returns array directly
      * const alliances = await query.execute();
+     * // Type: { id: number, name: string }[]
+     * alliances.forEach(alliance => console.log(alliance.id, alliance.name));
      * 
-     * // With paginator
+     * // Returns object with pagination info
      * const result = await query.execute(true);
-     * console.log(result.data, result.paginatorInfo);
+     * // Type: { data: {...}[], paginatorInfo: {...} }
+     * console.log(result.data);                    // Alliances array
+     * console.log(result.paginatorInfo.total);     // Total count
+     * console.log(result.paginatorInfo.currentPage); // Current page number
      * ```
     */
     async execute(): Promise<SelectFields<AllianceFields, F, I>[]>;

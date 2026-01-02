@@ -37,9 +37,3 @@ export default class PnWKit extends PnwKitApi
         super(apiKey);
     }
 }
-
-export { NationsQuery } from "./api/queries/nations.js";
-
-// Export types for documentation and user convenience
-export type { NationFields, NationQueryParams, NationRelations } from "./types/queries/nation.js";
-export type { SelectFields, paginatorInfo } from "./types/others.js";

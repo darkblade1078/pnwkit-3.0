@@ -2,90 +2,79 @@
 
 ***
 
-[Query Builders](../../modules.md) / [alliances](../README.md) / AlliancesQuery
+[Query Builders](../../modules.md) / [apiKeyDetails](../README.md) / ApiKeyDetailsQuery
 
-# Class: AlliancesQuery\<F, I\>
+# Class: ApiKeyDetailsQuery\<F, I\>
 
-Defined in: [api/queries/alliances.ts:82](https://github.com/darkblade1078/pnwkit-3.0/blob/5f4e70cb9434cc0709809c75c8e5936e2af7e7fa/src/api/queries/alliances.ts#L82)
+Defined in: api/queries/apiKeyDetails.ts:71
 
-Query builder for fetching alliance data from the Politics & War API.
+Query builder for fetching API key details from the Politics & War API.
 
-Create new instances using the factory method: `pnwkit.queries.alliances()`
-Each call creates a fresh instance with no shared state, preventing filter pollution.
+Create new instances using the factory method: `pnwkit.queries.apiKeyDetails()`
+Each call creates a fresh instance with no shared state.
+
+**Important differences from other queries:**
+- Returns a **single object**, not an array
+- Does **not support pagination** (no first/page methods)
+- Does **not accept filter parameters** (where clause is empty)
+- Only has **one relation**: `nation` (the nation associated with the API key)
 
 Features:
-- Type-safe field selection and filtering
-- Unlimited recursive nesting with automatic type inference
-- Automatic cardinality detection (all alliance relations are arrays)
-- Pagination support with optional paginatorInfo
+- Type-safe field selection
+- Nested relation support (unlimited depth through nation)
+- Automatic cardinality detection
 
-Return types:
-- `execute()` → Returns array of alliances
-- `execute(true)` → Returns `{ data: Alliance[], paginatorInfo: {...} }`
+Return type:
+- `execute()` → Returns single API key details object (NOT an array)
 
 ## Example
 
 ```typescript
-// Basic query with filtering
-const alliances = await pnwkit.queries.alliances()
-  .select('id', 'name', 'score', 'color')
-  .where({ 
-    name: ['Rose', 'Grumpy'],
-    orderBy: [{ column: 'SCORE', order: 'DESC' }]
-  })
-  .first(50)
+// Basic query - returns single object
+const apiKey = await pnwkit.queries.apiKeyDetails()
+  .select('key', 'requests', 'max_requests', 'permissions')
   .execute();
-// Type: { id: number, name: string, score: number, color: string }[]
+// Type: { key: string, requests: number, max_requests: number, permissions: string }
+console.log(apiKey.key);  // Direct access - NOT apiKey[0].key
 
-// Nested query with array relations (all alliance relations return arrays)
-const alliances = await pnwkit.queries.alliances()
-  .select('id', 'name')
-  .include('nations', builder => builder  // Array: returns nation[]
+// With nested nation data (singular relation)
+const apiKey = await pnwkit.queries.apiKeyDetails()
+  .select('key', 'requests')
+  .include('nation', builder => builder  // Singular: returns single object
     .select('id', 'nation_name', 'score')
-    .where({ min_score: 1000 })
   )
-  .include('bankrecs', builder => builder  // Array: returns bankrec[]
-    .select('id', 'date', 'money')
-  )
-  .first(10)
   .execute();
 // Type: { 
-//   id: number, 
-//   name: string,
-//   nations: { id: number, nation_name: string, score: number }[],
-//   bankrecs: { id: number, date: string, money: number }[]
-// }[]
+//   key: string, 
+//   requests: number,
+//   nation: { id: number, nation_name: string, score: number }
+// }
+console.log(apiKey.nation.nation_name);  // Direct access to nested object
 
-// Unlimited nesting depth
-const alliances = await pnwkit.queries.alliances()
-  .select('id', 'name')
-  .include('nations', b1 => b1
+// Deep nesting through nation relation
+const apiKey = await pnwkit.queries.apiKeyDetails()
+  .select('key')
+  .include('nation', b1 => b1
     .select('id', 'nation_name')
-    .include('cities', b2 => b2  // Unlimited nesting!
-      .select('id', 'name', 'infrastructure')
-      .where({ min_infrastructure: 500 })
+    .include('alliance', b2 => b2  // Nest through nation's relations
+      .select('id', 'name')
+      .include('nations', b3 => b3  // Unlimited depth!
+        .select('id', 'nation_name')
+      )
     )
   )
   .execute();
-
-// With pagination info
-const result = await pnwkit.queries.alliances()
-  .select('id', 'name')
-  .first(100)
-  .execute(true);
-console.log(result.data);           // Alliances array
-console.log(result.paginatorInfo);  // Pagination metadata
 ```
 
 ## Extends
 
-- `QueryBuilder`\<`AllianceFields`, `AllianceQueryParams`\>
+- `QueryBuilder`\<`ApiKeyDetailsFields`, `ApiKeyDetailsQueryParams`\>
 
 ## Type Parameters
 
 ### F
 
-`F` *extends* readonly keyof `AllianceFields`[] = \[\]
+`F` *extends* readonly keyof `ApiKeyDetailsFields`[] = \[\]
 
 Selected field names (tracked through chaining for precise autocomplete)
 
@@ -93,19 +82,19 @@ Selected field names (tracked through chaining for precise autocomplete)
 
 `I` *extends* `Record`\<`string`, `any`\> = \{ \}
 
-Included relations (tracked through chaining, all arrays for alliances)
+Included relations (tracked through chaining with proper cardinality)
 
 ## Constructors
 
 ### Constructor
 
-> **new AlliancesQuery**\<`F`, `I`\>(`kit`): `AlliancesQuery`\<`F`, `I`\>
+> **new ApiKeyDetailsQuery**\<`F`, `I`\>(`kit`): `ApiKeyDetailsQuery`\<`F`, `I`\>
 
-Defined in: [api/queries/alliances.ts:95](https://github.com/darkblade1078/pnwkit-3.0/blob/5f4e70cb9434cc0709809c75c8e5936e2af7e7fa/src/api/queries/alliances.ts#L95)
+Defined in: api/queries/apiKeyDetails.ts:84
 
 **`Internal`**
 
-Create a new AlliancesQuery instance
+Create a new ApiKeyDetailsQuery instance
 
 #### Parameters
 
@@ -117,11 +106,11 @@ The PnWKit instance containing API credentials
 
 #### Returns
 
-`AlliancesQuery`\<`F`, `I`\>
+`ApiKeyDetailsQuery`\<`F`, `I`\>
 
 #### Overrides
 
-`QueryBuilder<AllianceFields, AllianceQueryParams>.constructor`
+`QueryBuilder<ApiKeyDetailsFields, ApiKeyDetailsQueryParams>.constructor`
 
 ## Properties
 
@@ -139,7 +128,7 @@ Defined in: [builders/queryBuilder.ts:220](https://github.com/darkblade1078/pnwk
 
 ### filters
 
-> `protected` **filters**: `AllianceQueryParams`
+> `protected` **filters**: `ApiKeyDetailsQueryParams`
 
 Defined in: [builders/queryBuilder.ts:226](https://github.com/darkblade1078/pnwkit-3.0/blob/5f4e70cb9434cc0709809c75c8e5936e2af7e7fa/src/builders/queryBuilder.ts#L226)
 
@@ -175,9 +164,9 @@ Defined in: [builders/queryBuilder.ts:219](https://github.com/darkblade1078/pnwk
 
 ### queryName
 
-> `protected` **queryName**: `string` = `'alliances'`
+> `protected` **queryName**: `string` = `'me'`
 
-Defined in: [api/queries/alliances.ts:88](https://github.com/darkblade1078/pnwkit-3.0/blob/5f4e70cb9434cc0709809c75c8e5936e2af7e7fa/src/api/queries/alliances.ts#L88)
+Defined in: api/queries/apiKeyDetails.ts:77
 
 #### Overrides
 
@@ -187,7 +176,7 @@ Defined in: [api/queries/alliances.ts:88](https://github.com/darkblade1078/pnwki
 
 ### selectedFields
 
-> `protected` **selectedFields**: keyof `AllianceFields`[] = `[]`
+> `protected` **selectedFields**: keyof `ApiKeyDetailsFields`[] = `[]`
 
 Defined in: [builders/queryBuilder.ts:225](https://github.com/darkblade1078/pnwkit-3.0/blob/5f4e70cb9434cc0709809c75c8e5936e2af7e7fa/src/builders/queryBuilder.ts#L225)
 
@@ -329,94 +318,42 @@ Object containing scalar fields, nested relations, and filter parameters
 
 ### execute()
 
-#### Call Signature
+> **execute**(): `Promise`\<`SelectFields`\<`ApiKeyDetailsFields`, `F`, `I`\>\>
 
-> **execute**(): `Promise`\<`SelectFields`\<`AllianceFields`, `F`, `I`\>[]\>
+Defined in: api/queries/apiKeyDetails.ts:200
 
-Defined in: [api/queries/alliances.ts:221](https://github.com/darkblade1078/pnwkit-3.0/blob/5f4e70cb9434cc0709809c75c8e5936e2af7e7fa/src/api/queries/alliances.ts#L221)
+Execute the API key details query and return a single object.
 
-Execute the alliances query and return results.
-
-Return type changes based on withPaginator parameter:
-- `execute()` or `execute(false)` → Returns array of alliances
-- `execute(true)` → Returns object with data array and paginatorInfo
+**Important:** Unlike nations/alliances queries, this returns a **single object**,
+not an array. There is no pagination support.
 
 Results only include selected fields and included relations.
 All other fields are excluded from the response.
 
-##### Returns
+#### Returns
 
-`Promise`\<`SelectFields`\<`AllianceFields`, `F`, `I`\>[]\>
+`Promise`\<`SelectFields`\<`ApiKeyDetailsFields`, `F`, `I`\>\>
 
-Array of alliances, or object with data and paginatorInfo if withPaginator is true
+Single API key details object with selected fields and included relations
 
-##### Throws
-
-Error if the query fails or returns no data
-
-##### Example
-
-```typescript
-// Returns array directly
-const alliances = await query.execute();
-// Type: { id: number, name: string }[]
-alliances.forEach(alliance => console.log(alliance.id, alliance.name));
-
-// Returns object with pagination info
-const result = await query.execute(true);
-// Type: { data: {...}[], paginatorInfo: {...} }
-console.log(result.data);                    // Alliances array
-console.log(result.paginatorInfo.total);     // Total count
-console.log(result.paginatorInfo.currentPage); // Current page number
-```
-
-#### Call Signature
-
-> **execute**(`withPaginator`): `Promise`\<\{ `data`: `SelectFields`\<`AllianceFields`, `F`, `I`\>[]; `paginatorInfo`: `paginatorInfo`; \}\>
-
-Defined in: [api/queries/alliances.ts:222](https://github.com/darkblade1078/pnwkit-3.0/blob/5f4e70cb9434cc0709809c75c8e5936e2af7e7fa/src/api/queries/alliances.ts#L222)
-
-Execute the alliances query and return results.
-
-Return type changes based on withPaginator parameter:
-- `execute()` or `execute(false)` → Returns array of alliances
-- `execute(true)` → Returns object with data array and paginatorInfo
-
-Results only include selected fields and included relations.
-All other fields are excluded from the response.
-
-##### Parameters
-
-###### withPaginator
-
-`true`
-
-Whether to include pagination metadata in response
-
-##### Returns
-
-`Promise`\<\{ `data`: `SelectFields`\<`AllianceFields`, `F`, `I`\>[]; `paginatorInfo`: `paginatorInfo`; \}\>
-
-Array of alliances, or object with data and paginatorInfo if withPaginator is true
-
-##### Throws
+#### Throws
 
 Error if the query fails or returns no data
 
-##### Example
+#### Example
 
 ```typescript
-// Returns array directly
-const alliances = await query.execute();
-// Type: { id: number, name: string }[]
-alliances.forEach(alliance => console.log(alliance.id, alliance.name));
+// Returns single object (NOT an array)
+const apiKey = await query.execute();
+// Type: { key: string, requests: number }
+console.log(apiKey.key);  // Direct access - no [0] needed
 
-// Returns object with pagination info
-const result = await query.execute(true);
-// Type: { data: {...}[], paginatorInfo: {...} }
-console.log(result.data);                    // Alliances array
-console.log(result.paginatorInfo.total);     // Total count
-console.log(result.paginatorInfo.currentPage); // Current page number
+// With nested data
+const apiKey = await pnwkit.queries.apiKeyDetails()
+  .select('key')
+  .include('nation', b => b.select('id', 'nation_name'))
+  .execute();
+console.log(apiKey.nation.nation_name);  // Direct nested access
 ```
 
 ***
@@ -457,9 +394,9 @@ This query instance for method chaining
 
 ### include()
 
-> **include**\<`K`, `TConfig`, `TNestedResult`, `TWrappedResult`\>(`relation`, `config`): `AlliancesQuery`\<`F`, `I` & `Record`\<`K`, `TWrappedResult`\>\>
+> **include**\<`K`, `TConfig`, `TNestedResult`, `TWrappedResult`\>(`relation`, `config`): `ApiKeyDetailsQuery`\<`F`, `I` & `Record`\<`K`, `TWrappedResult`\>\>
 
-Defined in: [api/queries/alliances.ts:178](https://github.com/darkblade1078/pnwkit-3.0/blob/5f4e70cb9434cc0709809c75c8e5936e2af7e7fa/src/api/queries/alliances.ts#L178)
+Defined in: api/queries/apiKeyDetails.ts:159
 
 Include related data in the query results
 
@@ -470,11 +407,11 @@ Each nested builder receives complete type safety for fields, relations, and que
 
 ##### K
 
-`K` *extends* keyof `AllianceRelations`
+`K` *extends* `"nation"`
 
 ##### TConfig
 
-`TConfig` *extends* `SubqueryConfig`\<`AllianceRelations`\[`K`\], `GetRelationsFor`\<`AllianceRelations`\[`K`\]\>, `GetQueryParamsFor`\<`AllianceRelations`\[`K`\]\>\>
+`TConfig` *extends* `SubqueryConfig`\<`ApiKeyDetailsRelations`\[`K`\], `GetRelationsFor`\<`ApiKeyDetailsRelations`\[`K`\]\>, `GetQueryParamsFor`\<`ApiKeyDetailsRelations`\[`K`\]\>\>
 
 ##### TNestedResult
 
@@ -482,7 +419,7 @@ Each nested builder receives complete type safety for fields, relations, and que
 
 ##### TWrappedResult
 
-`TWrappedResult` = `AllianceRelations`\[`K`\] *extends* `any`[] ? `TNestedResult`[] : `TNestedResult`
+`TWrappedResult` = `ApiKeyDetailsRelations`\[`K`\] *extends* `any`[] ? `TNestedResult`[] : `TNestedResult`
 
 #### Parameters
 
@@ -500,7 +437,7 @@ A builder function for configuring the subquery
 
 #### Returns
 
-`AlliancesQuery`\<`F`, `I` & `Record`\<`K`, `TWrappedResult`\>\>
+`ApiKeyDetailsQuery`\<`F`, `I` & `Record`\<`K`, `TWrappedResult`\>\>
 
 New query instance with included relation
 
@@ -510,23 +447,18 @@ New query instance with included relation
 // Basic subquery with field selection
 .include('bankrecs', builder => builder
   .select('id', 'date', 'money', 'note')
+)Include nation data
+.include('nation', builder => builder
+  .select('id', 'nation_name', 'score')
 )
 
-// Subquery with filtering
-.include('nations', builder => builder
-  .select('id', 'nation_name', 'score')
-  .where({ min_score: 1000 })
-)
-
-// Deeply nested subquery with unlimited depth
-.include('nations', builder => builder
-  .select('id', 'nation_name', 'score')
-  .where({ min_score: 1000 })
-  .include('cities', builder2 => builder2  // Unlimited nesting!
-    .select('id', 'name', 'infrastructure')
-    .where({ min_infrastructure: 500 })
-    .include('buildings', builder3 => builder3
-      .select('id', 'type')
+// Deeply nested query with unlimited depth
+.include('nation', builder => builder
+  .select('id', 'nation_name')
+  .include('alliance', builder2 => builder2
+    .select('id', 'name', 'score')
+    .include('nations', builder3 => builder3
+      .select('id', 'nation_name')
     )
   )
 )
@@ -605,17 +537,17 @@ Error if string exceeds maximum length
 
 ### select()
 
-> **select**\<`Fields`\>(...`fields`): `AlliancesQuery`\<`Fields`\>
+> **select**\<`Fields`\>(...`fields`): `ApiKeyDetailsQuery`\<`Fields`\>
 
-Defined in: [api/queries/alliances.ts:109](https://github.com/darkblade1078/pnwkit-3.0/blob/5f4e70cb9434cc0709809c75c8e5936e2af7e7fa/src/api/queries/alliances.ts#L109)
+Defined in: api/queries/apiKeyDetails.ts:98
 
-Select specific fields to retrieve from alliances
+Select specific fields to retrieve from API key details
 
 #### Type Parameters
 
 ##### Fields
 
-`Fields` *extends* readonly keyof `AllianceFields`[]
+`Fields` *extends* readonly keyof `ApiKeyDetailsFields`[]
 
 #### Parameters
 
@@ -627,7 +559,7 @@ Field names to select
 
 #### Returns
 
-`AlliancesQuery`\<`Fields`\>
+`ApiKeyDetailsQuery`\<`Fields`\>
 
 New query instance with selected fields
 
@@ -638,7 +570,7 @@ Error if no fields are provided
 #### Example
 
 ```typescript
-.select('id', 'name', 'score', 'color')
+.select('key', 'requests', 'max_requests', 'permissions')
 ```
 
 ***
@@ -745,17 +677,17 @@ Error if string exceeds maximum length
 
 > **where**(`filters`): `this`
 
-Defined in: [api/queries/alliances.ts:133](https://github.com/darkblade1078/pnwkit-3.0/blob/5f4e70cb9434cc0709809c75c8e5936e2af7e7fa/src/api/queries/alliances.ts#L133)
+Defined in: api/queries/apiKeyDetails.ts:119
 
-Apply filters to the query
+Apply filters to the query (not supported for API key details)
 
 #### Parameters
 
 ##### filters
 
-`AllianceQueryParams`
+`ApiKeyDetailsQueryParams`
 
-Query parameters for filtering results
+Query parameters (empty for this query)
 
 #### Returns
 
@@ -766,8 +698,5 @@ This query instance for method chaining
 #### Example
 
 ```typescript
-.where({ 
-  name: ['Rose', 'Grumpy'], 
-  color: ['AQUA', 'BLUE'] 
-})
+.where({})  // No filters available for API key details
 ```

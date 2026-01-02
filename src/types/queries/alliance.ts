@@ -43,13 +43,13 @@ export interface AllianceQueryParams {
 }
 
 export interface AllianceRelations {
-  alliance_positions: AlliancePositionFields;
-  bankrecs: BankTaxrecFields;
-  bulletins: BulletinFields;
-  nations: NationFields;
-  taxrecs: BankTaxrecFields;
-  tax_brackets: TaxBracketFields;
-  wars: WarFields;
+  alliance_positions: AlliancePositionFields[];
+  bankrecs: BankTaxrecFields[];
+  bulletins: BulletinFields[];
+  nations: NationFields[];
+  taxrecs: BankTaxrecFields[];
+  tax_brackets: TaxBracketFields[];
+  wars: WarFields[];
 }
 
 export type QueryAlliancesOrderByOrderByClause = {

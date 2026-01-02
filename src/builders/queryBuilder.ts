@@ -1,52 +1,95 @@
 import type { GetRelationsFor, GetQueryParamsFor } from "../types/relationMappings.js";
+import type { InferSubqueryType } from "../types/others.js";
 
 /**
- * Configuration for a subquery - accepts only a builder function.
+ * Configuration for a subquery that accepts a builder function with full type inference.
  * 
- * The builder function receives a SubqueryBuilder with full type inference for the relation's fields,
- * relations, and query parameters. Nested includes within the builder only accept field arrays.
+ * The builder function receives a SubqueryBuilder instance with complete type safety for:
+ * - Fields available for selection (specific to the relation's entity type)
+ * - Relations available for nesting (auto-resolved from field type)
+ * - Query parameters for filtering (auto-resolved from field type)
  * 
- * @template TFields - The fields type of the relation being included
- * @template TRelations - The relations type of the relation (auto-resolved via GetRelationsFor)
- * @template TQueryParams - The query params type of the relation (auto-resolved via GetQueryParamsFor)
+ * Array types are automatically unwrapped before type resolution, so relations like
+ * `nations: NationFields[]` are properly typed as individual `NationFields` entities.
+ * 
+ * @template TFields - The fields type of the relation (arrays are unwrapped automatically)
+ * @template TRelations - The relations type (auto-resolved via GetRelationsFor)
+ * @template TQueryParams - The query parameters type (auto-resolved via GetQueryParamsFor)
  * 
  * @example
  * ```typescript
- * // Builder function format (with nested support and typed where)
- * SubqueryConfig<AllianceFields, AllianceRelations, AllianceQueryParams> = 
- *   builder => builder
+ * // Builder with field selection and filtering
+ * SubqueryConfig<AllianceFields> = builder => builder
+ *   .select('id', 'name', 'score')
+ *   .where({ id: [1234], min_score: 1000 })  // Fully typed as AllianceQueryParams!
+ * 
+ * // Builder with unlimited recursive nesting
+ * SubqueryConfig<NationFields[]> = builder => builder  // Array automatically unwrapped
+ *   .select('id', 'nation_name')
+ *   .include('alliance', nested => nested
  *     .select('id', 'name')
- *     .where({ id: [1234], min_score: 1000 })  // Fully typed!
- *     .include('nations', ['id', 'nation_name'])
+ *     .include('nations', deeper => deeper  // Unlimited depth!
+ *       .select('id', 'nation_name')
+ *     )
+ *   )
  * ```
 */
 export type SubqueryConfig<TFields, TRelations = GetRelationsFor<TFields>, TQueryParams = GetQueryParamsFor<TFields>> = 
-    (builder: SubqueryBuilder<TFields, TRelations, {}, TQueryParams>) => SubqueryBuilder<TFields, TRelations, any, TQueryParams>;
+    (builder: SubqueryBuilder<TFields extends any[] ? TFields[number] : TFields, [], TRelations, {}, TQueryParams>) => SubqueryBuilder<TFields extends any[] ? TFields[number] : TFields, any, TRelations, any, TQueryParams>;
 
 /**
- * Builder for configuring nested subquery fields and relations
+ * Builder for configuring nested subqueries with full type inference at all nesting levels.
  * 
- * Provides type-safe field selection, filtering, and relation inclusion for subqueries.
- * This builder is used for the first level of nesting. Any relations included
- * within this builder only accept field arrays (no further builder functions).
+ * Provides type-safe field selection, filtering, and unlimited recursive relation nesting.
+ * The generic type parameters track state through method chaining:
+ * - TSelected accumulates selected fields for precise autocomplete
+ * - TIncluded accumulates included relations with proper cardinality (singular vs array)
  * 
- * @template TFields - The fields available for selection in this subquery
- * @template TRelations - The relations available for inclusion in this subquery
- * @template TIncluded - Accumulator type for tracking included relations
- * @template TQueryParams - The query parameters available for filtering this subquery
+ * Cardinality is automatically detected from the relation type:
+ * - `alliance: AllianceFields` → returns singular object
+ * - `nations: NationFields[]` → returns array of objects
+ * 
+ * @template TFields - The fields available for selection (entity-specific)
+ * @template TSelected - Currently selected fields (tracks state for return type)
+ * @template TRelations - The relations available for inclusion (entity-specific)
+ * @template TIncluded - Included relations (tracks state for return type)
+ * @template TQueryParams - The query parameters available for filtering (entity-specific)
  * 
  * @example
  * ```typescript
- * // Used within an include() call
+ * // Field selection with type tracking
  * .include('alliance', builder => builder
- *   .select('id', 'name', 'score')  // Type-safe: only AllianceFields allowed
- *   .where({ id: [1234] })  // Type-safe: only AllianceQueryParams allowed
- *   .include('nations', ['id', 'nation_name'])  // Type-safe: only field arrays
+ *   .select('id', 'name')  // TSelected = ['id', 'name']
+ * )  // Returns: { id: number, name: string }
+ * 
+ * // Singular vs array cardinality
+ * .include('alliance', b => b.select('id'))  // Returns: { id: number }
+ * .include('nations', b => b.select('id'))   // Returns: { id: number }[]
+ * 
+ * // Unlimited nesting with filtering
+ * .include('alliance', builder => builder
+ *   .select('id', 'name')
+ *   .where({ id: [1234] })  // Typed as AllianceQueryParams
+ *   .include('nations', nested => nested  // Fully typed!
+ *     .select('id', 'nation_name')
+ *     .where({ min_score: 1000 })  // Typed as NationQueryParams
+ *   )
  * )
  * ```
 */
-export class SubqueryBuilder<TFields, TRelations = {}, TIncluded extends Record<string, any> = {}, TQueryParams = Record<string, any>>
+export class SubqueryBuilder<
+    TFields, 
+    TSelected extends readonly (keyof TFields)[] = [],
+    TRelations = {}, 
+    TIncluded extends Record<string, any> = {}, 
+    TQueryParams = Record<string, any>
+>
 {
+    // Type brand properties for inference (not used at runtime)
+    declare _fields: TFields;
+    declare _selected: TSelected;
+    declare _included: TIncluded;
+    
     private fields: (keyof TFields)[] = [];
     private nestedSubqueries: Map<string, SubqueryConfig<any>> = new Map();
     private filters: Partial<TQueryParams> = {};
@@ -56,10 +99,10 @@ export class SubqueryBuilder<TFields, TRelations = {}, TIncluded extends Record<
     */
     select<const F extends readonly (keyof TFields)[]>(
         ...fields: F
-    ): SubqueryBuilder<TFields, TRelations, TIncluded, TQueryParams>
+    ): SubqueryBuilder<TFields, F, TRelations, TIncluded, TQueryParams>
     {
         this.fields = [...new Set(fields)] as any;
-        return this;
+        return this as any;
     }
 
     /**
@@ -74,10 +117,10 @@ export class SubqueryBuilder<TFields, TRelations = {}, TIncluded extends Record<
      *   .where({ id: [1234], min_score: 1000 })  // TypeScript will validate these!
      * ```
     */
-    where(filters: Partial<TQueryParams>): SubqueryBuilder<TFields, TRelations, TIncluded, TQueryParams>
+    where(filters: Partial<TQueryParams>): SubqueryBuilder<TFields, TSelected, TRelations, TIncluded, TQueryParams>
     {
         this.filters = { ...this.filters, ...filters };
-        return this;
+        return this as any;
     }
 
     /**
@@ -103,10 +146,15 @@ export class SubqueryBuilder<TFields, TRelations = {}, TIncluded extends Record<
      *   )
      * ```
     */
-    include<K extends keyof TRelations>(
+    include<
+        K extends keyof TRelations,
+        TConfig extends SubqueryConfig<TRelations[K], GetRelationsFor<TRelations[K]>, GetQueryParamsFor<TRelations[K]>>,
+        TNestedResult = InferSubqueryType<ReturnType<TConfig>>,
+        TWrappedResult = TRelations[K] extends any[] ? TNestedResult[] : TNestedResult
+    >(
         relation: K,
-        config: SubqueryConfig<TRelations[K], GetRelationsFor<TRelations[K]>, GetQueryParamsFor<TRelations[K]>>
-    ): SubqueryBuilder<TFields, TRelations, TIncluded & Record<K, any>, TQueryParams>
+        config: TConfig
+    ): SubqueryBuilder<TFields, TSelected, TRelations, TIncluded & Record<K, TWrappedResult>, TQueryParams>
     {
         this.nestedSubqueries.set(relation as string, config as SubqueryConfig<any>);
         return this as any;
@@ -141,11 +189,26 @@ export class SubqueryBuilder<TFields, TRelations = {}, TIncluded extends Record<
 }
 
 /**
- * Abstract base class for building GraphQL queries with type safety
- * @category Internal
- * @internal
- * @template TFields - The type of fields available for selection
- * @template TQueryParams - The type of query parameters/filters
+ * Abstract base class for building type-safe GraphQL queries.
+ * 
+ * Provides core functionality for query construction including:
+ * - Field selection with deduplication
+ * - Filter parameter handling and serialization
+ * - Pagination support (first/page)
+ * - Recursive subquery building with unlimited nesting depth
+ * - GraphQL string sanitization and validation
+ * 
+ * Subclasses (NationsQuery, AlliancesQuery, ApiKeyDetailsQuery) provide:
+ * - Entity-specific type parameters
+ * - Custom execute() methods (with/without pagination)
+ * - Query name specification
+ * 
+ * Note: buildQuery() currently has a temporary fix for API key details query
+ * which doesn't wrap results in a 'data' object (see line with 'me' check).
+ * 
+ * @category Query Builders
+ * @template TFields - The type of fields available for selection on this entity
+ * @template TQueryParams - The type of query parameters/filters for this entity
 */
 export abstract class QueryBuilder<
 TFields = any, // Type of the main query fields
@@ -268,7 +331,7 @@ TQueryParams = any // Type of the query parameters
         if(typeof config !== 'function')
             throw new Error('Invalid subquery config: expected function');
 
-        const builder = new SubqueryBuilder<any>();
+        const builder = new SubqueryBuilder<any, [], any, {}, any>();
         const configuredBuilder = config(builder);
         
         const fields = configuredBuilder.getFields();
@@ -372,7 +435,7 @@ TQueryParams = any // Type of the query parameters
         .filter((f: keyof TFields) => !this.subqueries.has(f as string))
         .join('\n                        ');
 
-// Build subquery strings
+        // Build subquery strings
         const subqueryStrings: string[] = [];
 
         this.subqueries.forEach((config, relation) => {
@@ -426,12 +489,14 @@ TQueryParams = any // Type of the query parameters
         ` : '';
 
         // Return the final query string
+        // temp fix until i can do something better
         return `
             query {
                 ${this.queryName}${varString} {
-                    data {
+                    ${this.queryName === 'me' ? '' : 'data {'}
                         ${allFields}
-                    }${paginatorFields}
+                    ${this.queryName === 'me' ? '' : '}'}
+                    ${paginatorFields}
                 }
             }
         `.trim();

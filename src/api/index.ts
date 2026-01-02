@@ -1,16 +1,12 @@
-import { NationsQuery } from "./queries/nations.js";
-import { AlliancesQuery } from "./queries/alliances.js";
-
+import { Queries } from "./queries/index.js";
 
 export default class PnwKitApi
 {
-    public readonly nationsQuery: NationsQuery;
-    public readonly alliancesQuery: AlliancesQuery;
+    public readonly queries: Queries;
 
-    constructor(protected readonly apiKey: string)
+    constructor(protected readonly apiKey: string) 
     {
-        this.nationsQuery = new NationsQuery(this);
-        this.alliancesQuery = new AlliancesQuery(this);
+        this.queries = new Queries(this);
     }
 }
 

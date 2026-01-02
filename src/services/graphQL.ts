@@ -6,7 +6,7 @@ class GraphQLService
     {
         const url = `${this.url}?api_key=${apiKey}`;
 
-        const repsonse = await fetch(url, {
+        const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -14,10 +14,15 @@ class GraphQLService
             body: JSON.stringify({ query })
         });
 
-        const result = await repsonse.json();
+        const result = await response.json();
 
         if(result.errors)
-            throw new Error(result.errors.map((e: any) => e.message).join(', '));
+        {
+            const errorMessages = Array.isArray(result.errors) 
+                ? result.errors.map((e: { message: string }) => e.message).join(', ')
+                : 'Unknown GraphQL error';
+            throw new Error(errorMessages);
+        }
 
         return result.data;
     }

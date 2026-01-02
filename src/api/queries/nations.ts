@@ -1,4 +1,4 @@
-import type { SelectFields } from "../../types/others.js";
+import type { SelectFields, InferSubqueryType } from "../../types/others.js";
 import { QueryBuilder, type SubqueryConfig } from "../../builders/queryBuilder.js";
 import graphQLService from "../../services/graphQL.js";
 import type { NationFields, NationQueryParams, NationRelations } from "../../types/queries/nation.js";
@@ -7,19 +7,29 @@ import type PnwKitApi from "../index.js";
 import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMappings.js";
 
 /**
- * Query builder for fetching nation data from the Politics & War API
+ * Query builder for fetching nation data from the Politics & War API.
  * 
- * Supports unlimited recursive nesting with full type inference at every level.
- * Each nested builder function receives complete type safety for fields, relations,
- * and query parameters specific to that entity.
+ * Create new instances using the factory method: `pnwkit.queries.nations()`
+ * Each call creates a fresh instance with no shared state, preventing filter pollution.
+ * 
+ * Features:
+ * - Type-safe field selection and filtering
+ * - Unlimited recursive nesting with automatic type inference
+ * - Automatic cardinality detection (singular vs array relations)
+ * - Pagination support with optional paginatorInfo
+ * 
+ * Return types:
+ * - `execute()` → Returns array of nations
+ * - `execute(true)` → Returns `{ data: Nation[], paginatorInfo: {...} }`
  * 
  * @category Query Builders
- * @template F - Selected field names as a readonly tuple
- * @template I - Included relations as a record type
+ * @template F - Selected field names (tracked through chaining for precise autocomplete)
+ * @template I - Included relations (tracked through chaining with proper cardinality)
+ * 
  * @example
  * ```typescript
- * // Query with filters and field selection
- * const nations = await pnwkit.nationsQuery
+ * // Basic query with filtering and pagination
+ * const nations = await pnwkit.queries.nations()
  *   .select('id', 'nation_name', 'score', 'alliance_id')
  *   .where({ 
  *     min_score: 1000, 
@@ -28,23 +38,49 @@ import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMap
  *   })
  *   .first(100)
  *   .execute();
+ * // Type: { id: number, nation_name: string, score: number, alliance_id: number }[]
  * 
- * // Deeply nested query with unlimited depth
- * const nations = await pnwkit.nationsQuery
- *   .select('id', 'nation_name', 'alliance_id')
- *   .include('alliance', builder => builder
+ * // Nested query with singular and array relations
+ * const nations = await pnwkit.queries.nations()
+ *   .select('id', 'nation_name')
+ *   .include('alliance', builder => builder  // Singular: returns object
  *     .select('id', 'name', 'score')
  *     .where({ min_score: 5000 })
- *     .include('nations', builder2 => builder2  // Unlimited nesting!
- *       .select('id', 'nation_name')
- *       .where({ min_score: 1000 })
- *       .include('cities', builder3 => builder3
- *         .select('id', 'name', 'infrastructure')
- *       )
- *     )
+ *   )
+ *   .include('cities', builder => builder  // Array: returns array
+ *     .select('id', 'name', 'infrastructure')
  *   )
  *   .first(50)
  *   .execute();
+ * // Type: { 
+ * //   id: number, 
+ * //   nation_name: string,
+ * //   alliance: { id: number, name: string, score: number },
+ * //   cities: { id: number, name: string, infrastructure: number }[]
+ * // }[]
+ * 
+ * // Unlimited nesting depth
+ * const nations = await pnwkit.queries.nations()
+ *   .select('id', 'nation_name')
+ *   .include('alliance', b1 => b1
+ *     .select('id', 'name')
+ *     .include('nations', b2 => b2  // Nested nations
+ *       .select('id', 'nation_name')
+ *       .include('cities', b3 => b3  // Unlimited depth!
+ *         .select('id', 'name')
+ *       )
+ *     )
+ *   )
+ *   .execute();
+ * 
+ * // With pagination info
+ * const result = await pnwkit.queries.nations()
+ *   .select('id', 'nation_name')
+ *   .first(500)
+ *   .page(2)
+ *   .execute(true);
+ * console.log(result.data);           // Nations array
+ * console.log(result.paginatorInfo);  // { currentPage, total, hasMorePages, ... }
  * ```
 */
 export class NationsQuery<
@@ -136,27 +172,48 @@ NationQueryParams   // Filter parameters
      * // GraphQL requires this - you cannot query an object without selecting fields
      * ```
     */
-    include<K extends keyof NationRelations>(
+    include<
+        K extends keyof NationRelations,
+        TConfig extends SubqueryConfig<NationRelations[K], GetRelationsFor<NationRelations[K]>, GetQueryParamsFor<NationRelations[K]>>,
+        TNestedResult = InferSubqueryType<ReturnType<TConfig>>,
+        TWrappedResult = NationRelations[K] extends any[] ? TNestedResult[] : TNestedResult
+    >(
         relation: K,
-        config: SubqueryConfig<NationRelations[K], GetRelationsFor<NationRelations[K]>, GetQueryParamsFor<NationRelations[K]>>
-    ): NationsQuery<F, I & Record<K, any>>
+        config: TConfig
+    ): NationsQuery<F, I & Record<K, TWrappedResult>>
     {
         this.subqueries.set(relation as string, config as SubqueryConfig<any, any, any>);
         return this as any;
     }
 
     /**
-     * Execute the nations query and return results
+     * Execute the nations query and return results.
+     * 
+     * Return type changes based on withPaginator parameter:
+     * - `execute()` or `execute(false)` → Returns array of nations
+     * - `execute(true)` → Returns object with data array and paginatorInfo
+     * 
+     * Results only include selected fields and included relations.
+     * All other fields are excluded from the response.
+     * 
+     * @param withPaginator - Whether to include pagination metadata in response
      * @returns Array of nations, or object with data and paginatorInfo if withPaginator is true
      * @throws Error if the query fails or returns no data
-     * @example
-     * // Without paginator
-     * const result = await query.execute();
-     * console.log(result);
      * 
-     * // With paginator
+     * @example
+     * ```typescript
+     * // Returns array directly
+     * const nations = await query.execute();
+     * // Type: { id: number, nation_name: string }[]
+     * nations.forEach(nation => console.log(nation.id, nation.nation_name));
+     * 
+     * // Returns object with pagination info
      * const result = await query.execute(true);
-     * console.log(result.data, result.paginatorInfo);
+     * // Type: { data: {...}[], paginatorInfo: {...} }
+     * console.log(result.data);                    // Nations array
+     * console.log(result.paginatorInfo.total);     // Total count
+     * console.log(result.paginatorInfo.hasMorePages); // Boolean
+     * ```
     */
     async execute(): Promise<SelectFields<NationFields, F, I>[]>;
     async execute(withPaginator: true): Promise<{ 
