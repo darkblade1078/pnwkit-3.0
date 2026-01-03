@@ -6,7 +6,7 @@
 
 # Class: NationResourceStatsQuery\<F, I\>
 
-Defined in: api/queries/nationResourceStats.ts:62
+Defined in: [api/queries/nationResourceStats.ts:62](https://github.com/darkblade1078/pnwkit-3.0/blob/3f6bfbce5d04df75da826889d485b71c55f30978/src/api/queries/nationResourceStats.ts#L62)
 
 Query builder for fetching nation resource statistics from the Politics & War API.
 
@@ -81,7 +81,7 @@ Included relations (tracked through chaining with proper cardinality)
 
 > **new NationResourceStatsQuery**\<`F`, `I`\>(`kit`): `NationResourceStatsQuery`\<`F`, `I`\>
 
-Defined in: api/queries/nationResourceStats.ts:75
+Defined in: [api/queries/nationResourceStats.ts:75](https://github.com/darkblade1078/pnwkit-3.0/blob/3f6bfbce5d04df75da826889d485b71c55f30978/src/api/queries/nationResourceStats.ts#L75)
 
 **`Internal`**
 
@@ -109,7 +109,7 @@ The PnWKit instance containing API credentials
 
 > `protected` **apiKey**: `string`
 
-Defined in: [builders/queryBuilder.ts:220](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/builders/queryBuilder.ts#L220)
+Defined in: [builders/queryBuilder.ts:220](https://github.com/darkblade1078/pnwkit-3.0/blob/3f6bfbce5d04df75da826889d485b71c55f30978/src/builders/queryBuilder.ts#L220)
 
 #### Inherited from
 
@@ -121,7 +121,7 @@ Defined in: [builders/queryBuilder.ts:220](https://github.com/darkblade1078/pnwk
 
 > `protected` **filters**: `NationResourceStatsQueryParams`
 
-Defined in: [builders/queryBuilder.ts:226](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/builders/queryBuilder.ts#L226)
+Defined in: [builders/queryBuilder.ts:226](https://github.com/darkblade1078/pnwkit-3.0/blob/3f6bfbce5d04df75da826889d485b71c55f30978/src/builders/queryBuilder.ts#L226)
 
 #### Inherited from
 
@@ -133,7 +133,7 @@ Defined in: [builders/queryBuilder.ts:226](https://github.com/darkblade1078/pnwk
 
 > `protected` `optional` **limit**: `number`
 
-Defined in: [builders/queryBuilder.ts:218](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/builders/queryBuilder.ts#L218)
+Defined in: [builders/queryBuilder.ts:218](https://github.com/darkblade1078/pnwkit-3.0/blob/3f6bfbce5d04df75da826889d485b71c55f30978/src/builders/queryBuilder.ts#L218)
 
 #### Inherited from
 
@@ -145,7 +145,7 @@ Defined in: [builders/queryBuilder.ts:218](https://github.com/darkblade1078/pnwk
 
 > `protected` `optional` **pageNum**: `number`
 
-Defined in: [builders/queryBuilder.ts:219](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/builders/queryBuilder.ts#L219)
+Defined in: [builders/queryBuilder.ts:219](https://github.com/darkblade1078/pnwkit-3.0/blob/3f6bfbce5d04df75da826889d485b71c55f30978/src/builders/queryBuilder.ts#L219)
 
 #### Inherited from
 
@@ -157,7 +157,7 @@ Defined in: [builders/queryBuilder.ts:219](https://github.com/darkblade1078/pnwk
 
 > `protected` **queryName**: `string` = `'nation_resource_stats'`
 
-Defined in: api/queries/nationResourceStats.ts:68
+Defined in: [api/queries/nationResourceStats.ts:68](https://github.com/darkblade1078/pnwkit-3.0/blob/3f6bfbce5d04df75da826889d485b71c55f30978/src/api/queries/nationResourceStats.ts#L68)
 
 #### Overrides
 
@@ -169,7 +169,7 @@ Defined in: api/queries/nationResourceStats.ts:68
 
 > `protected` **selectedFields**: keyof `NationResourceStatsFields`[] = `[]`
 
-Defined in: [builders/queryBuilder.ts:225](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/builders/queryBuilder.ts#L225)
+Defined in: [builders/queryBuilder.ts:225](https://github.com/darkblade1078/pnwkit-3.0/blob/3f6bfbce5d04df75da826889d485b71c55f30978/src/builders/queryBuilder.ts#L225)
 
 #### Inherited from
 
@@ -181,7 +181,7 @@ Defined in: [builders/queryBuilder.ts:225](https://github.com/darkblade1078/pnwk
 
 > `protected` **subqueries**: `Map`\<`string`, `SubqueryConfig`\<`any`, \{ \}, `Record`\<`string`, `any`\>\>\>
 
-Defined in: [builders/queryBuilder.ts:223](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/builders/queryBuilder.ts#L223)
+Defined in: [builders/queryBuilder.ts:223](https://github.com/darkblade1078/pnwkit-3.0/blob/3f6bfbce5d04df75da826889d485b71c55f30978/src/builders/queryBuilder.ts#L223)
 
 #### Inherited from
 
@@ -193,7 +193,7 @@ Defined in: [builders/queryBuilder.ts:223](https://github.com/darkblade1078/pnwk
 
 > `protected` `readonly` `static` **QUERIES\_WITHOUT\_DATA\_WRAPPER**: `Set`\<`string`\>
 
-Defined in: [builders/queryBuilder.ts:231](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/builders/queryBuilder.ts#L231)
+Defined in: [builders/queryBuilder.ts:231](https://github.com/darkblade1078/pnwkit-3.0/blob/3f6bfbce5d04df75da826889d485b71c55f30978/src/builders/queryBuilder.ts#L231)
 
 #### Inherited from
 
@@ -205,7 +205,7 @@ Defined in: [builders/queryBuilder.ts:231](https://github.com/darkblade1078/pnwk
 
 > `protected` **buildQuery**(`includePaginator`): `string`
 
-Defined in: [builders/queryBuilder.ts:407](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/builders/queryBuilder.ts#L407)
+Defined in: [builders/queryBuilder.ts:407](https://github.com/darkblade1078/pnwkit-3.0/blob/3f6bfbce5d04df75da826889d485b71c55f30978/src/builders/queryBuilder.ts#L407)
 
 Build the final GraphQL query string
 
@@ -237,7 +237,7 @@ Error if field names are too long or filters contain invalid values
 
 > `protected` **buildSubqueryFields**(`config`, `baseIndent`): `object`
 
-Defined in: [builders/queryBuilder.ts:370](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/builders/queryBuilder.ts#L370)
+Defined in: [builders/queryBuilder.ts:370](https://github.com/darkblade1078/pnwkit-3.0/blob/3f6bfbce5d04df75da826889d485b71c55f30978/src/builders/queryBuilder.ts#L370)
 
 **`Internal`**
 
@@ -281,7 +281,7 @@ Object with paramString and fieldList
 
 > `protected` **buildSubqueryString**(`config`): `object`
 
-Defined in: [builders/queryBuilder.ts:299](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/builders/queryBuilder.ts#L299)
+Defined in: [builders/queryBuilder.ts:299](https://github.com/darkblade1078/pnwkit-3.0/blob/3f6bfbce5d04df75da826889d485b71c55f30978/src/builders/queryBuilder.ts#L299)
 
 **`Internal`**
 
@@ -325,7 +325,7 @@ Object containing scalar fields, nested relations, and filter parameters
 
 > **execute**(): `Promise`\<`SelectFields`\<`NationResourceStatsFields`, `F`, `I`\>[]\>
 
-Defined in: api/queries/nationResourceStats.ts:192
+Defined in: [api/queries/nationResourceStats.ts:192](https://github.com/darkblade1078/pnwkit-3.0/blob/3f6bfbce5d04df75da826889d485b71c55f30978/src/api/queries/nationResourceStats.ts#L192)
 
 Execute the nation resource stats query and return results.
 
@@ -366,7 +366,7 @@ console.log(result.paginatorInfo.currentPage); // Current page number
 
 > **execute**(`withPaginator`): `Promise`\<\{ `data`: `SelectFields`\<`NationResourceStatsFields`, `F`, `I`\>[]; `paginatorInfo`: `paginatorInfo`; \}\>
 
-Defined in: api/queries/nationResourceStats.ts:193
+Defined in: [api/queries/nationResourceStats.ts:193](https://github.com/darkblade1078/pnwkit-3.0/blob/3f6bfbce5d04df75da826889d485b71c55f30978/src/api/queries/nationResourceStats.ts#L193)
 
 Execute the nation resource stats query and return results.
 
@@ -417,7 +417,7 @@ console.log(result.paginatorInfo.currentPage); // Current page number
 
 > **include**\<`K`, `TConfig`, `TNestedResult`, `TWrappedResult`\>(`relation`, `config`): `NationResourceStatsQuery`\<`F`, `I` & `Record`\<`K`, `TWrappedResult`\>\>
 
-Defined in: api/queries/nationResourceStats.ts:149
+Defined in: [api/queries/nationResourceStats.ts:149](https://github.com/darkblade1078/pnwkit-3.0/blob/3f6bfbce5d04df75da826889d485b71c55f30978/src/api/queries/nationResourceStats.ts#L149)
 
 Include related data in the query results
 
@@ -489,7 +489,7 @@ New query instance with included relation
 
 > `protected` **sanitizeString**(`str`): `string`
 
-Defined in: [builders/queryBuilder.ts:241](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/builders/queryBuilder.ts#L241)
+Defined in: [builders/queryBuilder.ts:241](https://github.com/darkblade1078/pnwkit-3.0/blob/3f6bfbce5d04df75da826889d485b71c55f30978/src/builders/queryBuilder.ts#L241)
 
 Sanitize and escape a string value for safe GraphQL usage
 
@@ -521,7 +521,7 @@ Error if string exceeds maximum length
 
 > **select**\<`Fields`\>(...`fields`): `NationResourceStatsQuery`\<`Fields`\>
 
-Defined in: api/queries/nationResourceStats.ts:89
+Defined in: [api/queries/nationResourceStats.ts:89](https://github.com/darkblade1078/pnwkit-3.0/blob/3f6bfbce5d04df75da826889d485b71c55f30978/src/api/queries/nationResourceStats.ts#L89)
 
 Select specific fields to retrieve from nation resource stats
 
@@ -561,7 +561,7 @@ Error if no fields are provided
 
 > `protected` **serializeFilterValue**(`value`): `string`
 
-Defined in: [builders/queryBuilder.ts:340](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/builders/queryBuilder.ts#L340)
+Defined in: [builders/queryBuilder.ts:340](https://github.com/darkblade1078/pnwkit-3.0/blob/3f6bfbce5d04df75da826889d485b71c55f30978/src/builders/queryBuilder.ts#L340)
 
 **`Internal`**
 
@@ -591,7 +591,7 @@ Serialized string representation
 
 > `protected` **serializeObject**(`obj`): `string`
 
-Defined in: [builders/queryBuilder.ts:261](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/builders/queryBuilder.ts#L261)
+Defined in: [builders/queryBuilder.ts:261](https://github.com/darkblade1078/pnwkit-3.0/blob/3f6bfbce5d04df75da826889d485b71c55f30978/src/builders/queryBuilder.ts#L261)
 
 Serialize an object to GraphQL format (enum values without quotes)
 
@@ -623,7 +623,7 @@ Error if object is null/undefined or contains invalid field names
 
 > `protected` **validateInputLength**(`str`, `maxLength`): `void`
 
-Defined in: [builders/queryBuilder.ts:489](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/builders/queryBuilder.ts#L489)
+Defined in: [builders/queryBuilder.ts:489](https://github.com/darkblade1078/pnwkit-3.0/blob/3f6bfbce5d04df75da826889d485b71c55f30978/src/builders/queryBuilder.ts#L489)
 
 Validate input string length to prevent excessively large queries
 
@@ -659,7 +659,7 @@ Error if string exceeds maximum length
 
 > **where**(`filters`): `this`
 
-Defined in: api/queries/nationResourceStats.ts:114
+Defined in: [api/queries/nationResourceStats.ts:114](https://github.com/darkblade1078/pnwkit-3.0/blob/3f6bfbce5d04df75da826889d485b71c55f30978/src/api/queries/nationResourceStats.ts#L114)
 
 Apply filters to the query
 
