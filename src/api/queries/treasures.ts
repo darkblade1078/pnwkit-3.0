@@ -1,26 +1,28 @@
 import type { SelectFields, InferSubqueryType } from "../../types/others.js";
 import { QueryBuilder, type SubqueryConfig } from "../../builders/queryBuilder.js";
 import graphQLService from "../../services/graphQL.js";
-import type { NationFields, NationQueryParams, NationRelations } from "../../types/queries/nation.js";
 import type { paginatorInfo } from "../../types/others.js";
 import type PnwKitApi from "../index.js";
 import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMappings.js";
+import type { TreasureQueryParams, TreasureRelations, TreasureFields } from "../../types/queries/treasure.js";
 
 /**
- * Query builder for fetching nation data from the Politics & War API.
+ * Query builder for fetching treasure data from the Politics & War API.
  * 
- * Create new instances using the factory method: `pnwkit.queries.nations()`
+ * Create new instances using the factory method: `pnwkit.queries.treasures()`
  * Each call creates a fresh instance with no shared state, preventing filter pollution.
+ * 
+ * Treasures are special bonus items that can be obtained through various means in the game.
  * 
  * Features:
  * - Type-safe field selection and filtering
  * - Unlimited recursive nesting with automatic type inference
- * - Automatic cardinality detection (singular vs array relations)
+ * - Automatic cardinality detection for relations
  * - Pagination support with optional paginatorInfo
  * 
  * Return types:
- * - `execute()` → Returns array of nations
- * - `execute(true)` → Returns `{ data: Nation[], paginatorInfo: {...} }`
+ * - `execute()` → Returns array of treasures
+ * - `execute(true)` → Returns `{ data: Treasure[], paginatorInfo: {...} }`
  * 
  * @category Query Builders
  * @template F - Selected field names (tracked through chaining for precise autocomplete)
@@ -28,74 +30,50 @@ import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMap
  * 
  * @example
  * ```typescript
- * // Basic query with filtering and pagination
- * const nations = await pnwkit.queries.nations()
- *   .select('id', 'nation_name', 'score', 'alliance_id')
- *   .where({ 
- *     min_score: 1000, 
- *     max_score: 5000,
- *     orderBy: [{ column: 'SCORE', order: 'DESC' }]
- *   })
- *   .first(100)
- *   .execute();
- * // Type: { id: number, nation_name: string, score: number, alliance_id: number }[]
- * 
- * // Nested query with singular and array relations
- * const nations = await pnwkit.queries.nations()
- *   .select('id', 'nation_name')
- *   .include('alliance', builder => builder  // Singular: returns object
- *     .select('id', 'name', 'score')
- *     .where({ min_score: 5000 })
- *   )
- *   .include('cities', builder => builder  // Array: returns array
- *     .select('id', 'name', 'infrastructure')
- *   )
+ * // Basic query with field selection
+ * const treasures = await pnwkit.queries.treasures()
+ *   .select('name', 'color', 'continent', 'bonus', 'spawn_date')
  *   .first(50)
  *   .execute();
- * // Type: { 
- * //   id: number, 
- * //   nation_name: string,
- * //   alliance: { id: number, name: string, score: number },
- * //   cities: { id: number, name: string, infrastructure: number }[]
- * // }[]
+ * // Type: { name: string, color: string, continent: string, bonus: number, spawn_date: string }[]
  * 
- * // Unlimited nesting depth
- * const nations = await pnwkit.queries.nations()
- *   .select('id', 'nation_name')
- *   .include('alliance', b1 => b1
- *     .select('id', 'name')
- *     .include('nations', b2 => b2  // Nested nations
- *       .select('id', 'nation_name')
- *       .include('cities', b3 => b3  // Unlimited depth!
- *         .select('id', 'name')
- *       )
- *     )
+ * // Query with filtering
+ * const treasures = await pnwkit.queries.treasures()
+ *   .select('name', 'bonus')
+ *   .where({ 
+ *     name: ['The Chalice'],
+ *     orderBy: [{ column: 'BONUS', order: 'DESC' }]
+ *   })
+ *   .execute();
+ * 
+ * // With nested nation data (if treasure has nation relation)
+ * const treasures = await pnwkit.queries.treasures()
+ *   .select('name', 'bonus')
+ *   .include('nation', builder => builder  // Singular or array based on schema
+ *     .select('id', 'nation_name', 'score')
  *   )
+ *   .first(100)
  *   .execute();
  * 
  * // With pagination info
- * const result = await pnwkit.queries.nations()
- *   .select('id', 'nation_name')
- *   .first(500)
- *   .page(2)
+ * const result = await pnwkit.queries.treasures()
+ *   .select('name', 'bonus', 'color')
+ *   .first(100)
  *   .execute(true);
- * console.log(result.data);           // Nations array
- * console.log(result.paginatorInfo);  // { currentPage, total, hasMorePages, ... }
+ * console.log(result.data);           // Treasures array
+ * console.log(result.paginatorInfo);  // Pagination metadata
  * ```
 */
-export class NationsQuery<
-    F extends readonly (keyof NationFields)[] = [], // Selected fields
-    I extends Record<string, any> = {}  // Included relations
+export class TreasuresQuery<
+    F extends readonly (keyof TreasureFields)[] = [], 
+    I extends Record<string, any> = {}
 > 
-extends QueryBuilder<
-NationFields,   // Main entity fields
-NationQueryParams   // Filter parameters
->
+extends QueryBuilder<TreasureFields, TreasureQueryParams>
 {
-    protected queryName = 'nations';
+    protected queryName = 'treasures';
 
     /**
-     * Create a new NationsQuery instance
+     * Create a new TreasuresQuery instance
      * @param kit - The PnWKit instance containing API credentials
      * @internal
     */
@@ -104,14 +82,19 @@ NationQueryParams   // Filter parameters
     }
 
     /**
-     * Select specific fields to retrieve from nations
+     * Select specific fields to retrieve from treasures
      * @param fields - Field names to select
      * @returns New query instance with selected fields
      * @throws Error if no fields are provided
      * @example
-     * .select('id', 'nation_name', 'score')
+     * ```typescript
+     * .select('name', 'color', 'continent', 'bonus', 'spawn_date')
+     * ```
     */
-    select<const Fields extends readonly (keyof NationFields)[]>(...fields: Fields): NationsQuery<Fields>
+    select<const Fields extends readonly (keyof TreasureFields)[]>
+    (
+        ...fields: Fields
+    ): TreasuresQuery<Fields> 
     {
         if(fields.length === 0)
             throw new Error("At least one field must be selected.");
@@ -125,9 +108,14 @@ NationQueryParams   // Filter parameters
      * @param filters - Query parameters for filtering results
      * @returns This query instance for method chaining
      * @example
-     * .where({ min_score: 1000, max_score: 5000 })
+     * ```typescript
+     * .where({ 
+     *   name: ['The Chalice', 'The Ark'],
+     *   color: ['BLACK', 'MAROON']
+     * })
+     * ```
     */
-    where(filters: NationQueryParams): this
+    where(filters: TreasureQueryParams): this
     {
         this.filters = filters;
         return this;
@@ -145,26 +133,16 @@ NationQueryParams   // Filter parameters
      * @example
      * ```typescript
      * // Basic subquery with field selection
-     * .include('cities', builder => builder
-     *   .select('id', 'name', 'infrastructure')
+     * .include('nation', builder => builder
+     *   .select('id', 'nation_name', 'score')
      * )
      * 
-     * // Subquery with filtering
-     * .include('alliance', builder => builder
-     *   .select('id', 'name', 'score')
-     *   .where({ id: [1234] })
-     * )
-     * 
-     * // Deeply nested subquery with unlimited depth
-     * .include('alliance', builder => builder
-     *   .select('id', 'name', 'score')
+     * // Subquery with filtering and nesting
+     * .include('nation', builder => builder
+     *   .select('id', 'nation_name')
      *   .where({ min_score: 1000 })
-     *   .include('nations', builder2 => builder2  // Unlimited nesting!
-     *     .select('id', 'nation_name')
-     *     .where({ min_score: 500 })
-     *     .include('cities', builder3 => builder3
-     *       .select('id', 'name', 'infrastructure')
-     *     )
+     *   .include('alliance', builder2 => builder2  // Unlimited nesting!
+     *     .select('id', 'name', 'score')
      *   )
      * )
      * 
@@ -173,56 +151,56 @@ NationQueryParams   // Filter parameters
      * ```
     */
     include<
-        K extends keyof NationRelations,
-        TConfig extends SubqueryConfig<NationRelations[K], GetRelationsFor<NationRelations[K]>, GetQueryParamsFor<NationRelations[K]>>,
+        K extends keyof TreasureRelations,
+        TConfig extends SubqueryConfig<TreasureRelations[K], GetRelationsFor<TreasureRelations[K]>, GetQueryParamsFor<TreasureRelations[K]>>,
         TNestedResult = InferSubqueryType<ReturnType<TConfig>>,
-        TWrappedResult = NationRelations[K] extends any[] ? TNestedResult[] : TNestedResult
+        TWrappedResult = TreasureRelations[K] extends any[] ? TNestedResult[] : TNestedResult
     >(
         relation: K,
         config: TConfig
-    ): NationsQuery<F, I & Record<K, TWrappedResult>>
+    ): TreasuresQuery<F, I & Record<K, TWrappedResult>>
     {
         this.subqueries.set(relation as string, config as SubqueryConfig<any, any, any>);
         return this as any;
     }
 
     /**
-     * Execute the nations query and return results.
+     * Execute the treasures query and return results.
      * 
      * Return type changes based on withPaginator parameter:
-     * - `execute()` or `execute(false)` → Returns array of nations
+     * - `execute()` or `execute(false)` → Returns array of treasures
      * - `execute(true)` → Returns object with data array and paginatorInfo
      * 
      * Results only include selected fields and included relations.
      * All other fields are excluded from the response.
      * 
      * @param withPaginator - Whether to include pagination metadata in response
-     * @returns Array of nations, or object with data and paginatorInfo if withPaginator is true
+     * @returns Array of treasures, or object with data and paginatorInfo if withPaginator is true
      * @throws Error if the query fails or returns no data
      * 
      * @example
      * ```typescript
      * // Returns array directly
-     * const nations = await query.execute();
-     * // Type: { id: number, nation_name: string }[]
-     * nations.forEach(nation => console.log(nation.id, nation.nation_name));
+     * const treasures = await query.execute();
+     * // Type: { name: string, bonus: number }[]
+     * treasures.forEach(treasure => console.log(treasure.name, treasure.bonus));
      * 
      * // Returns object with pagination info
      * const result = await query.execute(true);
      * // Type: { data: {...}[], paginatorInfo: {...} }
-     * console.log(result.data);                    // Nations array
+     * console.log(result.data);                    // Treasures array
      * console.log(result.paginatorInfo.total);     // Total count
-     * console.log(result.paginatorInfo.hasMorePages); // Boolean
+     * console.log(result.paginatorInfo.currentPage); // Current page number
      * ```
     */
-    async execute(): Promise<SelectFields<NationFields, F, I>[]>;
+    async execute(): Promise<SelectFields<TreasureFields, F, I>[]>;
     async execute(withPaginator: true): Promise<{ 
-        data: SelectFields<NationFields, F, I>[], 
+        data: SelectFields<TreasureFields, F, I>[], 
         paginatorInfo: paginatorInfo 
     }>;
     async execute(withPaginator: boolean = false): Promise<
-    SelectFields<NationFields, F, I>[] | 
-    { data: SelectFields<NationFields, F, I>[], paginatorInfo: paginatorInfo }
+    SelectFields<TreasureFields, F, I>[] | 
+    { data: SelectFields<TreasureFields, F, I>[], paginatorInfo: paginatorInfo }
     >
     {
         try
@@ -250,7 +228,7 @@ NationQueryParams   // Filter parameters
         catch(error: unknown)
         {
             const message = error instanceof Error ? error.message : String(error);
-            throw new Error(`Failed to execute nations query: ${message}`);
+            throw new Error(`Failed to execute ${this.queryName} query: ${message}`);
         }
     }
 }

@@ -2,10 +2,10 @@
 
 ***
 
-[Query Builders](../modules.md) / nations
+[Query Builders](../modules.md) / treasures
 
-# nations
+# treasures
 
 ## Query Builders
 
-- [NationsQuery](classes/NationsQuery.md)
+- [TreasuresQuery](classes/TreasuresQuery.md)

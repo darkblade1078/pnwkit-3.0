@@ -1,4 +1,4 @@
-import type { SortOrder } from "../others.js";
+import type { DefaultParams, SortOrder } from "../others.js";
 import type { AlliancePositionFields } from "./alliancePosition.js";
 import type { BankTaxrecFields } from "./bankTaxRec.js";
 import type { BulletinFields } from "./bullentin.js";
@@ -35,11 +35,11 @@ export interface AllianceFields {
   rank?: number;
 }
 
-export interface AllianceQueryParams {
+export interface AllianceQueryParams extends DefaultParams {
   id?: number[];
   name?: string[];
   color?: string[];
-  orderBy?: QueryAlliancesOrderByOrderByClause[];
+  orderBy?: QueryAlliancesOrderByOrderByClause;
 }
 
 export interface AllianceRelations {
@@ -59,5 +59,5 @@ export type QueryAlliancesOrderByOrderByClause = {
 
 export type QueryAlliancesOrderByColumn = 
   | 'ID'
-  | 'NAME'
   | 'DATE'
+  | 'SCORE'

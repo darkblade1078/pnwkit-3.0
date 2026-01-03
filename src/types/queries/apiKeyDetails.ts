@@ -33,5 +33,5 @@ export interface ApiKeyPermissions {
 export interface ApiKeyDetailsQueryParams {}
 
 export interface ApiKeyDetailsRelations {
-    nation: NationFields;
+  nation: NationFields;
 }

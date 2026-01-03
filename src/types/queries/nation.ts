@@ -9,7 +9,7 @@ import type { CityFields } from "./cities.js";
 import type { TradeFields } from "./trade.js";
 import type { TreasureFields } from "./treasure.js";
 import type { WarFields } from "./war.js";
-import type { SortOrder } from "../others.js";
+import type { DefaultParams, SortOrder } from "../others.js";
 
 export interface NationFields {
   __typename?: 'Nation';
@@ -148,7 +148,7 @@ export interface NationFields {
   cities_discount?: number;
 }
 
-export interface NationQueryParams {
+export interface NationQueryParams extends DefaultParams {
   id?: number[];
   min_id?: number[];
   max_id?: number[];
@@ -172,7 +172,7 @@ export interface NationQueryParams {
   discord_id?: string[];
   tax_id?: number[];
   continent?: Continents[];
-  orderBy?: QueryNationsOrderByOrderByClause[];
+  orderBy?: QueryNationsOrderByOrderByClause;
 }
 
 export type QueryNationsOrderByOrderByClause = {
@@ -181,15 +181,33 @@ export type QueryNationsOrderByOrderByClause = {
 }
 
 export type QueryNationsOrderByColumn = 
-  | 'ID'
-  | 'DATE'
-  | 'SOLDIERS'
-  | 'TANKS'
-  | 'AIRCRAFT'
-  | 'SHIPS'
-  | 'MISSILES'
-  | 'NUKES'
-  | 'CITIES'
+| 'ID'
+| 'DATE'
+| 'SOLDIERS'
+| 'SOLDIERS_LOST'
+| 'SOLDIER_KILLS'
+| 'TANKS'
+| 'TANKS_LOST'
+| 'TANK_KILLS'
+| 'AIRCRAFT'
+| 'AIRCRAFT_LOST'
+| 'AIRCRAFT_KILLS'
+| 'SHIPS'
+| 'SHIPS_LOST'
+| 'SHIP_KILLS'
+| 'MISSILES'
+| 'MISSILES_LAUNCHED'
+| 'MISSILES_EATEN'
+| 'NUKES'
+| 'NUKES_LAUNCHED'
+| 'NUKES_EATEN'
+| 'CITIES'
+| 'SCORE'
+| 'GDP'
+| 'POPULATION'
+| 'APPROVAL_RATING'
+| 'INFRA_DESTROYED'
+| 'INFRA_LOST'
 
 export enum warPolicy {
   ATTRITION = "ATTRITION",

@@ -225,38 +225,12 @@ TQueryParams = any // Type of the query parameters
     protected selectedFields: (keyof TFields)[] = []; // main query fields
     protected filters: TQueryParams = {} as TQueryParams; // query filters
     protected abstract queryName: string; // name of the query (e.g., 'nations')
+    
+    // Queries that don't wrap results in a 'data' object
+    // Temporary fix for certain queries
+    protected static readonly QUERIES_WITHOUT_DATA_WRAPPER = new Set(['me', 'treasures', 'colors']);
 
     constructor() {}
-
-    /**
-     * Set the maximum number of records to retrieve
-     * @param count - Number of records (max 500)
-     * @returns This query instance for method chaining
-     * @example
-     * ```typescript
-     * .first(500) // Get up to 500 records
-     * ```
-    */
-    first(count: number): this
-    {
-        this.limit = count <= 500 ? count : 500;
-        return this;
-    }
-
-    /**
-     * Set the page number for pagination
-     * @param pageNumber - The page number to retrieve (1-based)
-     * @returns This query instance for method chaining
-     * @example
-     * ```typescript
-     * .page(2) // Get the second page of results
-     * ```
-    */
-    page(pageNumber: number): this
-    {
-        this.pageNum = pageNumber;
-        return this;
-    }
 
     /**
      * Sanitize and escape a string value for safe GraphQL usage
@@ -381,6 +355,8 @@ TQueryParams = any // Type of the query parameters
             return `"${this.sanitizeString(value)}"`;
         if (typeof value === 'number' || typeof value === 'boolean')
             return String(value);
+        if (typeof value === 'object' && value !== null)
+            return this.serializeObject(value);
         throw new Error(`Unsupported filter value type: ${typeof value}`);
     }
 
@@ -488,14 +464,16 @@ TQueryParams = any // Type of the query parameters
             }
         ` : '';
 
+        // Check if this query type wraps results in 'data' object
+        const usesDataWrapper = !QueryBuilder.QUERIES_WITHOUT_DATA_WRAPPER.has(this.queryName);
+
         // Return the final query string
-        // temp fix until i can do something better
         return `
             query {
                 ${this.queryName}${varString} {
-                    ${this.queryName === 'me' ? '' : 'data {'}
+                    ${usesDataWrapper ? 'data {' : ''}
                         ${allFields}
-                    ${this.queryName === 'me' ? '' : '}'}
+                    ${usesDataWrapper ? '}' : ''}
                     ${paginatorFields}
                 }
             }

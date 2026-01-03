@@ -211,8 +211,9 @@ extends QueryBuilder<ApiKeyDetailsFields, ApiKeyDetailsQueryParams>
             if(!queryData)
                 throw new Error(`No data returned from ${this.queryName} query.`);
 
-            // Return single object directly (not wrapped in data array)
-            return queryData;
+            const returnData = queryData.data == undefined ? queryData : queryData.data;
+            
+            return returnData;
         }
         catch(error: unknown)
         {

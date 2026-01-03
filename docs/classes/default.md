@@ -6,7 +6,7 @@
 
 # Class: default
 
-Defined in: [index.ts:18](https://github.com/darkblade1078/pnwkit-3.0/blob/5f4e70cb9434cc0709809c75c8e5936e2af7e7fa/src/index.ts#L18)
+Defined in: [index.ts:23](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/index.ts#L23)
 
 Main PnWKit client for interacting with the Politics & War API
 
@@ -15,11 +15,16 @@ Main PnWKit client for interacting with the Politics & War API
 ```typescript
 const pnwkit = new PnWKit("your-api-key");
 
-// Access the nations query builder directly
-const nations = await pnwkit.nationsQuery
+// Query nations with filters
+const nations = await pnwkit.queries.nations()
   .select('id', 'nation_name', 'score')
-  .where({ min_score: 1000 })
-  .first(10)
+  .where({ min_score: 1000, first: 10 })
+  .execute();
+
+// Query alliances
+const alliances = await pnwkit.queries.alliances()
+  .select('id', 'name')
+  .where({ first: 5 })
   .execute();
 ```
 
@@ -33,9 +38,9 @@ const nations = await pnwkit.nationsQuery
 
 > **new default**(`apiKey`): `PnWKit`
 
-Defined in: [index.ts:36](https://github.com/darkblade1078/pnwkit-3.0/blob/5f4e70cb9434cc0709809c75c8e5936e2af7e7fa/src/index.ts#L36)
+Defined in: [index.ts:30](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/index.ts#L30)
 
-Main PnWKit client for interacting with the Politics & War API
+Create a new PnWKit instance
 
 #### Parameters
 
@@ -43,34 +48,23 @@ Main PnWKit client for interacting with the Politics & War API
 
 `string`
 
+Your Politics & War API key
+
 #### Returns
 
 `PnWKit`
-
-#### Example
-
-```typescript
-const pnwkit = new PnWKit("your-api-key");
-
-// Access the nations query builder directly
-const nations = await pnwkit.nationsQuery
-  .select('id', 'nation_name', 'score')
-  .where({ min_score: 1000 })
-  .first(10)
-  .execute();
-```
 
 #### Overrides
 
 `PnwKitApi.constructor`
 
-## Other
+## Properties
 
 ### apiKey
 
 > `protected` `readonly` **apiKey**: `string`
 
-Defined in: [api/index.ts:7](https://github.com/darkblade1078/pnwkit-3.0/blob/5f4e70cb9434cc0709809c75c8e5936e2af7e7fa/src/api/index.ts#L7)
+Defined in: [api/index.ts:7](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/index.ts#L7)
 
 #### Inherited from
 
@@ -82,7 +76,7 @@ Defined in: [api/index.ts:7](https://github.com/darkblade1078/pnwkit-3.0/blob/5f
 
 > `readonly` **queries**: `Queries`
 
-Defined in: [api/index.ts:5](https://github.com/darkblade1078/pnwkit-3.0/blob/5f4e70cb9434cc0709809c75c8e5936e2af7e7fa/src/api/index.ts#L5)
+Defined in: [api/index.ts:5](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/index.ts#L5)
 
 #### Inherited from
 

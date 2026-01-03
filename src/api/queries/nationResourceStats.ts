@@ -3,92 +3,72 @@ import { QueryBuilder, type SubqueryConfig } from "../../builders/queryBuilder.j
 import graphQLService from "../../services/graphQL.js";
 import type { paginatorInfo } from "../../types/others.js";
 import type PnwKitApi from "../index.js";
-import type { AllianceFields, AllianceQueryParams, AllianceRelations } from "../../types/queries/alliance.js";
 import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMappings.js";
+import type { NationResourceStatsFields, NationResourceStatsQueryParams, NationResourceStatsRelations } from "../../types/queries/nationResourceStats.js";
 
 /**
- * Query builder for fetching alliance data from the Politics & War API.
+ * Query builder for fetching nation resource statistics from the Politics & War API.
  * 
- * Create new instances using the factory method: `pnwkit.queries.alliances()`
+ * Create new instances using the factory method: `pnwkit.queries.nationResourceStats()`
  * Each call creates a fresh instance with no shared state, preventing filter pollution.
+ * 
+ * Nation resource stats provide historical data on resource holdings for a specific nation.
  * 
  * Features:
  * - Type-safe field selection and filtering
- * - Unlimited recursive nesting with automatic type inference
- * - Automatic cardinality detection (all alliance relations are arrays)
+ * - Date range filtering (before/after)
+ * - Sorting support with orderBy
  * - Pagination support with optional paginatorInfo
  * 
  * Return types:
- * - `execute()` → Returns array of alliances
- * - `execute(true)` → Returns `{ data: Alliance[], paginatorInfo: {...} }`
+ * - `execute()` → Returns array of resource stats
+ * - `execute(true)` → Returns `{ data: NationResourceStats[], paginatorInfo: {...} }`
  * 
  * @category Query Builders
  * @template F - Selected field names (tracked through chaining for precise autocomplete)
- * @template I - Included relations (tracked through chaining, all arrays for alliances)
+ * @template I - Included relations (tracked through chaining with proper cardinality)
  * 
  * @example
  * ```typescript
- * // Basic query with filtering
- * const alliances = await pnwkit.queries.alliances()
- *   .select('id', 'name', 'score', 'color')
+ * // Basic query with field selection
+ * const stats = await pnwkit.queries.nationResourceStats()
+ *   .select('date', 'money', 'food', 'steel')
  *   .where({ 
- *     name: ['Rose', 'Grumpy'],
- *     orderBy: [{ column: 'SCORE', order: 'DESC' }]
+ *     after: '2025-01-01',
+ *     orderBy: { column: 'DATE', order: 'DESC' }
  *   })
  *   .first(50)
  *   .execute();
- * // Type: { id: number, name: string, score: number, color: string }[]
+ * // Type: { date: string, money: string, food: string, steel: string }[]
  * 
- * // Nested query with array relations (all alliance relations return arrays)
- * const alliances = await pnwkit.queries.alliances()
- *   .select('id', 'name')
- *   .include('nations', builder => builder  // Array: returns nation[]
- *     .select('id', 'nation_name', 'score')
- *     .where({ min_score: 1000 })
- *   )
- *   .include('bankrecs', builder => builder  // Array: returns bankrec[]
- *     .select('id', 'date', 'money')
- *   )
- *   .first(10)
- *   .execute();
- * // Type: { 
- * //   id: number, 
- * //   name: string,
- * //   nations: { id: number, nation_name: string, score: number }[],
- * //   bankrecs: { id: number, date: string, money: number }[]
- * // }[]
- * 
- * // Unlimited nesting depth
- * const alliances = await pnwkit.queries.alliances()
- *   .select('id', 'name')
- *   .include('nations', b1 => b1
- *     .select('id', 'nation_name')
- *     .include('cities', b2 => b2  // Unlimited nesting!
- *       .select('id', 'name', 'infrastructure')
- *       .where({ min_infrastructure: 500 })
- *     )
- *   )
+ * // Query all resources with date filtering
+ * const allStats = await pnwkit.queries.nationResourceStats()
+ *   .select('date', 'money', 'food', 'steel', 'aluminum', 'gasoline')
+ *   .where({ 
+ *     before: '2025-12-31',
+ *     after: '2025-01-01'
+ *   })
  *   .execute();
  * 
  * // With pagination info
- * const result = await pnwkit.queries.alliances()
- *   .select('id', 'name')
+ * const result = await pnwkit.queries.nationResourceStats()
+ *   .select('date', 'money', 'food')
  *   .first(100)
  *   .execute(true);
- * console.log(result.data);           // Alliances array
+ * console.log(result.data);           // Resource stats array
  * console.log(result.paginatorInfo);  // Pagination metadata
  * ```
 */
-export class AlliancesQuery<
-    F extends readonly (keyof AllianceFields)[] = [], 
+export class NationResourceStatsQuery<
+    F extends readonly (keyof NationResourceStatsFields)[] = [], 
     I extends Record<string, any> = {}
 > 
-extends QueryBuilder<AllianceFields, AllianceQueryParams>
+extends QueryBuilder<NationResourceStatsFields, NationResourceStatsQueryParams>
 {
-    protected queryName = 'alliances';
+    protected queryName = 'nation_resource_stats';
 
     /**
-     * Create a new AlliancesQuery instance
+     * Create a new NationResourceStatsQuery instance
      * @param kit - The PnWKit instance containing API credentials
      * @internal
     */
@@ -97,19 +77,19 @@ extends QueryBuilder<AllianceFields, AllianceQueryParams>
     }
 
     /**
-     * Select specific fields to retrieve from alliances
+     * Select specific fields to retrieve from nation resource stats
      * @param fields - Field names to select
      * @returns New query instance with selected fields
      * @throws Error if no fields are provided
      * @example
      * ```typescript
-     * .select('id', 'name', 'score', 'color')
+     * .select('date', 'money', 'food', 'steel', 'aluminum')
      * ```
     */
-    select<const Fields extends readonly (keyof AllianceFields)[]>
+    select<const Fields extends readonly (keyof NationResourceStatsFields)[]>
     (
         ...fields: Fields
-    ): AlliancesQuery<Fields> 
+    ): NationResourceStatsQuery<Fields> 
     {
         if(fields.length === 0)
             throw new Error("At least one field must be selected.");
@@ -125,12 +105,13 @@ extends QueryBuilder<AllianceFields, AllianceQueryParams>
      * @example
      * ```typescript
      * .where({ 
-     *   name: ['Rose', 'Grumpy'], 
-     *   color: ['AQUA', 'BLUE'] 
+     *   before: '2025-12-31',
+     *   after: '2025-01-01',
+     *   orderBy: { column: 'DATE', order: 'DESC' }
      * })
      * ```
     */
-    where(filters: AllianceQueryParams): this
+    where(filters: NationResourceStatsQueryParams): this
     {
         this.filters = filters;
         return this;
@@ -148,26 +129,16 @@ extends QueryBuilder<AllianceFields, AllianceQueryParams>
      * @example
      * ```typescript
      * // Basic subquery with field selection
-     * .include('bankrecs', builder => builder
-     *   .select('id', 'date', 'money', 'note')
+     * .include('nation', builder => builder
+     *   .select('id', 'nation_name', 'score')
      * )
      * 
-     * // Subquery with filtering
-     * .include('nations', builder => builder
-     *   .select('id', 'nation_name', 'score')
+     * // Subquery with filtering and nesting
+     * .include('nation', builder => builder
+     *   .select('id', 'nation_name')
      *   .where({ min_score: 1000 })
-     * )
-     * 
-     * // Deeply nested subquery with unlimited depth
-     * .include('nations', builder => builder
-     *   .select('id', 'nation_name', 'score')
-     *   .where({ min_score: 1000 })
-     *   .include('cities', builder2 => builder2  // Unlimited nesting!
-     *     .select('id', 'name', 'infrastructure')
-     *     .where({ min_infrastructure: 500 })
-     *     .include('buildings', builder3 => builder3
-     *       .select('id', 'type')
-     *     )
+     *   .include('alliance', builder2 => builder2  // Unlimited nesting!
+     *     .select('id', 'name', 'score')
      *   )
      * )
      * 
@@ -176,56 +147,56 @@ extends QueryBuilder<AllianceFields, AllianceQueryParams>
      * ```
     */
     include<
-        K extends keyof AllianceRelations,
-        TConfig extends SubqueryConfig<AllianceRelations[K], GetRelationsFor<AllianceRelations[K]>, GetQueryParamsFor<AllianceRelations[K]>>,
+        K extends keyof NationResourceStatsRelations,
+        TConfig extends SubqueryConfig<NationResourceStatsRelations[K], GetRelationsFor<NationResourceStatsRelations[K]>, GetQueryParamsFor<NationResourceStatsRelations[K]>>,
         TNestedResult = InferSubqueryType<ReturnType<TConfig>>,
-        TWrappedResult = AllianceRelations[K] extends any[] ? TNestedResult[] : TNestedResult
+        TWrappedResult = NationResourceStatsRelations[K] extends any[] ? TNestedResult[] : TNestedResult
     >(
         relation: K,
         config: TConfig
-    ): AlliancesQuery<F, I & Record<K, TWrappedResult>>
+    ): NationResourceStatsQuery<F, I & Record<K, TWrappedResult>>
     {
         this.subqueries.set(relation as string, config as SubqueryConfig<any, any, any>);
         return this as any;
     }
 
     /**
-     * Execute the alliances query and return results.
+     * Execute the nation resource stats query and return results.
      * 
      * Return type changes based on withPaginator parameter:
-     * - `execute()` or `execute(false)` → Returns array of alliances
+     * - `execute()` or `execute(false)` → Returns array of resource stats
      * - `execute(true)` → Returns object with data array and paginatorInfo
      * 
-     * Results only include selected fields and included relations.
+     * Results only include selected fields.
      * All other fields are excluded from the response.
      * 
      * @param withPaginator - Whether to include pagination metadata in response
-     * @returns Array of alliances, or object with data and paginatorInfo if withPaginator is true
+     * @returns Array of resource stats, or object with data and paginatorInfo if withPaginator is true
      * @throws Error if the query fails or returns no data
      * 
      * @example
      * ```typescript
      * // Returns array directly
-     * const alliances = await query.execute();
-     * // Type: { id: number, name: string }[]
-     * alliances.forEach(alliance => console.log(alliance.id, alliance.name));
+     * const stats = await query.execute();
+     * // Type: { date: string, money: string, food: string }[]
+     * stats.forEach(stat => console.log(stat.date, stat.money));
      * 
      * // Returns object with pagination info
      * const result = await query.execute(true);
      * // Type: { data: {...}[], paginatorInfo: {...} }
-     * console.log(result.data);                    // Alliances array
+     * console.log(result.data);                    // Resource stats array
      * console.log(result.paginatorInfo.total);     // Total count
      * console.log(result.paginatorInfo.currentPage); // Current page number
      * ```
     */
-    async execute(): Promise<SelectFields<AllianceFields, F, I>[]>;
+    async execute(): Promise<SelectFields<NationResourceStatsFields, F, I>[]>;
     async execute(withPaginator: true): Promise<{ 
-        data: SelectFields<AllianceFields, F, I>[], 
+        data: SelectFields<NationResourceStatsFields, F, I>[], 
         paginatorInfo: paginatorInfo 
     }>;
     async execute(withPaginator: boolean = false): Promise<
-    SelectFields<AllianceFields, F, I>[] | 
-    { data: SelectFields<AllianceFields, F, I>[], paginatorInfo: paginatorInfo }
+    SelectFields<NationResourceStatsFields, F, I>[] | 
+    { data: SelectFields<NationResourceStatsFields, F, I>[], paginatorInfo: paginatorInfo }
     >
     {
         try

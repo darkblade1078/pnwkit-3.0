@@ -1,3 +1,5 @@
+import type { NationFields } from "./nation.js";
+
 export interface TreasureFields {
   name?: string;
   color?: string;
@@ -5,4 +7,10 @@ export interface TreasureFields {
   bonus?: number;
   spawn_date?: string;
   nation_id?: string;
+}
+
+export interface TreasureQueryParams {}
+
+export interface TreasureRelations {
+  nation: NationFields;
 }

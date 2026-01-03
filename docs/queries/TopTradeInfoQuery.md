@@ -2,94 +2,61 @@
 
 ***
 
-[Query Builders](../../modules.md) / [nations](../README.md) / NationsQuery
+[Query Builders](../../modules.md) / [topTradeInfo](../README.md) / TopTradeInfoQuery
 
-# Class: NationsQuery\<F, I\>
+# Class: TopTradeInfoQuery\<F, I\>
 
-Defined in: [api/queries/nations.ts:86](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/queries/nations.ts#L86)
+Defined in: api/queries/topTradeInfo.ts:52
 
-Query builder for fetching nation data from the Politics & War API.
+Query builder for fetching top trade information from the Politics & War API.
 
-Create new instances using the factory method: `pnwkit.queries.nations()`
+Create new instances using the factory method: `pnwkit.queries.topTradeInfo()`
 Each call creates a fresh instance with no shared state, preventing filter pollution.
 
+Top trade info provides current market data including market index and resource-specific
+trade information with best buy/sell offers.
+
 Features:
-- Type-safe field selection and filtering
-- Unlimited recursive nesting with automatic type inference
-- Automatic cardinality detection (singular vs array relations)
-- Pagination support with optional paginatorInfo
+- Type-safe field selection
+- Access to real-time market index and resource prices
+- Best buy/sell offer data per resource
 
 Return types:
-- `execute()` → Returns array of nations
-- `execute(true)` → Returns `{ data: Nation[], paginatorInfo: {...} }`
+- `execute()` → Returns top trade info object
+- `execute(true)` → Returns `{ data: TopTradeInfo, paginatorInfo: {...} }`
 
 ## Example
 
 ```typescript
-// Basic query with filtering and pagination
-const nations = await pnwkit.queries.nations()
-  .select('id', 'nation_name', 'score', 'alliance_id')
-  .where({ 
-    min_score: 1000, 
-    max_score: 5000,
-    orderBy: [{ column: 'SCORE', order: 'DESC' }]
-  })
-  .first(100)
+// Basic query with fields
+const tradeInfo = await pnwkit.queries.topTradeInfo()
+  .select('market_index', 'resources')
   .execute();
-// Type: { id: number, nation_name: string, score: number, alliance_id: number }[]
+// Type: { market_index: number, resources: TopTradeResourceInfo[] }[]
 
-// Nested query with singular and array relations
-const nations = await pnwkit.queries.nations()
-  .select('id', 'nation_name')
-  .include('alliance', builder => builder  // Singular: returns object
-    .select('id', 'name', 'score')
-    .where({ min_score: 5000 })
-  )
-  .include('cities', builder => builder  // Array: returns array
-    .select('id', 'name', 'infrastructure')
-  )
-  .first(50)
-  .execute();
-// Type: { 
-//   id: number, 
-//   nation_name: string,
-//   alliance: { id: number, name: string, score: number },
-//   cities: { id: number, name: string, infrastructure: number }[]
-// }[]
-
-// Unlimited nesting depth
-const nations = await pnwkit.queries.nations()
-  .select('id', 'nation_name')
-  .include('alliance', b1 => b1
-    .select('id', 'name')
-    .include('nations', b2 => b2  // Nested nations
-      .select('id', 'nation_name')
-      .include('cities', b3 => b3  // Unlimited depth!
-        .select('id', 'name')
-      )
-    )
-  )
-  .execute();
+// Access the data
+console.log(tradeInfo[0].market_index);
+console.log(tradeInfo[0].resources[0].resource);       // "FOOD"
+console.log(tradeInfo[0].resources[0].average_price);  // Current avg price
+console.log(tradeInfo[0].resources[0].best_buy_offer); // Best buy offer details
 
 // With pagination info
-const result = await pnwkit.queries.nations()
-  .select('id', 'nation_name')
-  .first(500)
-  .page(2)
+const result = await pnwkit.queries.topTradeInfo()
+  .select('market_index', 'resources')
   .execute(true);
-console.log(result.data);           // Nations array
-console.log(result.paginatorInfo);  // { currentPage, total, hasMorePages, ... }
+console.log(result.data);           // Trade info array
+console.log(result.paginatorInfo);  // Pagination metadata
 ```
 
 ## Extends
 
-- `QueryBuilder`\<`NationFields`, `NationQueryParams`\>
+- `QueryBuilder`\<`TopTradeInfo`, \{ \}\>
 
 ## Type Parameters
 
 ### F
 
-`F` *extends* readonly keyof `NationFields`[] = \[\]
+`F` *extends* readonly keyof `TopTradeInfo`[] = \[\]
 
 Selected field names (tracked through chaining for precise autocomplete)
 
@@ -103,13 +70,13 @@ Included relations (tracked through chaining with proper cardinality)
 
 ### Constructor
 
-> **new NationsQuery**\<`F`, `I`\>(`kit`): `NationsQuery`\<`F`, `I`\>
+> **new TopTradeInfoQuery**\<`F`, `I`\>(`kit`): `TopTradeInfoQuery`\<`F`, `I`\>
 
-Defined in: [api/queries/nations.ts:102](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/queries/nations.ts#L102)
+Defined in: api/queries/topTradeInfo.ts:65
 
 **`Internal`**
 
-Create a new NationsQuery instance
+Create a new TopTradeInfoQuery instance
 
 #### Parameters
 
@@ -121,11 +88,11 @@ The PnWKit instance containing API credentials
 
 #### Returns
 
-`NationsQuery`\<`F`, `I`\>
+`TopTradeInfoQuery`\<`F`, `I`\>
 
 #### Overrides
 
-`QueryBuilder< NationFields, // Main entity fields NationQueryParams // Filter parameters >.constructor`
+`QueryBuilder<TopTradeInfo, {}>.constructor`
 
 ## Properties
 
@@ -143,7 +110,7 @@ Defined in: [builders/queryBuilder.ts:220](https://github.com/darkblade1078/pnwk
 
 ### filters
 
-> `protected` **filters**: `NationQueryParams`
+> `protected` **filters**: `object`
 
 Defined in: [builders/queryBuilder.ts:226](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/builders/queryBuilder.ts#L226)
 
@@ -179,9 +146,9 @@ Defined in: [builders/queryBuilder.ts:219](https://github.com/darkblade1078/pnwk
 
 ### queryName
 
-> `protected` **queryName**: `string` = `'nations'`
+> `protected` **queryName**: `string` = `'top_trade_info'`
 
-Defined in: [api/queries/nations.ts:95](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/queries/nations.ts#L95)
+Defined in: api/queries/topTradeInfo.ts:58
 
 #### Overrides
 
@@ -191,7 +158,7 @@ Defined in: [api/queries/nations.ts:95](https://github.com/darkblade1078/pnwkit-
 
 ### selectedFields
 
-> `protected` **selectedFields**: keyof `NationFields`[] = `[]`
+> `protected` **selectedFields**: keyof `TopTradeInfo`[] = `[]`
 
 Defined in: [builders/queryBuilder.ts:225](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/builders/queryBuilder.ts#L225)
 
@@ -347,24 +314,24 @@ Object containing scalar fields, nested relations, and filter parameters
 
 #### Call Signature
 
-> **execute**(): `Promise`\<`SelectFields`\<`NationFields`, `F`, `I`\>[]\>
+> **execute**(): `Promise`\<`SelectFields`\<`TopTradeInfo`, `F`, `I`\>[]\>
 
-Defined in: [api/queries/nations.ts:218](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/queries/nations.ts#L218)
+Defined in: api/queries/topTradeInfo.ts:120
 
-Execute the nations query and return results.
+Execute the top trade info query and return results.
 
 Return type changes based on withPaginator parameter:
-- `execute()` or `execute(false)` → Returns array of nations
+- `execute()` or `execute(false)` → Returns array with top trade info object
 - `execute(true)` → Returns object with data array and paginatorInfo
 
-Results only include selected fields and included relations.
+Results only include selected fields.
 All other fields are excluded from the response.
 
 ##### Returns
 
-`Promise`\<`SelectFields`\<`NationFields`, `F`, `I`\>[]\>
+`Promise`\<`SelectFields`\<`TopTradeInfo`, `F`, `I`\>[]\>
 
-Array of nations, or object with data and paginatorInfo if withPaginator is true
+Array containing top trade info object, or object with data and paginatorInfo if withPaginator is true
 
 ##### Throws
 
@@ -374,31 +341,31 @@ Error if the query fails or returns no data
 
 ```typescript
 // Returns array directly
-const nations = await query.execute();
-// Type: { id: number, nation_name: string }[]
-nations.forEach(nation => console.log(nation.id, nation.nation_name));
+const tradeInfo = await query.execute();
+// Type: { market_index: number, resources: TopTradeResourceInfo[] }[]
+console.log(tradeInfo[0].market_index);
+console.log(tradeInfo[0].resources[0].average_price);
 
 // Returns object with pagination info
 const result = await query.execute(true);
 // Type: { data: {...}[], paginatorInfo: {...} }
-console.log(result.data);                    // Nations array
+console.log(result.data);                    // Trade info array
 console.log(result.paginatorInfo.total);     // Total count
-console.log(result.paginatorInfo.hasMorePages); // Boolean
 ```
 
 #### Call Signature
 
-> **execute**(`withPaginator`): `Promise`\<\{ `data`: `SelectFields`\<`NationFields`, `F`, `I`\>[]; `paginatorInfo`: `paginatorInfo`; \}\>
+> **execute**(`withPaginator`): `Promise`\<\{ `data`: `SelectFields`\<`TopTradeInfo`, `F`, `I`\>[]; `paginatorInfo`: `paginatorInfo`; \}\>
 
-Defined in: [api/queries/nations.ts:219](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/queries/nations.ts#L219)
+Defined in: api/queries/topTradeInfo.ts:121
 
-Execute the nations query and return results.
+Execute the top trade info query and return results.
 
 Return type changes based on withPaginator parameter:
-- `execute()` or `execute(false)` → Returns array of nations
+- `execute()` or `execute(false)` → Returns array with top trade info object
 - `execute(true)` → Returns object with data array and paginatorInfo
 
-Results only include selected fields and included relations.
+Results only include selected fields.
 All other fields are excluded from the response.
 
 ##### Parameters
@@ -411,9 +378,9 @@ Whether to include pagination metadata in response
 
 ##### Returns
 
-`Promise`\<\{ `data`: `SelectFields`\<`NationFields`, `F`, `I`\>[]; `paginatorInfo`: `paginatorInfo`; \}\>
+`Promise`\<\{ `data`: `SelectFields`\<`TopTradeInfo`, `F`, `I`\>[]; `paginatorInfo`: `paginatorInfo`; \}\>
 
-Array of nations, or object with data and paginatorInfo if withPaginator is true
+Array containing top trade info object, or object with data and paginatorInfo if withPaginator is true
 
 ##### Throws
 
@@ -423,98 +390,16 @@ Error if the query fails or returns no data
 
 ```typescript
 // Returns array directly
-const nations = await query.execute();
-// Type: { id: number, nation_name: string }[]
-nations.forEach(nation => console.log(nation.id, nation.nation_name));
+const tradeInfo = await query.execute();
+// Type: { market_index: number, resources: TopTradeResourceInfo[] }[]
+console.log(tradeInfo[0].market_index);
+console.log(tradeInfo[0].resources[0].average_price);
 
 // Returns object with pagination info
 const result = await query.execute(true);
 // Type: { data: {...}[], paginatorInfo: {...} }
-console.log(result.data);                    // Nations array
+console.log(result.data);                    // Trade info array
 console.log(result.paginatorInfo.total);     // Total count
-console.log(result.paginatorInfo.hasMorePages); // Boolean
-```
-
-***
-
-### include()
-
-> **include**\<`K`, `TConfig`, `TNestedResult`, `TWrappedResult`\>(`relation`, `config`): `NationsQuery`\<`F`, `I` & `Record`\<`K`, `TWrappedResult`\>\>
-
-Defined in: [api/queries/nations.ts:175](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/queries/nations.ts#L175)
-
-Include related data in the query results
-
-Supports unlimited recursive nesting with full type inference at every level.
-Each nested builder receives complete type safety for fields, relations, and query parameters.
-
-#### Type Parameters
-
-##### K
-
-`K` *extends* keyof `NationRelations`
-
-##### TConfig
-
-`TConfig` *extends* `SubqueryConfig`\<`NationRelations`\[`K`\], `GetRelationsFor`\<`NationRelations`\[`K`\]\>, `GetQueryParamsFor`\<`NationRelations`\[`K`\]\>\>
-
-##### TNestedResult
-
-`TNestedResult` = `InferSubqueryType`\<`ReturnType`\<`TConfig`\>\>
-
-##### TWrappedResult
-
-`TWrappedResult` = `NationRelations`\[`K`\] *extends* `any`[] ? `TNestedResult`[] : `TNestedResult`
-
-#### Parameters
-
-##### relation
-
-`K`
-
-The relation name to include
-
-##### config
-
-`TConfig`
-
-A builder function for configuring the subquery
-
-#### Returns
-
-`NationsQuery`\<`F`, `I` & `Record`\<`K`, `TWrappedResult`\>\>
-
-New query instance with included relation
-
-#### Example
-
-```typescript
-// Basic subquery with field selection
-.include('cities', builder => builder
-  .select('id', 'name', 'infrastructure')
-)
-
-// Subquery with filtering
-.include('alliance', builder => builder
-  .select('id', 'name', 'score')
-  .where({ id: [1234] })
-)
-
-// Deeply nested subquery with unlimited depth
-.include('alliance', builder => builder
-  .select('id', 'name', 'score')
-  .where({ min_score: 1000 })
-  .include('nations', builder2 => builder2  // Unlimited nesting!
-    .select('id', 'nation_name')
-    .where({ min_score: 500 })
-    .include('cities', builder3 => builder3
-      .select('id', 'name', 'infrastructure')
-    )
-  )
-)
-
-// Important: Always select at least one scalar field at each level
-// GraphQL requires this - you cannot query an object without selecting fields
 ```
 
 ***
@@ -553,17 +438,17 @@ Error if string exceeds maximum length
 
 ### select()
 
-> **select**\<`Fields`\>(...`fields`): `NationsQuery`\<`Fields`\>
+> **select**\<`Fields`\>(...`fields`): `TopTradeInfoQuery`\<`Fields`\>
 
-Defined in: [api/queries/nations.ts:114](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/queries/nations.ts#L114)
+Defined in: api/queries/topTradeInfo.ts:79
 
-Select specific fields to retrieve from nations
+Select specific fields to retrieve from top trade info
 
 #### Type Parameters
 
 ##### Fields
 
-`Fields` *extends* readonly keyof `NationFields`[]
+`Fields` *extends* readonly keyof `TopTradeInfo`[]
 
 #### Parameters
 
@@ -575,7 +460,7 @@ Field names to select
 
 #### Returns
 
-`NationsQuery`\<`Fields`\>
+`TopTradeInfoQuery`\<`Fields`\>
 
 New query instance with selected fields
 
@@ -585,8 +470,8 @@ Error if no fields are provided
 
 #### Example
 
-```ts
-.select('id', 'nation_name', 'score')
+```typescript
+.select('market_index', 'resources')
 ```
 
 ***
@@ -686,33 +571,3 @@ Error if string exceeds maximum length
 #### Inherited from
 
 `QueryBuilder.validateInputLength`
-
-***
-
-### where()
-
-> **where**(`filters`): `this`
-
-Defined in: [api/queries/nations.ts:130](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/queries/nations.ts#L130)
-
-Apply filters to the query
-
-#### Parameters
-
-##### filters
-
-`NationQueryParams`
-
-Query parameters for filtering results
-
-#### Returns
-
-`this`
-
-This query instance for method chaining
-
-#### Example
-
-```ts
-.where({ min_score: 1000, max_score: 5000 })
-```

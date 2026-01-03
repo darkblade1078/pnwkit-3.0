@@ -1,4 +1,4 @@
-import type { AllianceFields } from "./alliance.js";
+import type { DefaultParams, SortOrder } from "../others.js";
 import type { NationFields } from "./nation.js";
 
 export interface WarFields {
@@ -51,4 +51,42 @@ export interface WarFields {
     def_nukes_used: number;
     att_infra_destroyed_value: number;
     def_infra_destroyed_value: number;
+}
+
+export interface WarQueryParams extends DefaultParams {
+    id?: number[];
+    min_id?: number;
+    max_id?: number;
+    before?: string;
+    after?: string;
+    ended_before?: string;
+    ended_after?: string;
+    attid?: number[];
+    defid?: number[];
+    or_id?: number[];
+    days_ago?: number;
+    active?: boolean;
+    status?: WarActivity;
+    nation_id?: number[];
+    alliance_id?: number[];
+    orderBy?: QueryWarsOrderByOrderByClause;
+}
+
+export type WarActivity = 'ALL' | 'ACTIVE' | 'INACTIVE';
+
+export type QueryWarsOrderByColumn = 
+    | 'ID'
+    | 'DATE'
+
+export type QueryWarsOrderByOrderByClause = {
+    column: QueryWarsOrderByColumn;
+    order: SortOrder;
+};
+
+export interface WarRelations {
+    attacks: any[]; // Replace with WarAttack when defined
+    att_alliance_position: any; // Replace with AlliancePositionEnum when defined
+    def_alliance_position: any; // Replace with AlliancePositionEnum when defined
+    attacker: NationFields;
+    defender: NationFields;
 }

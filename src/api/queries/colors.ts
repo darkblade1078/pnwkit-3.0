@@ -3,92 +3,62 @@ import { QueryBuilder, type SubqueryConfig } from "../../builders/queryBuilder.j
 import graphQLService from "../../services/graphQL.js";
 import type { paginatorInfo } from "../../types/others.js";
 import type PnwKitApi from "../index.js";
-import type { AllianceFields, AllianceQueryParams, AllianceRelations } from "../../types/queries/alliance.js";
 import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMappings.js";
+import type { ColorFields, ColorQueryParams, ColorRelations } from "../../types/queries/color.js";
 
 /**
- * Query builder for fetching alliance data from the Politics & War API.
+ * Query builder for fetching color trade bloc data from the Politics & War API.
  * 
- * Create new instances using the factory method: `pnwkit.queries.alliances()`
+ * Create new instances using the factory method: `pnwkit.queries.colors()`
  * Each call creates a fresh instance with no shared state, preventing filter pollution.
  * 
+ * Colors represent trade blocs in the game, each providing different bonuses and benefits.
+ * 
  * Features:
- * - Type-safe field selection and filtering
- * - Unlimited recursive nesting with automatic type inference
- * - Automatic cardinality detection (all alliance relations are arrays)
- * - Pagination support with optional paginatorInfo
+ * - Type-safe field selection
+ * - Access to color names, bloc names, and turn bonuses
+ * - No filtering parameters (returns all colors)
  * 
  * Return types:
- * - `execute()` → Returns array of alliances
- * - `execute(true)` → Returns `{ data: Alliance[], paginatorInfo: {...} }`
+ * - `execute()` → Returns array of colors
+ * - `execute(true)` → Returns `{ data: Color[], paginatorInfo: {...} }`
  * 
  * @category Query Builders
  * @template F - Selected field names (tracked through chaining for precise autocomplete)
- * @template I - Included relations (tracked through chaining, all arrays for alliances)
+ * @template I - Included relations (tracked through chaining with proper cardinality)
  * 
  * @example
  * ```typescript
- * // Basic query with filtering
- * const alliances = await pnwkit.queries.alliances()
- *   .select('id', 'name', 'score', 'color')
- *   .where({ 
- *     name: ['Rose', 'Grumpy'],
- *     orderBy: [{ column: 'SCORE', order: 'DESC' }]
- *   })
- *   .first(50)
+ * // Basic query with field selection
+ * const colors = await pnwkit.queries.colors()
+ *   .select('color', 'bloc_name', 'turn_bonus')
  *   .execute();
- * // Type: { id: number, name: string, score: number, color: string }[]
+ * // Type: { color: string, bloc_name: string, turn_bonus: number }[]
  * 
- * // Nested query with array relations (all alliance relations return arrays)
- * const alliances = await pnwkit.queries.alliances()
- *   .select('id', 'name')
- *   .include('nations', builder => builder  // Array: returns nation[]
- *     .select('id', 'nation_name', 'score')
- *     .where({ min_score: 1000 })
- *   )
- *   .include('bankrecs', builder => builder  // Array: returns bankrec[]
- *     .select('id', 'date', 'money')
- *   )
- *   .first(10)
+ * // Query all available colors
+ * const allColors = await pnwkit.queries.colors()
+ *   .select('color', 'bloc_name')
  *   .execute();
- * // Type: { 
- * //   id: number, 
- * //   name: string,
- * //   nations: { id: number, nation_name: string, score: number }[],
- * //   bankrecs: { id: number, date: string, money: number }[]
- * // }[]
- * 
- * // Unlimited nesting depth
- * const alliances = await pnwkit.queries.alliances()
- *   .select('id', 'name')
- *   .include('nations', b1 => b1
- *     .select('id', 'nation_name')
- *     .include('cities', b2 => b2  // Unlimited nesting!
- *       .select('id', 'name', 'infrastructure')
- *       .where({ min_infrastructure: 500 })
- *     )
- *   )
- *   .execute();
+ * console.log(allColors);  // Array of all colors
  * 
  * // With pagination info
- * const result = await pnwkit.queries.alliances()
- *   .select('id', 'name')
- *   .first(100)
+ * const result = await pnwkit.queries.colors()
+ *   .select('color', 'bloc_name', 'turn_bonus')
  *   .execute(true);
- * console.log(result.data);           // Alliances array
+ * console.log(result.data);           // Colors array
  * console.log(result.paginatorInfo);  // Pagination metadata
  * ```
 */
-export class AlliancesQuery<
-    F extends readonly (keyof AllianceFields)[] = [], 
+export class ColorsQuery<
+    F extends readonly (keyof ColorFields)[] = [], 
     I extends Record<string, any> = {}
 > 
-extends QueryBuilder<AllianceFields, AllianceQueryParams>
+extends QueryBuilder<ColorFields, ColorQueryParams>
 {
-    protected queryName = 'alliances';
+    protected queryName = 'colors';
 
     /**
-     * Create a new AlliancesQuery instance
+     * Create a new ColorsQuery instance
      * @param kit - The PnWKit instance containing API credentials
      * @internal
     */
@@ -97,19 +67,19 @@ extends QueryBuilder<AllianceFields, AllianceQueryParams>
     }
 
     /**
-     * Select specific fields to retrieve from alliances
+     * Select specific fields to retrieve from colors
      * @param fields - Field names to select
      * @returns New query instance with selected fields
      * @throws Error if no fields are provided
      * @example
      * ```typescript
-     * .select('id', 'name', 'score', 'color')
+     * .select('color', 'bloc_name', 'turn_bonus')
      * ```
     */
-    select<const Fields extends readonly (keyof AllianceFields)[]>
+    select<const Fields extends readonly (keyof ColorFields)[]>
     (
         ...fields: Fields
-    ): AlliancesQuery<Fields> 
+    ): ColorsQuery<Fields> 
     {
         if(fields.length === 0)
             throw new Error("At least one field must be selected.");
@@ -122,15 +92,13 @@ extends QueryBuilder<AllianceFields, AllianceQueryParams>
      * Apply filters to the query
      * @param filters - Query parameters for filtering results
      * @returns This query instance for method chaining
+     * @note Colors query does not support filtering parameters
      * @example
      * ```typescript
-     * .where({ 
-     *   name: ['Rose', 'Grumpy'], 
-     *   color: ['AQUA', 'BLUE'] 
-     * })
+     * .where({})
      * ```
     */
-    where(filters: AllianceQueryParams): this
+    where(filters: ColorQueryParams): this
     {
         this.filters = filters;
         return this;
@@ -148,26 +116,16 @@ extends QueryBuilder<AllianceFields, AllianceQueryParams>
      * @example
      * ```typescript
      * // Basic subquery with field selection
-     * .include('bankrecs', builder => builder
-     *   .select('id', 'date', 'money', 'note')
+     * .include('nation', builder => builder
+     *   .select('id', 'nation_name', 'score')
      * )
      * 
-     * // Subquery with filtering
-     * .include('nations', builder => builder
-     *   .select('id', 'nation_name', 'score')
+     * // Subquery with filtering and nesting
+     * .include('nation', builder => builder
+     *   .select('id', 'nation_name')
      *   .where({ min_score: 1000 })
-     * )
-     * 
-     * // Deeply nested subquery with unlimited depth
-     * .include('nations', builder => builder
-     *   .select('id', 'nation_name', 'score')
-     *   .where({ min_score: 1000 })
-     *   .include('cities', builder2 => builder2  // Unlimited nesting!
-     *     .select('id', 'name', 'infrastructure')
-     *     .where({ min_infrastructure: 500 })
-     *     .include('buildings', builder3 => builder3
-     *       .select('id', 'type')
-     *     )
+     *   .include('alliance', builder2 => builder2  // Unlimited nesting!
+     *     .select('id', 'name', 'score')
      *   )
      * )
      * 
@@ -176,56 +134,56 @@ extends QueryBuilder<AllianceFields, AllianceQueryParams>
      * ```
     */
     include<
-        K extends keyof AllianceRelations,
-        TConfig extends SubqueryConfig<AllianceRelations[K], GetRelationsFor<AllianceRelations[K]>, GetQueryParamsFor<AllianceRelations[K]>>,
+        K extends keyof ColorRelations,
+        TConfig extends SubqueryConfig<ColorRelations[K], GetRelationsFor<ColorRelations[K]>, GetQueryParamsFor<ColorRelations[K]>>,
         TNestedResult = InferSubqueryType<ReturnType<TConfig>>,
-        TWrappedResult = AllianceRelations[K] extends any[] ? TNestedResult[] : TNestedResult
+        TWrappedResult = ColorRelations[K] extends any[] ? TNestedResult[] : TNestedResult
     >(
         relation: K,
         config: TConfig
-    ): AlliancesQuery<F, I & Record<K, TWrappedResult>>
+    ): ColorsQuery<F, I & Record<K, TWrappedResult>>
     {
         this.subqueries.set(relation as string, config as SubqueryConfig<any, any, any>);
         return this as any;
     }
 
     /**
-     * Execute the alliances query and return results.
+     * Execute the colors query and return results.
      * 
      * Return type changes based on withPaginator parameter:
-     * - `execute()` or `execute(false)` → Returns array of alliances
+     * - `execute()` or `execute(false)` → Returns array of colors
      * - `execute(true)` → Returns object with data array and paginatorInfo
      * 
-     * Results only include selected fields and included relations.
+     * Results only include selected fields.
      * All other fields are excluded from the response.
      * 
      * @param withPaginator - Whether to include pagination metadata in response
-     * @returns Array of alliances, or object with data and paginatorInfo if withPaginator is true
+     * @returns Array of colors, or object with data and paginatorInfo if withPaginator is true
      * @throws Error if the query fails or returns no data
      * 
      * @example
      * ```typescript
      * // Returns array directly
-     * const alliances = await query.execute();
-     * // Type: { id: number, name: string }[]
-     * alliances.forEach(alliance => console.log(alliance.id, alliance.name));
+     * const colors = await query.execute();
+     * // Type: { color: string, bloc_name: string, turn_bonus: number }[]
+     * colors.forEach(color => console.log(color.color, color.bloc_name));
      * 
      * // Returns object with pagination info
      * const result = await query.execute(true);
      * // Type: { data: {...}[], paginatorInfo: {...} }
-     * console.log(result.data);                    // Alliances array
+     * console.log(result.data);                    // Colors array
      * console.log(result.paginatorInfo.total);     // Total count
      * console.log(result.paginatorInfo.currentPage); // Current page number
      * ```
     */
-    async execute(): Promise<SelectFields<AllianceFields, F, I>[]>;
+    async execute(): Promise<SelectFields<ColorFields, F, I>[]>;
     async execute(withPaginator: true): Promise<{ 
-        data: SelectFields<AllianceFields, F, I>[], 
+        data: SelectFields<ColorFields, F, I>[], 
         paginatorInfo: paginatorInfo 
     }>;
     async execute(withPaginator: boolean = false): Promise<
-    SelectFields<AllianceFields, F, I>[] | 
-    { data: SelectFields<AllianceFields, F, I>[], paginatorInfo: paginatorInfo }
+    SelectFields<ColorFields, F, I>[] | 
+    { data: SelectFields<ColorFields, F, I>[], paginatorInfo: paginatorInfo }
     >
     {
         try

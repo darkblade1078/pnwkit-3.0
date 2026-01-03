@@ -31,3 +31,8 @@ export type paginatorInfo = {
 }
 
 export type SortOrder = 'ASC' | 'DESC';
+
+export interface DefaultParams {
+    page?: number;
+    first?: number;
+}

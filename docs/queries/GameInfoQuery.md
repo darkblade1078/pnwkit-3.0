@@ -2,94 +2,62 @@
 
 ***
 
-[Query Builders](../../modules.md) / [nations](../README.md) / NationsQuery
+[Query Builders](../../modules.md) / [gameInfo](../README.md) / GameInfoQuery
 
-# Class: NationsQuery\<F, I\>
+# Class: GameInfoQuery\<F, I\>
 
-Defined in: [api/queries/nations.ts:86](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/queries/nations.ts#L86)
+Defined in: api/queries/gameInfo.ts:54
 
-Query builder for fetching nation data from the Politics & War API.
+Query builder for fetching game information from the Politics & War API.
 
-Create new instances using the factory method: `pnwkit.queries.nations()`
+Create new instances using the factory method: `pnwkit.queries.gameInfo()`
 Each call creates a fresh instance with no shared state, preventing filter pollution.
 
+Game info provides current game state data including the game date, radiation levels by continent,
+and average city infrastructure.
+
 Features:
-- Type-safe field selection and filtering
-- Unlimited recursive nesting with automatic type inference
-- Automatic cardinality detection (singular vs array relations)
-- Pagination support with optional paginatorInfo
+- Type-safe field selection
+- Access to current game date, global and regional radiation levels
+- Real-time city average data
 
 Return types:
-- `execute()` → Returns array of nations
-- `execute(true)` → Returns `{ data: Nation[], paginatorInfo: {...} }`
+- `execute()` → Returns game info object
+- `execute(true)` → Returns `{ data: GameInfo, paginatorInfo: {...} }`
 
 ## Example
 
 ```typescript
-// Basic query with filtering and pagination
-const nations = await pnwkit.queries.nations()
-  .select('id', 'nation_name', 'score', 'alliance_id')
-  .where({ 
-    min_score: 1000, 
-    max_score: 5000,
-    orderBy: [{ column: 'SCORE', order: 'DESC' }]
-  })
-  .first(100)
+// Basic query with field selection
+const gameInfo = await pnwkit.queries.gameInfo()
+  .select('game_date', 'radiation', 'city_average')
   .execute();
-// Type: { id: number, nation_name: string, score: number, alliance_id: number }[]
+// Type: { game_date: string, radiation: Radiation, city_average: number }[]
 
-// Nested query with singular and array relations
-const nations = await pnwkit.queries.nations()
-  .select('id', 'nation_name')
-  .include('alliance', builder => builder  // Singular: returns object
-    .select('id', 'name', 'score')
-    .where({ min_score: 5000 })
-  )
-  .include('cities', builder => builder  // Array: returns array
-    .select('id', 'name', 'infrastructure')
-  )
-  .first(50)
+// Access radiation data by continent
+const gameInfo = await pnwkit.queries.gameInfo()
+  .select('game_date', 'radiation')
   .execute();
-// Type: { 
-//   id: number, 
-//   nation_name: string,
-//   alliance: { id: number, name: string, score: number },
-//   cities: { id: number, name: string, infrastructure: number }[]
-// }[]
+console.log(gameInfo[0].radiation.global);        // Global radiation
+console.log(gameInfo[0].radiation.north_america); // North America radiation
 
-// Unlimited nesting depth
-const nations = await pnwkit.queries.nations()
-  .select('id', 'nation_name')
-  .include('alliance', b1 => b1
-    .select('id', 'name')
-    .include('nations', b2 => b2  // Nested nations
-      .select('id', 'nation_name')
-      .include('cities', b3 => b3  // Unlimited depth!
-        .select('id', 'name')
-      )
-    )
-  )
+// Get current game date and city average
+const gameInfo = await pnwkit.queries.gameInfo()
+  .select('game_date', 'city_average')
   .execute();
-
-// With pagination info
-const result = await pnwkit.queries.nations()
-  .select('id', 'nation_name')
-  .first(500)
-  .page(2)
-  .execute(true);
-console.log(result.data);           // Nations array
-console.log(result.paginatorInfo);  // { currentPage, total, hasMorePages, ... }
+console.log(gameInfo[0].game_date);      // Current game date
+console.log(gameInfo[0].city_average);   // Average city infrastructure
 ```
 
 ## Extends
 
-- `QueryBuilder`\<`NationFields`, `NationQueryParams`\>
+- `QueryBuilder`\<`GameInfoFields`, `GameInfoQueryParams`\>
 
 ## Type Parameters
 
 ### F
 
-`F` *extends* readonly keyof `NationFields`[] = \[\]
+`F` *extends* readonly keyof `GameInfoFields`[] = \[\]
 
 Selected field names (tracked through chaining for precise autocomplete)
 
@@ -103,13 +71,13 @@ Included relations (tracked through chaining with proper cardinality)
 
 ### Constructor
 
-> **new NationsQuery**\<`F`, `I`\>(`kit`): `NationsQuery`\<`F`, `I`\>
+> **new GameInfoQuery**\<`F`, `I`\>(`kit`): `GameInfoQuery`\<`F`, `I`\>
 
-Defined in: [api/queries/nations.ts:102](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/queries/nations.ts#L102)
+Defined in: api/queries/gameInfo.ts:67
 
 **`Internal`**
 
-Create a new NationsQuery instance
+Create a new GameInfoQuery instance
 
 #### Parameters
 
@@ -121,11 +89,11 @@ The PnWKit instance containing API credentials
 
 #### Returns
 
-`NationsQuery`\<`F`, `I`\>
+`GameInfoQuery`\<`F`, `I`\>
 
 #### Overrides
 
-`QueryBuilder< NationFields, // Main entity fields NationQueryParams // Filter parameters >.constructor`
+`QueryBuilder<GameInfoFields, GameInfoQueryParams>.constructor`
 
 ## Properties
 
@@ -143,7 +111,7 @@ Defined in: [builders/queryBuilder.ts:220](https://github.com/darkblade1078/pnwk
 
 ### filters
 
-> `protected` **filters**: `NationQueryParams`
+> `protected` **filters**: `GameInfoQueryParams`
 
 Defined in: [builders/queryBuilder.ts:226](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/builders/queryBuilder.ts#L226)
 
@@ -179,9 +147,9 @@ Defined in: [builders/queryBuilder.ts:219](https://github.com/darkblade1078/pnwk
 
 ### queryName
 
-> `protected` **queryName**: `string` = `'nations'`
+> `protected` **queryName**: `string` = `'game_info'`
 
-Defined in: [api/queries/nations.ts:95](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/queries/nations.ts#L95)
+Defined in: api/queries/gameInfo.ts:60
 
 #### Overrides
 
@@ -191,7 +159,7 @@ Defined in: [api/queries/nations.ts:95](https://github.com/darkblade1078/pnwkit-
 
 ### selectedFields
 
-> `protected` **selectedFields**: keyof `NationFields`[] = `[]`
+> `protected` **selectedFields**: keyof `GameInfoFields`[] = `[]`
 
 Defined in: [builders/queryBuilder.ts:225](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/builders/queryBuilder.ts#L225)
 
@@ -347,14 +315,14 @@ Object containing scalar fields, nested relations, and filter parameters
 
 #### Call Signature
 
-> **execute**(): `Promise`\<`SelectFields`\<`NationFields`, `F`, `I`\>[]\>
+> **execute**(): `Promise`\<`SelectFields`\<`GameInfoFields`, `F`, `I`\>[]\>
 
-Defined in: [api/queries/nations.ts:218](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/queries/nations.ts#L218)
+Defined in: api/queries/gameInfo.ts:182
 
-Execute the nations query and return results.
+Execute the game info query and return results.
 
 Return type changes based on withPaginator parameter:
-- `execute()` or `execute(false)` → Returns array of nations
+- `execute()` or `execute(false)` → Returns array with game info object
 - `execute(true)` → Returns object with data array and paginatorInfo
 
 Results only include selected fields and included relations.
@@ -362,9 +330,9 @@ All other fields are excluded from the response.
 
 ##### Returns
 
-`Promise`\<`SelectFields`\<`NationFields`, `F`, `I`\>[]\>
+`Promise`\<`SelectFields`\<`GameInfoFields`, `F`, `I`\>[]\>
 
-Array of nations, or object with data and paginatorInfo if withPaginator is true
+Array containing game info object, or object with data and paginatorInfo if withPaginator is true
 
 ##### Throws
 
@@ -374,28 +342,29 @@ Error if the query fails or returns no data
 
 ```typescript
 // Returns array directly
-const nations = await query.execute();
-// Type: { id: number, nation_name: string }[]
-nations.forEach(nation => console.log(nation.id, nation.nation_name));
+const gameInfo = await query.execute();
+// Type: { game_date: string, radiation: Radiation, city_average: number }[]
+console.log(gameInfo[0].game_date);
+console.log(gameInfo[0].radiation.global);
 
 // Returns object with pagination info
 const result = await query.execute(true);
 // Type: { data: {...}[], paginatorInfo: {...} }
-console.log(result.data);                    // Nations array
+console.log(result.data);                    // Game info array
 console.log(result.paginatorInfo.total);     // Total count
-console.log(result.paginatorInfo.hasMorePages); // Boolean
+console.log(result.paginatorInfo.currentPage); // Current page number
 ```
 
 #### Call Signature
 
-> **execute**(`withPaginator`): `Promise`\<\{ `data`: `SelectFields`\<`NationFields`, `F`, `I`\>[]; `paginatorInfo`: `paginatorInfo`; \}\>
+> **execute**(`withPaginator`): `Promise`\<\{ `data`: `SelectFields`\<`GameInfoFields`, `F`, `I`\>[]; `paginatorInfo`: `paginatorInfo`; \}\>
 
-Defined in: [api/queries/nations.ts:219](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/queries/nations.ts#L219)
+Defined in: api/queries/gameInfo.ts:183
 
-Execute the nations query and return results.
+Execute the game info query and return results.
 
 Return type changes based on withPaginator parameter:
-- `execute()` or `execute(false)` → Returns array of nations
+- `execute()` or `execute(false)` → Returns array with game info object
 - `execute(true)` → Returns object with data array and paginatorInfo
 
 Results only include selected fields and included relations.
@@ -411,9 +380,9 @@ Whether to include pagination metadata in response
 
 ##### Returns
 
-`Promise`\<\{ `data`: `SelectFields`\<`NationFields`, `F`, `I`\>[]; `paginatorInfo`: `paginatorInfo`; \}\>
+`Promise`\<\{ `data`: `SelectFields`\<`GameInfoFields`, `F`, `I`\>[]; `paginatorInfo`: `paginatorInfo`; \}\>
 
-Array of nations, or object with data and paginatorInfo if withPaginator is true
+Array containing game info object, or object with data and paginatorInfo if withPaginator is true
 
 ##### Throws
 
@@ -423,25 +392,26 @@ Error if the query fails or returns no data
 
 ```typescript
 // Returns array directly
-const nations = await query.execute();
-// Type: { id: number, nation_name: string }[]
-nations.forEach(nation => console.log(nation.id, nation.nation_name));
+const gameInfo = await query.execute();
+// Type: { game_date: string, radiation: Radiation, city_average: number }[]
+console.log(gameInfo[0].game_date);
+console.log(gameInfo[0].radiation.global);
 
 // Returns object with pagination info
 const result = await query.execute(true);
 // Type: { data: {...}[], paginatorInfo: {...} }
-console.log(result.data);                    // Nations array
+console.log(result.data);                    // Game info array
 console.log(result.paginatorInfo.total);     // Total count
-console.log(result.paginatorInfo.hasMorePages); // Boolean
+console.log(result.paginatorInfo.currentPage); // Current page number
 ```
 
 ***
 
 ### include()
 
-> **include**\<`K`, `TConfig`, `TNestedResult`, `TWrappedResult`\>(`relation`, `config`): `NationsQuery`\<`F`, `I` & `Record`\<`K`, `TWrappedResult`\>\>
+> **include**\<`K`, `TConfig`, `TNestedResult`, `TWrappedResult`\>(`relation`, `config`): `GameInfoQuery`\<`F`, `I` & `Record`\<`K`, `TWrappedResult`\>\>
 
-Defined in: [api/queries/nations.ts:175](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/queries/nations.ts#L175)
+Defined in: api/queries/gameInfo.ts:138
 
 Include related data in the query results
 
@@ -452,11 +422,11 @@ Each nested builder receives complete type safety for fields, relations, and que
 
 ##### K
 
-`K` *extends* keyof `NationRelations`
+`K` *extends* `never`
 
 ##### TConfig
 
-`TConfig` *extends* `SubqueryConfig`\<`NationRelations`\[`K`\], `GetRelationsFor`\<`NationRelations`\[`K`\]\>, `GetQueryParamsFor`\<`NationRelations`\[`K`\]\>\>
+`TConfig` *extends* `SubqueryConfig`\<`GameInfoRelations`\[`K`\], `GetRelationsFor`\<`GameInfoRelations`\[`K`\]\>, `GetQueryParamsFor`\<`GameInfoRelations`\[`K`\]\>\>
 
 ##### TNestedResult
 
@@ -464,7 +434,7 @@ Each nested builder receives complete type safety for fields, relations, and que
 
 ##### TWrappedResult
 
-`TWrappedResult` = `NationRelations`\[`K`\] *extends* `any`[] ? `TNestedResult`[] : `TNestedResult`
+`TWrappedResult` = `GameInfoRelations`\[`K`\] *extends* `any`[] ? `TNestedResult`[] : `TNestedResult`
 
 #### Parameters
 
@@ -482,7 +452,7 @@ A builder function for configuring the subquery
 
 #### Returns
 
-`NationsQuery`\<`F`, `I` & `Record`\<`K`, `TWrappedResult`\>\>
+`GameInfoQuery`\<`F`, `I` & `Record`\<`K`, `TWrappedResult`\>\>
 
 New query instance with included relation
 
@@ -490,26 +460,16 @@ New query instance with included relation
 
 ```typescript
 // Basic subquery with field selection
-.include('cities', builder => builder
-  .select('id', 'name', 'infrastructure')
+.include('nation', builder => builder
+  .select('id', 'nation_name', 'score')
 )
 
-// Subquery with filtering
-.include('alliance', builder => builder
-  .select('id', 'name', 'score')
-  .where({ id: [1234] })
-)
-
-// Deeply nested subquery with unlimited depth
-.include('alliance', builder => builder
-  .select('id', 'name', 'score')
+// Subquery with filtering and nesting
+.include('nation', builder => builder
+  .select('id', 'nation_name')
   .where({ min_score: 1000 })
-  .include('nations', builder2 => builder2  // Unlimited nesting!
-    .select('id', 'nation_name')
-    .where({ min_score: 500 })
-    .include('cities', builder3 => builder3
-      .select('id', 'name', 'infrastructure')
-    )
+  .include('alliance', builder2 => builder2  // Unlimited nesting!
+    .select('id', 'name', 'score')
   )
 )
 
@@ -553,17 +513,17 @@ Error if string exceeds maximum length
 
 ### select()
 
-> **select**\<`Fields`\>(...`fields`): `NationsQuery`\<`Fields`\>
+> **select**\<`Fields`\>(...`fields`): `GameInfoQuery`\<`Fields`\>
 
-Defined in: [api/queries/nations.ts:114](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/queries/nations.ts#L114)
+Defined in: api/queries/gameInfo.ts:81
 
-Select specific fields to retrieve from nations
+Select specific fields to retrieve from game info
 
 #### Type Parameters
 
 ##### Fields
 
-`Fields` *extends* readonly keyof `NationFields`[]
+`Fields` *extends* readonly keyof `GameInfoFields`[]
 
 #### Parameters
 
@@ -575,7 +535,7 @@ Field names to select
 
 #### Returns
 
-`NationsQuery`\<`Fields`\>
+`GameInfoQuery`\<`Fields`\>
 
 New query instance with selected fields
 
@@ -585,8 +545,8 @@ Error if no fields are provided
 
 #### Example
 
-```ts
-.select('id', 'nation_name', 'score')
+```typescript
+.select('game_date', 'radiation', 'city_average')
 ```
 
 ***
@@ -693,7 +653,7 @@ Error if string exceeds maximum length
 
 > **where**(`filters`): `this`
 
-Defined in: [api/queries/nations.ts:130](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/queries/nations.ts#L130)
+Defined in: api/queries/gameInfo.ts:103
 
 Apply filters to the query
 
@@ -701,7 +661,7 @@ Apply filters to the query
 
 ##### filters
 
-`NationQueryParams`
+`GameInfoQueryParams`
 
 Query parameters for filtering results
 
@@ -711,8 +671,12 @@ Query parameters for filtering results
 
 This query instance for method chaining
 
+#### Note
+
+Game info query does not support filtering parameters
+
 #### Example
 
-```ts
-.where({ min_score: 1000, max_score: 5000 })
+```typescript
+.where({})
 ```

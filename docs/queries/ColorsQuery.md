@@ -2,94 +2,60 @@
 
 ***
 
-[Query Builders](../../modules.md) / [nations](../README.md) / NationsQuery
+[Query Builders](../../modules.md) / [colors](../README.md) / ColorsQuery
 
-# Class: NationsQuery\<F, I\>
+# Class: ColorsQuery\<F, I\>
 
-Defined in: [api/queries/nations.ts:86](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/queries/nations.ts#L86)
+Defined in: api/queries/colors.ts:52
 
-Query builder for fetching nation data from the Politics & War API.
+Query builder for fetching color trade bloc data from the Politics & War API.
 
-Create new instances using the factory method: `pnwkit.queries.nations()`
+Create new instances using the factory method: `pnwkit.queries.colors()`
 Each call creates a fresh instance with no shared state, preventing filter pollution.
 
+Colors represent trade blocs in the game, each providing different bonuses and benefits.
+
 Features:
-- Type-safe field selection and filtering
-- Unlimited recursive nesting with automatic type inference
-- Automatic cardinality detection (singular vs array relations)
-- Pagination support with optional paginatorInfo
+- Type-safe field selection
+- Access to color names, bloc names, and turn bonuses
+- No filtering parameters (returns all colors)
 
 Return types:
-- `execute()` → Returns array of nations
-- `execute(true)` → Returns `{ data: Nation[], paginatorInfo: {...} }`
+- `execute()` → Returns array of colors
+- `execute(true)` → Returns `{ data: Color[], paginatorInfo: {...} }`
 
 ## Example
 
 ```typescript
-// Basic query with filtering and pagination
-const nations = await pnwkit.queries.nations()
-  .select('id', 'nation_name', 'score', 'alliance_id')
-  .where({ 
-    min_score: 1000, 
-    max_score: 5000,
-    orderBy: [{ column: 'SCORE', order: 'DESC' }]
-  })
-  .first(100)
+// Basic query with field selection
+const colors = await pnwkit.queries.colors()
+  .select('color', 'bloc_name', 'turn_bonus')
   .execute();
-// Type: { id: number, nation_name: string, score: number, alliance_id: number }[]
+// Type: { color: string, bloc_name: string, turn_bonus: number }[]
 
-// Nested query with singular and array relations
-const nations = await pnwkit.queries.nations()
-  .select('id', 'nation_name')
-  .include('alliance', builder => builder  // Singular: returns object
-    .select('id', 'name', 'score')
-    .where({ min_score: 5000 })
-  )
-  .include('cities', builder => builder  // Array: returns array
-    .select('id', 'name', 'infrastructure')
-  )
-  .first(50)
+// Query all available colors
+const allColors = await pnwkit.queries.colors()
+  .select('color', 'bloc_name')
   .execute();
-// Type: { 
-//   id: number, 
-//   nation_name: string,
-//   alliance: { id: number, name: string, score: number },
-//   cities: { id: number, name: string, infrastructure: number }[]
-// }[]
-
-// Unlimited nesting depth
-const nations = await pnwkit.queries.nations()
-  .select('id', 'nation_name')
-  .include('alliance', b1 => b1
-    .select('id', 'name')
-    .include('nations', b2 => b2  // Nested nations
-      .select('id', 'nation_name')
-      .include('cities', b3 => b3  // Unlimited depth!
-        .select('id', 'name')
-      )
-    )
-  )
-  .execute();
+console.log(allColors);  // Array of all colors
 
 // With pagination info
-const result = await pnwkit.queries.nations()
-  .select('id', 'nation_name')
-  .first(500)
-  .page(2)
+const result = await pnwkit.queries.colors()
+  .select('color', 'bloc_name', 'turn_bonus')
   .execute(true);
-console.log(result.data);           // Nations array
-console.log(result.paginatorInfo);  // { currentPage, total, hasMorePages, ... }
+console.log(result.data);           // Colors array
+console.log(result.paginatorInfo);  // Pagination metadata
 ```
 
 ## Extends
 
-- `QueryBuilder`\<`NationFields`, `NationQueryParams`\>
+- `QueryBuilder`\<`ColorFields`, `ColorQueryParams`\>
 
 ## Type Parameters
 
 ### F
 
-`F` *extends* readonly keyof `NationFields`[] = \[\]
+`F` *extends* readonly keyof `ColorFields`[] = \[\]
 
 Selected field names (tracked through chaining for precise autocomplete)
 
@@ -103,13 +69,13 @@ Included relations (tracked through chaining with proper cardinality)
 
 ### Constructor
 
-> **new NationsQuery**\<`F`, `I`\>(`kit`): `NationsQuery`\<`F`, `I`\>
+> **new ColorsQuery**\<`F`, `I`\>(`kit`): `ColorsQuery`\<`F`, `I`\>
 
-Defined in: [api/queries/nations.ts:102](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/queries/nations.ts#L102)
+Defined in: api/queries/colors.ts:65
 
 **`Internal`**
 
-Create a new NationsQuery instance
+Create a new ColorsQuery instance
 
 #### Parameters
 
@@ -121,11 +87,11 @@ The PnWKit instance containing API credentials
 
 #### Returns
 
-`NationsQuery`\<`F`, `I`\>
+`ColorsQuery`\<`F`, `I`\>
 
 #### Overrides
 
-`QueryBuilder< NationFields, // Main entity fields NationQueryParams // Filter parameters >.constructor`
+`QueryBuilder<ColorFields, ColorQueryParams>.constructor`
 
 ## Properties
 
@@ -143,7 +109,7 @@ Defined in: [builders/queryBuilder.ts:220](https://github.com/darkblade1078/pnwk
 
 ### filters
 
-> `protected` **filters**: `NationQueryParams`
+> `protected` **filters**: `ColorQueryParams`
 
 Defined in: [builders/queryBuilder.ts:226](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/builders/queryBuilder.ts#L226)
 
@@ -179,9 +145,9 @@ Defined in: [builders/queryBuilder.ts:219](https://github.com/darkblade1078/pnwk
 
 ### queryName
 
-> `protected` **queryName**: `string` = `'nations'`
+> `protected` **queryName**: `string` = `'colors'`
 
-Defined in: [api/queries/nations.ts:95](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/queries/nations.ts#L95)
+Defined in: api/queries/colors.ts:58
 
 #### Overrides
 
@@ -191,7 +157,7 @@ Defined in: [api/queries/nations.ts:95](https://github.com/darkblade1078/pnwkit-
 
 ### selectedFields
 
-> `protected` **selectedFields**: keyof `NationFields`[] = `[]`
+> `protected` **selectedFields**: keyof `ColorFields`[] = `[]`
 
 Defined in: [builders/queryBuilder.ts:225](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/builders/queryBuilder.ts#L225)
 
@@ -347,24 +313,24 @@ Object containing scalar fields, nested relations, and filter parameters
 
 #### Call Signature
 
-> **execute**(): `Promise`\<`SelectFields`\<`NationFields`, `F`, `I`\>[]\>
+> **execute**(): `Promise`\<`SelectFields`\<`ColorFields`, `F`, `I`\>[]\>
 
-Defined in: [api/queries/nations.ts:218](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/queries/nations.ts#L218)
+Defined in: api/queries/colors.ts:179
 
-Execute the nations query and return results.
+Execute the colors query and return results.
 
 Return type changes based on withPaginator parameter:
-- `execute()` or `execute(false)` → Returns array of nations
+- `execute()` or `execute(false)` → Returns array of colors
 - `execute(true)` → Returns object with data array and paginatorInfo
 
-Results only include selected fields and included relations.
+Results only include selected fields.
 All other fields are excluded from the response.
 
 ##### Returns
 
-`Promise`\<`SelectFields`\<`NationFields`, `F`, `I`\>[]\>
+`Promise`\<`SelectFields`\<`ColorFields`, `F`, `I`\>[]\>
 
-Array of nations, or object with data and paginatorInfo if withPaginator is true
+Array of colors, or object with data and paginatorInfo if withPaginator is true
 
 ##### Throws
 
@@ -374,31 +340,31 @@ Error if the query fails or returns no data
 
 ```typescript
 // Returns array directly
-const nations = await query.execute();
-// Type: { id: number, nation_name: string }[]
-nations.forEach(nation => console.log(nation.id, nation.nation_name));
+const colors = await query.execute();
+// Type: { color: string, bloc_name: string, turn_bonus: number }[]
+colors.forEach(color => console.log(color.color, color.bloc_name));
 
 // Returns object with pagination info
 const result = await query.execute(true);
 // Type: { data: {...}[], paginatorInfo: {...} }
-console.log(result.data);                    // Nations array
+console.log(result.data);                    // Colors array
 console.log(result.paginatorInfo.total);     // Total count
-console.log(result.paginatorInfo.hasMorePages); // Boolean
+console.log(result.paginatorInfo.currentPage); // Current page number
 ```
 
 #### Call Signature
 
-> **execute**(`withPaginator`): `Promise`\<\{ `data`: `SelectFields`\<`NationFields`, `F`, `I`\>[]; `paginatorInfo`: `paginatorInfo`; \}\>
+> **execute**(`withPaginator`): `Promise`\<\{ `data`: `SelectFields`\<`ColorFields`, `F`, `I`\>[]; `paginatorInfo`: `paginatorInfo`; \}\>
 
-Defined in: [api/queries/nations.ts:219](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/queries/nations.ts#L219)
+Defined in: api/queries/colors.ts:180
 
-Execute the nations query and return results.
+Execute the colors query and return results.
 
 Return type changes based on withPaginator parameter:
-- `execute()` or `execute(false)` → Returns array of nations
+- `execute()` or `execute(false)` → Returns array of colors
 - `execute(true)` → Returns object with data array and paginatorInfo
 
-Results only include selected fields and included relations.
+Results only include selected fields.
 All other fields are excluded from the response.
 
 ##### Parameters
@@ -411,9 +377,9 @@ Whether to include pagination metadata in response
 
 ##### Returns
 
-`Promise`\<\{ `data`: `SelectFields`\<`NationFields`, `F`, `I`\>[]; `paginatorInfo`: `paginatorInfo`; \}\>
+`Promise`\<\{ `data`: `SelectFields`\<`ColorFields`, `F`, `I`\>[]; `paginatorInfo`: `paginatorInfo`; \}\>
 
-Array of nations, or object with data and paginatorInfo if withPaginator is true
+Array of colors, or object with data and paginatorInfo if withPaginator is true
 
 ##### Throws
 
@@ -423,25 +389,25 @@ Error if the query fails or returns no data
 
 ```typescript
 // Returns array directly
-const nations = await query.execute();
-// Type: { id: number, nation_name: string }[]
-nations.forEach(nation => console.log(nation.id, nation.nation_name));
+const colors = await query.execute();
+// Type: { color: string, bloc_name: string, turn_bonus: number }[]
+colors.forEach(color => console.log(color.color, color.bloc_name));
 
 // Returns object with pagination info
 const result = await query.execute(true);
 // Type: { data: {...}[], paginatorInfo: {...} }
-console.log(result.data);                    // Nations array
+console.log(result.data);                    // Colors array
 console.log(result.paginatorInfo.total);     // Total count
-console.log(result.paginatorInfo.hasMorePages); // Boolean
+console.log(result.paginatorInfo.currentPage); // Current page number
 ```
 
 ***
 
 ### include()
 
-> **include**\<`K`, `TConfig`, `TNestedResult`, `TWrappedResult`\>(`relation`, `config`): `NationsQuery`\<`F`, `I` & `Record`\<`K`, `TWrappedResult`\>\>
+> **include**\<`K`, `TConfig`, `TNestedResult`, `TWrappedResult`\>(`relation`, `config`): `ColorsQuery`\<`F`, `I` & `Record`\<`K`, `TWrappedResult`\>\>
 
-Defined in: [api/queries/nations.ts:175](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/queries/nations.ts#L175)
+Defined in: api/queries/colors.ts:136
 
 Include related data in the query results
 
@@ -452,11 +418,11 @@ Each nested builder receives complete type safety for fields, relations, and que
 
 ##### K
 
-`K` *extends* keyof `NationRelations`
+`K` *extends* `never`
 
 ##### TConfig
 
-`TConfig` *extends* `SubqueryConfig`\<`NationRelations`\[`K`\], `GetRelationsFor`\<`NationRelations`\[`K`\]\>, `GetQueryParamsFor`\<`NationRelations`\[`K`\]\>\>
+`TConfig` *extends* `SubqueryConfig`\<`ColorRelations`\[`K`\], `GetRelationsFor`\<`ColorRelations`\[`K`\]\>, `GetQueryParamsFor`\<`ColorRelations`\[`K`\]\>\>
 
 ##### TNestedResult
 
@@ -464,7 +430,7 @@ Each nested builder receives complete type safety for fields, relations, and que
 
 ##### TWrappedResult
 
-`TWrappedResult` = `NationRelations`\[`K`\] *extends* `any`[] ? `TNestedResult`[] : `TNestedResult`
+`TWrappedResult` = `ColorRelations`\[`K`\] *extends* `any`[] ? `TNestedResult`[] : `TNestedResult`
 
 #### Parameters
 
@@ -482,7 +448,7 @@ A builder function for configuring the subquery
 
 #### Returns
 
-`NationsQuery`\<`F`, `I` & `Record`\<`K`, `TWrappedResult`\>\>
+`ColorsQuery`\<`F`, `I` & `Record`\<`K`, `TWrappedResult`\>\>
 
 New query instance with included relation
 
@@ -490,26 +456,16 @@ New query instance with included relation
 
 ```typescript
 // Basic subquery with field selection
-.include('cities', builder => builder
-  .select('id', 'name', 'infrastructure')
+.include('nation', builder => builder
+  .select('id', 'nation_name', 'score')
 )
 
-// Subquery with filtering
-.include('alliance', builder => builder
-  .select('id', 'name', 'score')
-  .where({ id: [1234] })
-)
-
-// Deeply nested subquery with unlimited depth
-.include('alliance', builder => builder
-  .select('id', 'name', 'score')
+// Subquery with filtering and nesting
+.include('nation', builder => builder
+  .select('id', 'nation_name')
   .where({ min_score: 1000 })
-  .include('nations', builder2 => builder2  // Unlimited nesting!
-    .select('id', 'nation_name')
-    .where({ min_score: 500 })
-    .include('cities', builder3 => builder3
-      .select('id', 'name', 'infrastructure')
-    )
+  .include('alliance', builder2 => builder2  // Unlimited nesting!
+    .select('id', 'name', 'score')
   )
 )
 
@@ -553,17 +509,17 @@ Error if string exceeds maximum length
 
 ### select()
 
-> **select**\<`Fields`\>(...`fields`): `NationsQuery`\<`Fields`\>
+> **select**\<`Fields`\>(...`fields`): `ColorsQuery`\<`Fields`\>
 
-Defined in: [api/queries/nations.ts:114](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/queries/nations.ts#L114)
+Defined in: api/queries/colors.ts:79
 
-Select specific fields to retrieve from nations
+Select specific fields to retrieve from colors
 
 #### Type Parameters
 
 ##### Fields
 
-`Fields` *extends* readonly keyof `NationFields`[]
+`Fields` *extends* readonly keyof `ColorFields`[]
 
 #### Parameters
 
@@ -575,7 +531,7 @@ Field names to select
 
 #### Returns
 
-`NationsQuery`\<`Fields`\>
+`ColorsQuery`\<`Fields`\>
 
 New query instance with selected fields
 
@@ -585,8 +541,8 @@ Error if no fields are provided
 
 #### Example
 
-```ts
-.select('id', 'nation_name', 'score')
+```typescript
+.select('color', 'bloc_name', 'turn_bonus')
 ```
 
 ***
@@ -693,7 +649,7 @@ Error if string exceeds maximum length
 
 > **where**(`filters`): `this`
 
-Defined in: [api/queries/nations.ts:130](https://github.com/darkblade1078/pnwkit-3.0/blob/aaba923a4468d857224fcdff638e5813fc948928/src/api/queries/nations.ts#L130)
+Defined in: api/queries/colors.ts:101
 
 Apply filters to the query
 
@@ -701,7 +657,7 @@ Apply filters to the query
 
 ##### filters
 
-`NationQueryParams`
+`ColorQueryParams`
 
 Query parameters for filtering results
 
@@ -711,8 +667,12 @@ Query parameters for filtering results
 
 This query instance for method chaining
 
+#### Note
+
+Colors query does not support filtering parameters
+
 #### Example
 
-```ts
-.where({ min_score: 1000, max_score: 5000 })
+```typescript
+.where({})
 ```
