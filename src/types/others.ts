@@ -17,7 +17,7 @@ export type SelectFields<
 T, 
 F extends readonly (keyof T)[],
 I extends Record<string, any> = {}
-> = Pick<T, F[number]> & I;
+> = Required<Pick<T, F[number]>> & I;
 
 export type paginatorInfo = {
     count: number;

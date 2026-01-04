@@ -1,7 +1,7 @@
 export interface ColorFields {
-    color: string
-    bloc_name: string
-    turn_bonus: number
+    color?: string
+    bloc_name?: string
+    turn_bonus?: number
 }
 
 export interface ColorQueryParams {}

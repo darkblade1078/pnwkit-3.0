@@ -3,7 +3,8 @@ import { QueryBuilder, type SubqueryConfig } from "../../builders/queryBuilder.j
 import graphQLService from "../../services/graphQL.js";
 import type { paginatorInfo } from "../../types/others.js";
 import type PnwKitApi from "../index.js";
-import type { TopTradeInfo } from "../../types/queries/topTradeInfo.js";
+import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMappings.js";
+import type { TopTradeInfoFields, TopTradeInfoQueryParams, TopTradeInfoRelations } from "../../types/queries/topTradeInfo.js";
 
 /**
  * Query builder for fetching top trade information from the Politics & War API.
@@ -31,29 +32,34 @@ import type { TopTradeInfo } from "../../types/queries/topTradeInfo.js";
  * ```typescript
  * // Basic query with fields
  * const tradeInfo = await pnwkit.queries.topTradeInfo()
- *   .select('market_index', 'resources')
+ *   .select('market_index')
+ *   .include('resources', builder => builder
+ *     .select('resource', 'average_price')
+ *   )
  *   .execute();
- * // Type: { market_index: number, resources: TopTradeResourceInfo[] }[]
+ * // Type: { market_index: number, resources: { resource: string, average_price: number }[] }
  * 
  * // Access the data
- * console.log(tradeInfo[0].market_index);
- * console.log(tradeInfo[0].resources[0].resource);       // "FOOD"
- * console.log(tradeInfo[0].resources[0].average_price);  // Current avg price
- * console.log(tradeInfo[0].resources[0].best_buy_offer); // Best buy offer details
+ * console.log(tradeInfo.market_index);
+ * console.log(tradeInfo.resources[0].resource);       // "FOOD"
+ * console.log(tradeInfo.resources[0].average_price);  // Current avg price
  * 
  * // With pagination info
  * const result = await pnwkit.queries.topTradeInfo()
- *   .select('market_index', 'resources')
+ *   .select('market_index')
+ *   .include('resources', builder => builder
+ *     .select('resource', 'average_price')
+ *   )
  *   .execute(true);
- * console.log(result.data);           // Trade info array
+ * console.log(result.data);           // Trade info object
  * console.log(result.paginatorInfo);  // Pagination metadata
  * ```
 */
 export class TopTradeInfoQuery<
-    F extends readonly (keyof TopTradeInfo)[] = [], 
+    F extends readonly (keyof TopTradeInfoFields)[] = [], 
     I extends Record<string, any> = {}
 > 
-extends QueryBuilder<TopTradeInfo, {}>
+extends QueryBuilder<TopTradeInfoFields, TopTradeInfoQueryParams>
 {
     protected queryName = 'top_trade_info';
 
@@ -73,10 +79,10 @@ extends QueryBuilder<TopTradeInfo, {}>
      * @throws Error if no fields are provided
      * @example
      * ```typescript
-     * .select('market_index', 'resources')
+     * .select('market_index')
      * ```
     */
-    select<const Fields extends readonly (keyof TopTradeInfo)[]>
+    select<const Fields extends readonly (keyof TopTradeInfoFields)[]>
     (
         ...fields: Fields
     ): TopTradeInfoQuery<Fields> 
@@ -89,42 +95,85 @@ extends QueryBuilder<TopTradeInfo, {}>
     }
 
     /**
+     * Apply filters to the query
+     * @param filters - Query parameters for filtering results
+     * @returns This query instance for method chaining
+     * @example
+     * ```typescript
+     * .where({ resources: [Resources.FOOD, Resources.COAL] })
+     * ```
+    */
+    where(filters: TopTradeInfoQueryParams): this
+    {
+        this.filters = filters;
+        return this;
+    }
+
+    /**
+     * Include related data in the query results
+     * 
+     * @param relation - The relation name to include
+     * @param config - A builder function for configuring the subquery
+     * @returns New query instance with included relation
+     * @example
+     * ```typescript
+     * // Include resources with specific fields
+     * .include('resources', builder => builder
+     *   .select('resource', 'average_price')
+     * )
+     * ```
+    */
+    include<
+        K extends keyof TopTradeInfoRelations,
+        TConfig extends SubqueryConfig<TopTradeInfoRelations[K], GetRelationsFor<TopTradeInfoRelations[K]>, GetQueryParamsFor<TopTradeInfoRelations[K]>>,
+        TNestedResult = InferSubqueryType<ReturnType<TConfig>>,
+        TWrappedResult = TopTradeInfoRelations[K] extends any[] ? TNestedResult[] : TNestedResult
+    >(
+        relation: K,
+        config: TConfig
+    ): TopTradeInfoQuery<F, I & Record<K, TWrappedResult>>
+    {
+        this.subqueries.set(relation as string, config as SubqueryConfig<any, any, any>);
+        return this as any;
+    }
+
+    /**
      * Execute the top trade info query and return results.
      * 
      * Return type changes based on withPaginator parameter:
-     * - `execute()` or `execute(false)` → Returns array with top trade info object
-     * - `execute(true)` → Returns object with data array and paginatorInfo
+     * - `execute()` or `execute(false)` → Returns single top trade info object
+     * - `execute(true)` → Returns object with data and paginatorInfo
      * 
      * Results only include selected fields.
      * All other fields are excluded from the response.
      * 
      * @param withPaginator - Whether to include pagination metadata in response
-     * @returns Array containing top trade info object, or object with data and paginatorInfo if withPaginator is true
+     * @returns Single top trade info object, or object with data and paginatorInfo if withPaginator is true
      * @throws Error if the query fails or returns no data
      * 
      * @example
      * ```typescript
-     * // Returns array directly
+     * // Returns single object directly
      * const tradeInfo = await query.execute();
-     * // Type: { market_index: number, resources: TopTradeResourceInfo[] }[]
-     * console.log(tradeInfo[0].market_index);
-     * console.log(tradeInfo[0].resources[0].average_price);
+     * // Type: { market_index: number, resources: TopTradeResourceInfo[] }
+     * console.log(tradeInfo.market_index);
+     * console.log(tradeInfo.resources[0].average_price);
      * 
      * // Returns object with pagination info
      * const result = await query.execute(true);
-     * // Type: { data: {...}[], paginatorInfo: {...} }
-     * console.log(result.data);                    // Trade info array
+     * // Type: { data: {...}, paginatorInfo: {...} }
+     * console.log(result.data);                    // Trade info object
      * console.log(result.paginatorInfo.total);     // Total count
      * ```
     */
-    async execute(): Promise<SelectFields<TopTradeInfo, F, I>[]>;
+    async execute(): Promise<SelectFields<TopTradeInfoFields, F, I>>;
     async execute(withPaginator: true): Promise<{ 
-        data: SelectFields<TopTradeInfo, F, I>[], 
+        data: SelectFields<TopTradeInfoFields, F, I>, 
         paginatorInfo: paginatorInfo 
     }>;
     async execute(withPaginator: boolean = false): Promise<
-    SelectFields<TopTradeInfo, F, I>[] | 
-    { data: SelectFields<TopTradeInfo, F, I>[], paginatorInfo: paginatorInfo }
+    SelectFields<TopTradeInfoFields, F, I> | 
+    { data: SelectFields<TopTradeInfoFields, F, I>, paginatorInfo: paginatorInfo }
     >
     {
         try

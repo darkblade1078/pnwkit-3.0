@@ -1,19 +1,19 @@
 import type { SortOrder } from "../others.js"
 
 export interface NationResourceStatsFields {
-    date: string
-    money: string
-    food: string
-    steel: string
-    aluminum: string
-    gasoline: string
-    munitions: string
-    uranium: string
-    coal: string
-    oil: string
-    iron: string
-    bauxite: string
-    lead: string
+    date?: string
+    money?: string
+    food?: string
+    steel?: string
+    aluminum?: string
+    gasoline?: string
+    munitions?: string
+    uranium?: string
+    coal?: string
+    oil?: string
+    iron?: string
+    bauxite?: string
+    lead?: string
 }
 
 export interface NationResourceStatsQueryParams {

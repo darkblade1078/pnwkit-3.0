@@ -46,7 +46,7 @@ export interface WarAttackFields {
     def_nukes_lost?: number;
     improvements_destroyed?: string[];
     infra_destroyed_percentage?: number;
-    cities_infra_before: boolean;
+    cities_infra_before?: boolean;
     money_looted?: number;
     coal_looted?: number;
     oil_looted?: number;

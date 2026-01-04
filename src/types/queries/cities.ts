@@ -1,3 +1,6 @@
+import type { DefaultParams, SortOrder } from "../others.js";
+import type { NationFields } from "./nation.js";
+
 export interface CityFields {
   id?: string;
   nation_id?: string;
@@ -34,4 +37,26 @@ export interface CityFields {
   hangar?: number;
   drydock?: number;
   nuke_date?: string;
+}
+
+export interface CityQueryParams extends DefaultParams {
+  id?: number[];
+  nation_id?: number[];
+  orderBy?: QueryCityOrderByOrderByClause;
+}
+
+export type QueryCityOrderByColumn = 
+  | 'ID'
+  | 'DATE'
+  | 'INFRASTRUCTURE'
+  | 'MAXINFRA'
+  | 'LAND';
+
+export type QueryCityOrderByOrderByClause = {
+  column: QueryCityOrderByColumn;
+  order: SortOrder;
+}
+
+export interface CityRelations {
+  nation: NationFields;
 }

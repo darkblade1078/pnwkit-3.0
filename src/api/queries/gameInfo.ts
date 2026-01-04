@@ -34,21 +34,21 @@ import type { GameInfoFields, GameInfoQueryParams, GameInfoRelations } from "../
  * const gameInfo = await pnwkit.queries.gameInfo()
  *   .select('game_date', 'radiation', 'city_average')
  *   .execute();
- * // Type: { game_date: string, radiation: Radiation, city_average: number }[]
+ * // Type: { game_date: string, radiation: Radiation, city_average: number }
  * 
  * // Access radiation data by continent
  * const gameInfo = await pnwkit.queries.gameInfo()
  *   .select('game_date', 'radiation')
  *   .execute();
- * console.log(gameInfo[0].radiation.global);        // Global radiation
- * console.log(gameInfo[0].radiation.north_america); // North America radiation
+ * console.log(gameInfo.radiation.global);        // Global radiation
+ * console.log(gameInfo.radiation.north_america); // North America radiation
  * 
  * // Get current game date and city average
  * const gameInfo = await pnwkit.queries.gameInfo()
  *   .select('game_date', 'city_average')
  *   .execute();
- * console.log(gameInfo[0].game_date);      // Current game date
- * console.log(gameInfo[0].city_average);   // Average city infrastructure
+ * console.log(gameInfo.game_date);      // Current game date
+ * console.log(gameInfo.city_average);   // Average city infrastructure
  * ```
 */
 export class GameInfoQuery<
@@ -153,40 +153,40 @@ extends QueryBuilder<GameInfoFields, GameInfoQueryParams>
      * Execute the game info query and return results.
      * 
      * Return type changes based on withPaginator parameter:
-     * - `execute()` or `execute(false)` → Returns array with game info object
-     * - `execute(true)` → Returns object with data array and paginatorInfo
+     * - `execute()` or `execute(false)` → Returns single game info object
+     * - `execute(true)` → Returns object with data and paginatorInfo
      * 
      * Results only include selected fields and included relations.
      * All other fields are excluded from the response.
      * 
      * @param withPaginator - Whether to include pagination metadata in response
-     * @returns Array containing game info object, or object with data and paginatorInfo if withPaginator is true
+     * @returns Single game info object, or object with data and paginatorInfo if withPaginator is true
      * @throws Error if the query fails or returns no data
      * 
      * @example
      * ```typescript
-     * // Returns array directly
+     * // Returns single object directly
      * const gameInfo = await query.execute();
-     * // Type: { game_date: string, radiation: Radiation, city_average: number }[]
-     * console.log(gameInfo[0].game_date);
-     * console.log(gameInfo[0].radiation.global);
+     * // Type: { game_date: string, radiation: Radiation, city_average: number }
+     * console.log(gameInfo.game_date);
+     * console.log(gameInfo.radiation.global);
      * 
      * // Returns object with pagination info
      * const result = await query.execute(true);
-     * // Type: { data: {...}[], paginatorInfo: {...} }
-     * console.log(result.data);                    // Game info array
+     * // Type: { data: {...}, paginatorInfo: {...} }
+     * console.log(result.data);                    // Game info object
      * console.log(result.paginatorInfo.total);     // Total count
      * console.log(result.paginatorInfo.currentPage); // Current page number
      * ```
     */
-    async execute(): Promise<SelectFields<GameInfoFields, F, I>[]>;
+    async execute(): Promise<SelectFields<GameInfoFields, F, I>>;
     async execute(withPaginator: true): Promise<{ 
-        data: SelectFields<GameInfoFields, F, I>[], 
+        data: SelectFields<GameInfoFields, F, I>, 
         paginatorInfo: paginatorInfo 
     }>;
     async execute(withPaginator: boolean = false): Promise<
-    SelectFields<GameInfoFields, F, I>[] | 
-    { data: SelectFields<GameInfoFields, F, I>[], paginatorInfo: paginatorInfo }
+    SelectFields<GameInfoFields, F, I> | 
+    { data: SelectFields<GameInfoFields, F, I>, paginatorInfo: paginatorInfo }
     >
     {
         try

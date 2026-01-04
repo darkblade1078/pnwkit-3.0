@@ -1,16 +1,25 @@
 import type { TradeFields } from "./trade.js"
 
-export interface TopTradeInfo {
-    market_index: number
-    resources: TopTradeResourceInfo[]
+export interface TopTradeInfoFields {
+    __typename?: 'top_trade_info'
+    market_index?: number
 }
 
-export interface TopTradeResourceInfo {
-    resource: string
-    average_price: number
-    best_buy_offer: TradeFields
-    best_sell_offer: TradeFields
+export interface TopTradeResourceInfoFields {
+    __typename?: 'TopTradeResourceInfo'
+    resource?: string
+    average_price?: number
+    best_buy_offer?: TradeFields
+    best_sell_offer?: TradeFields
 }
+
+export interface TopTradeInfoRelations {
+    resources: TopTradeResourceInfoFields[]
+}
+
+export interface TopTradeResourceInfoRelations {}
+
+export type TopTradeInfoQueryParams = {}
 
 export enum Resources {
     FOOD = 'FOOD',
@@ -25,4 +34,8 @@ export enum Resources {
     STEEL = 'STEEL',
     ALUMINUM = 'ALUMINUM',
     CREDIT = 'CREDIT',
+}
+
+export type TopTradeInfoResourceQueryParams = {
+    resource: (Resources | `${Resources}`)[]
 }

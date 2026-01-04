@@ -7,8 +7,23 @@ import { ColorsQuery } from "./colors.js";
 import { GameInfoQuery } from "./gameInfo.js";
 import { TopTradeInfoQuery } from "./topTradeInfo.js";
 import { NationResourceStatsQuery } from "./nationResourceStats.js";
+import { TradesQuery } from "./trades.js";
+import { TradePricesQuery } from "./tradePrices.js";
+import { TreatiesQuery } from "./treaties.js";
+import { WarsQuery } from "./wars.js";
+import { WarAttacksQuery } from "./warAttacks.js";
+import { BountiesQuery } from "./bounties.js";
+import { BannedNationsQuery } from "./bannedNations.js";
+import { CitiesQuery } from "./cities.js";
+import { BankrecsQuery } from "./bankrecs.js";
+import { BulletinsQuery } from "./bulletins.js";
+import { BulletinRepliesQuery } from "./bulletinReplies.js";
+import { EmbargoesQuery } from "./embargoes.js";
+import { TreasureTradesQuery } from "./treasureTrades.js";
+import { ActivityStatsQuery } from "./activityStats.js";
+import { ResourceStatsQuery } from "./resourceStats.js";
 
-export class Queries {
+export default class Queries {
     constructor(private readonly api: PnwKitApi) {}
 
     /**
@@ -81,5 +96,140 @@ export class Queries {
     topTradeInfo(): TopTradeInfoQuery<[], {}> 
     {
         return new TopTradeInfoQuery(this.api);
+    }
+
+    /**
+     * Create a new trades query builder
+     * @returns A fresh TradesQuery instance
+    */
+    trades(): TradesQuery<[], []> 
+    {
+        return new TradesQuery(this.api);
+    }
+
+    /**
+     * Create a new trade prices query builder
+     * @returns A fresh TradePricesQuery instance
+    */
+    tradePrices(): TradePricesQuery<[]> 
+    {
+        return new TradePricesQuery(this.api);
+    }
+
+    /**
+     * Create a new treaties query builder
+     * @returns A fresh TreatiesQuery instance
+    */
+    treaties(): TreatiesQuery<[], []> 
+    {
+        return new TreatiesQuery(this.api);
+    }
+
+    /**
+     * Create a new wars query builder
+     * @returns A fresh WarsQuery instance
+    */
+    wars(): WarsQuery<[], []> 
+    {
+        return new WarsQuery(this.api);
+    }
+
+    /**
+     * Create a new war attacks query builder
+     * @returns A fresh WarAttacksQuery instance
+    */
+    warAttacks(): WarAttacksQuery<[], []> 
+    {
+        return new WarAttacksQuery(this.api);
+    }
+
+    /**
+     * Create a new bounties query builder
+     * @returns A fresh BountiesQuery instance
+    */
+    bounties(): BountiesQuery<[], []> 
+    {
+        return new BountiesQuery(this.api);
+    }
+
+    /**
+     * Create a new banned nations query builder
+     * @returns A fresh BannedNationsQuery instance
+    */
+    bannedNations(): BannedNationsQuery<[]> 
+    {
+        return new BannedNationsQuery(this.api);
+    }
+
+    /**
+     * Create a new cities query builder
+     * @returns A fresh CitiesQuery instance
+    */
+    cities(): CitiesQuery<[], []> 
+    {
+        return new CitiesQuery(this.api);
+    }
+
+    /**
+     * Create a new bankrecs query builder
+     * @returns A fresh BankrecsQuery instance
+    */
+    bankrecs(): BankrecsQuery<[], []> 
+    {
+        return new BankrecsQuery(this.api);
+    }
+
+    /**
+     * Create a new bulletins query builder
+     * @returns A fresh BulletinsQuery instance
+    */
+    bulletins(): BulletinsQuery<[], []> 
+    {
+        return new BulletinsQuery(this.api);
+    }
+
+    /**
+     * Create a new bulletin replies query builder
+     * @returns A fresh BulletinRepliesQuery instance
+    */
+    bulletinReplies(): BulletinRepliesQuery<[], []> 
+    {
+        return new BulletinRepliesQuery(this.api);
+    }
+
+    /**
+     * Create a new embargoes query builder
+     * @returns A fresh EmbargoesQuery instance
+    */
+    embargoes(): EmbargoesQuery<[], []> 
+    {
+        return new EmbargoesQuery(this.api);
+    }
+
+    /**
+     * Create a new treasure trades query builder
+     * @returns A fresh TreasureTradesQuery instance
+    */
+    treasureTrades(): TreasureTradesQuery<[], []> 
+    {
+        return new TreasureTradesQuery(this.api);
+    }
+
+    /**
+     * Create a new activity stats query builder
+     * @returns A fresh ActivityStatsQuery instance
+    */
+    activityStats(): ActivityStatsQuery<[]> 
+    {
+        return new ActivityStatsQuery(this.api);
+    }
+
+    /**
+     * Create a new resource stats query builder
+     * @returns A fresh ResourceStatsQuery instance
+    */
+    resourceStats(): ResourceStatsQuery<[]> 
+    {
+        return new ResourceStatsQuery(this.api);
     }
 }

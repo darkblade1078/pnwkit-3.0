@@ -1,4 +1,4 @@
 export interface AwardFields {
-    name: string;
-    image: string;
+    name?: string;
+    image?: string;
 }
