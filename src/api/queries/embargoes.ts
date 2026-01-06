@@ -22,6 +22,29 @@ import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMap
  * @category Query Builders
  * @template F - Selected field names
  * @template I - Included relations
+ * 
+ * @example
+ * ```typescript
+ * // Get embargoes for a specific nation
+ * const embargoes = await pnwkit.queries.embargoes()
+ *   .select('id', 'date', 'sender_id', 'receiver_id', 'reason')
+ *   .where({ sender_id: [123456] })
+ *   .execute();
+ * // Type: { id: number, date: string, sender_id: number, receiver_id: number, reason: string }[]
+ * 
+ * // Query embargoes with sender and receiver details
+ * const embargoes = await pnwkit.queries.embargoes()
+ *   .select('id', 'date', 'reason')
+ *   .include('sender', builder => builder
+ *     .select('id', 'nation_name', 'alliance_id')
+ *   )
+ *   .include('receiver', builder => builder
+ *     .select('id', 'nation_name', 'alliance_id')
+ *   )
+ *   .first(50)
+ *   .execute();
+ * // Type: { id: number, date: string, reason: string, sender: {...}, receiver: {...} }[]
+ * ```
  */
 export class EmbargoesQuery<
     F extends readonly (keyof EmbargoFields)[] = [], 

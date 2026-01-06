@@ -20,6 +20,30 @@ import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMap
  * @category Query Builders
  * @template F - Selected field names (tracked through chaining for precise autocomplete)
  * @template I - Included relations (tracked through chaining with proper cardinality)
+ * 
+ * @example
+ * ```typescript
+ * // Get recent trades for a specific resource
+ * const trades = await pnwkit.queries.trades()
+ *   .select('id', 'type', 'date', 'offer_resource', 'buy_or_sell', 'price', 'accepted')
+ *   .where({ offer_resource: 'FOOD', accepted: false })
+ *   .first(100)
+ *   .execute();
+ * // Type: { id: number, type: string, date: string, offer_resource: string, buy_or_sell: string, price: number, accepted: boolean }[]
+ * 
+ * // Query trades with sender and receiver nation details
+ * const trades = await pnwkit.queries.trades()
+ *   .select('id', 'date', 'offer_resource', 'offer_amount', 'price')
+ *   .include('sender', builder => builder
+ *     .select('id', 'nation_name', 'alliance_id')
+ *   )
+ *   .include('receiver', builder => builder
+ *     .select('id', 'nation_name', 'alliance_id')
+ *   )
+ *   .where({ type: 'GLOBAL' })
+ *   .execute();
+ * // Type: { id: number, ..., sender: {...}, receiver: {...} }[]
+ * ```
  */
 export class TradesQuery<
     F extends readonly (keyof TradeFields)[] = [], 

@@ -22,6 +22,30 @@ import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMap
  * @category Query Builders
  * @template F - Selected field names
  * @template I - Included relations
+ * 
+ * @example
+ * ```typescript
+ * // Get recent bank transactions
+ * const bankrecs = await pnwkit.queries.bankrecs()
+ *   .select('id', 'date', 'note', 'money', 'food', 'coal')
+ *   .where({ or_id: [123] })
+ *   .first(50)
+ *   .execute();
+ * // Type: { id: number, date: string, note: string, money: number, food: number, coal: number }[]
+ * 
+ * // Query transactions with sender and receiver details
+ * const bankrecs = await pnwkit.queries.bankrecs()
+ *   .select('id', 'date', 'money', 'food', 'note')
+ *   .include('sender', builder => builder
+ *     .select('id', 'nation_name', 'alliance_id')
+ *   )
+ *   .include('receiver', builder => builder
+ *     .select('id', 'nation_name', 'alliance_id')
+ *   )
+ *   .where({ min_date: '2026-01-01' })
+ *   .execute();
+ * // Type: { id: number, ..., sender: {...}, receiver: {...} }[]
+ * ```
  */
 export class BankrecsQuery<
     F extends readonly (keyof BankTaxrecFields)[] = [], 

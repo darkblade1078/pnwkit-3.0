@@ -21,6 +21,30 @@ import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMap
  * @category Query Builders
  * @template F - Selected field names
  * @template I - Included relations
+ * 
+ * @example
+ * ```typescript
+ * // Get active wars
+ * const wars = await pnwkit.queries.wars()
+ *   .select('id', 'date', 'war_type', 'turns_left', 'att_id', 'def_id')
+ *   .where({ active: true })
+ *   .first(100)
+ *   .execute();
+ * // Type: { id: number, date: string, war_type: string, turns_left: number, att_id: number, def_id: number }[]
+ * 
+ * // Query wars with attacker and defender details
+ * const wars = await pnwkit.queries.wars()
+ *   .select('id', 'date', 'reason', 'turns_left')
+ *   .include('attacker', builder => builder
+ *     .select('id', 'nation_name', 'alliance_id', 'score')
+ *   )
+ *   .include('defender', builder => builder
+ *     .select('id', 'nation_name', 'alliance_id', 'score')
+ *   )
+ *   .where({ days_ago: 7 })
+ *   .execute();
+ * // Type: { id: number, ..., attacker: {...}, defender: {...} }[]
+ * ```
  */
 export class WarsQuery<
     F extends readonly (keyof WarFields)[] = [], 

@@ -19,6 +19,23 @@ import type { ActivityStatsFields, ActivityStatsQueryParams, ActivityStatRelatio
  * 
  * @category Query Builders
  * @template F - Selected field names
+ * 
+ * @example
+ * ```typescript
+ * // Get recent activity statistics
+ * const stats = await pnwkit.queries.activityStats()
+ *   .select('date', 'total_nations', 'active_1_day', 'active_1_week', 'active_2_weeks')
+ *   .first(30)
+ *   .execute();
+ * // Type: { date: string, total_nations: number, active_1_day: number, active_1_week: number, active_2_weeks: number }[]
+ * 
+ * // Filter by specific date range
+ * const stats = await pnwkit.queries.activityStats()
+ *   .select('date', 'active_1_day', 'active_1_month')
+ *   .where({ min_date: '2026-01-01', max_date: '2026-01-05' })
+ *   .execute();
+ * // Type: { date: string, active_1_day: number, active_1_month: number }[]
+ * ```
  */
 export class ActivityStatsQuery<
     F extends readonly (keyof ActivityStatsFields)[] = []

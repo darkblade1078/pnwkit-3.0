@@ -21,6 +21,27 @@ import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMap
  * @category Query Builders
  * @template F - Selected field names
  * @template I - Included relations
+ * 
+ * @example
+ * ```typescript
+ * // Get active bounties
+ * const bounties = await pnwkit.queries.bounties()
+ *   .select('id', 'date', 'amount', 'type', 'nation_id')
+ *   .where({ min_amount: 50 })
+ *   .first(50)
+ *   .execute();
+ * // Type: { id: number, date: string, amount: number, type: string, nation_id: number }[]
+ * 
+ * // Query bounties with target nation details
+ * const bounties = await pnwkit.queries.bounties()
+ *   .select('id', 'amount', 'type')
+ *   .include('nation', builder => builder
+ *     .select('id', 'nation_name', 'score', 'alliance_id')
+ *   )
+ *   .where({ orderBy: [{ column: 'AMOUNT', order: 'DESC' }] })
+ *   .execute();
+ * // Type: { id: number, amount: number, type: string, nation: {...} }[]
+ * ```
  */
 export class BountiesQuery<
     F extends readonly (keyof BountyFields)[] = [], 

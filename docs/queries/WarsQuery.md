@@ -6,7 +6,7 @@
 
 # Class: WarsQuery\<F, I\>
 
-Defined in: [api/queries/wars.ts:25](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/wars.ts#L25)
+Defined in: [api/queries/wars.ts:49](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/api/queries/wars.ts#L49)
 
 Query builder for fetching war data from the Politics & War API.
 
@@ -18,6 +18,31 @@ Features:
 - Include attacker and defender nation data
 - Filter by active status, date range, participants
 - Pagination support
+
+## Example
+
+```typescript
+// Get active wars
+const wars = await pnwkit.queries.wars()
+  .select('id', 'date', 'war_type', 'turns_left', 'att_id', 'def_id')
+  .where({ active: true })
+  .first(100)
+  .execute();
+// Type: { id: number, date: string, war_type: string, turns_left: number, att_id: number, def_id: number }[]
+
+// Query wars with attacker and defender details
+const wars = await pnwkit.queries.wars()
+  .select('id', 'date', 'reason', 'turns_left')
+  .include('attacker', builder => builder
+    .select('id', 'nation_name', 'alliance_id', 'score')
+  )
+  .include('defender', builder => builder
+    .select('id', 'nation_name', 'alliance_id', 'score')
+  )
+  .where({ days_ago: 7 })
+  .execute();
+// Type: { id: number, ..., attacker: {...}, defender: {...} }[]
+```
 
 ## Extends
 
@@ -43,7 +68,7 @@ Included relations
 
 > **new WarsQuery**\<`F`, `I`\>(`kit`): `WarsQuery`\<`F`, `I`\>
 
-Defined in: [api/queries/wars.ts:38](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/wars.ts#L38)
+Defined in: [api/queries/wars.ts:62](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/api/queries/wars.ts#L62)
 
 **`Internal`**
 
@@ -71,7 +96,7 @@ The PnWKit instance containing API credentials
 
 > `protected` **apiKey**: `string`
 
-Defined in: services/queryBuilder.ts:234
+Defined in: [services/queryBuilder.ts:234](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L234)
 
 #### Inherited from
 
@@ -83,7 +108,7 @@ Defined in: services/queryBuilder.ts:234
 
 > `protected` **filters**: `WarQueryParams`
 
-Defined in: services/queryBuilder.ts:240
+Defined in: [services/queryBuilder.ts:240](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L240)
 
 #### Inherited from
 
@@ -95,7 +120,7 @@ Defined in: services/queryBuilder.ts:240
 
 > `protected` `optional` **limit**: `number`
 
-Defined in: services/queryBuilder.ts:232
+Defined in: [services/queryBuilder.ts:232](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L232)
 
 #### Inherited from
 
@@ -107,7 +132,7 @@ Defined in: services/queryBuilder.ts:232
 
 > `protected` `optional` **pageNum**: `number`
 
-Defined in: services/queryBuilder.ts:233
+Defined in: [services/queryBuilder.ts:233](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L233)
 
 #### Inherited from
 
@@ -119,7 +144,7 @@ Defined in: services/queryBuilder.ts:233
 
 > `protected` **queryName**: `string` = `'wars'`
 
-Defined in: [api/queries/wars.ts:31](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/wars.ts#L31)
+Defined in: [api/queries/wars.ts:55](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/api/queries/wars.ts#L55)
 
 #### Overrides
 
@@ -131,7 +156,7 @@ Defined in: [api/queries/wars.ts:31](https://github.com/darkblade1078/pnwkit-3.0
 
 > `protected` **selectedFields**: keyof `WarFields`[] = `[]`
 
-Defined in: services/queryBuilder.ts:239
+Defined in: [services/queryBuilder.ts:239](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L239)
 
 #### Inherited from
 
@@ -143,7 +168,7 @@ Defined in: services/queryBuilder.ts:239
 
 > `protected` **subqueries**: `Map`\<`string`, `SubqueryConfig`\<`any`, \{ \}, `Record`\<`string`, `any`\>\>\>
 
-Defined in: services/queryBuilder.ts:237
+Defined in: [services/queryBuilder.ts:237](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L237)
 
 #### Inherited from
 
@@ -155,7 +180,7 @@ Defined in: services/queryBuilder.ts:237
 
 > `protected` `readonly` `static` **MAX\_ARRAY\_SIZE**: `1000` = `1000`
 
-Defined in: services/queryBuilder.ts:254
+Defined in: [services/queryBuilder.ts:254](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L254)
 
 #### Inherited from
 
@@ -167,7 +192,7 @@ Defined in: services/queryBuilder.ts:254
 
 > `protected` `readonly` `static` **MAX\_FIELD\_NAME\_LENGTH**: `100` = `100`
 
-Defined in: services/queryBuilder.ts:255
+Defined in: [services/queryBuilder.ts:255](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L255)
 
 #### Inherited from
 
@@ -179,7 +204,7 @@ Defined in: services/queryBuilder.ts:255
 
 > `protected` `readonly` `static` **MAX\_FIELDS\_PER\_LEVEL**: `100` = `100`
 
-Defined in: services/queryBuilder.ts:251
+Defined in: [services/queryBuilder.ts:251](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L251)
 
 #### Inherited from
 
@@ -191,7 +216,7 @@ Defined in: services/queryBuilder.ts:251
 
 > `protected` `readonly` `static` **MAX\_NESTING\_DEPTH**: `10` = `10`
 
-Defined in: services/queryBuilder.ts:250
+Defined in: [services/queryBuilder.ts:250](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L250)
 
 #### Inherited from
 
@@ -203,7 +228,7 @@ Defined in: services/queryBuilder.ts:250
 
 > `protected` `readonly` `static` **MAX\_QUERY\_SIZE**: `50000` = `50000`
 
-Defined in: services/queryBuilder.ts:252
+Defined in: [services/queryBuilder.ts:252](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L252)
 
 #### Inherited from
 
@@ -215,7 +240,7 @@ Defined in: services/queryBuilder.ts:252
 
 > `protected` `readonly` `static` **MAX\_STRING\_LENGTH**: `10000` = `10000`
 
-Defined in: services/queryBuilder.ts:253
+Defined in: [services/queryBuilder.ts:253](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L253)
 
 #### Inherited from
 
@@ -227,7 +252,7 @@ Defined in: services/queryBuilder.ts:253
 
 > `protected` `readonly` `static` **QUERIES\_WITHOUT\_DATA\_WRAPPER**: `Set`\<`string`\>
 
-Defined in: services/queryBuilder.ts:247
+Defined in: [services/queryBuilder.ts:247](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L247)
 
 Queries that return data directly without wrapping in a 'data' object.
 These queries follow a different GraphQL schema structure.
@@ -242,7 +267,7 @@ These queries follow a different GraphQL schema structure.
 
 > `protected` **buildQuery**(`includePaginator`): `string`
 
-Defined in: services/queryBuilder.ts:549
+Defined in: [services/queryBuilder.ts:549](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L549)
 
 Build the final GraphQL query string with comprehensive validation.
 
@@ -286,7 +311,7 @@ Error if field count/name/size limits exceeded or filters contain invalid values
 
 > `protected` **buildSubqueryFields**(`config`, `baseIndent`, `depth`): `object`
 
-Defined in: services/queryBuilder.ts:487
+Defined in: [services/queryBuilder.ts:487](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L487)
 
 **`Internal`**
 
@@ -343,7 +368,7 @@ Error if nesting depth exceeds MAX_NESTING_DEPTH
 
 > `protected` **buildSubqueryString**(`config`, `depth`): `object`
 
-Defined in: services/queryBuilder.ts:369
+Defined in: [services/queryBuilder.ts:369](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L369)
 
 **`Internal`**
 
@@ -400,7 +425,7 @@ Error if depth exceeds MAX_NESTING_DEPTH or field count exceeds MAX_FIELDS_PER_L
 
 > **execute**(): `Promise`\<`SelectFields`\<`WarFields`, `F`, `I`\>[]\>
 
-Defined in: [api/queries/wars.ts:86](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/wars.ts#L86)
+Defined in: [api/queries/wars.ts:110](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/api/queries/wars.ts#L110)
 
 ##### Returns
 
@@ -410,7 +435,7 @@ Defined in: [api/queries/wars.ts:86](https://github.com/darkblade1078/pnwkit-3.0
 
 > **execute**(`withPaginator`): `Promise`\<\{ `data`: `SelectFields`\<`WarFields`, `F`, `I`\>[]; `paginatorInfo`: `paginatorInfo`; \}\>
 
-Defined in: [api/queries/wars.ts:87](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/wars.ts#L87)
+Defined in: [api/queries/wars.ts:111](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/api/queries/wars.ts#L111)
 
 ##### Parameters
 
@@ -428,7 +453,7 @@ Defined in: [api/queries/wars.ts:87](https://github.com/darkblade1078/pnwkit-3.0
 
 > **include**\<`K`, `TConfig`, `TNestedResult`, `TWrappedResult`\>(`relation`, `config`): `WarsQuery`\<`F`, `I` & `Record`\<`K`, `TWrappedResult`\>\>
 
-Defined in: [api/queries/wars.ts:72](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/wars.ts#L72)
+Defined in: [api/queries/wars.ts:96](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/api/queries/wars.ts#L96)
 
 #### Type Parameters
 
@@ -468,7 +493,7 @@ Defined in: [api/queries/wars.ts:72](https://github.com/darkblade1078/pnwkit-3.0
 
 > `protected` **sanitizeString**(`str`): `string`
 
-Defined in: services/queryBuilder.ts:278
+Defined in: [services/queryBuilder.ts:278](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L278)
 
 Sanitize and escape a string value for safe GraphQL usage.
 
@@ -504,7 +529,7 @@ Error if input is not a string, exceeds maximum length (10KB), or contains null 
 
 > **select**\<`Fields`\>(...`fields`): `WarsQuery`\<`Fields`\>
 
-Defined in: [api/queries/wars.ts:50](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/wars.ts#L50)
+Defined in: [api/queries/wars.ts:74](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/api/queries/wars.ts#L74)
 
 Select specific fields to retrieve from wars
 
@@ -544,7 +569,7 @@ Error if no fields are provided
 
 > `protected` **serializeFilterValue**(`value`): `string`
 
-Defined in: services/queryBuilder.ts:459
+Defined in: [services/queryBuilder.ts:459](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L459)
 
 **`Internal`**
 
@@ -581,7 +606,7 @@ Error if value is null/undefined, array exceeds 1000 elements, number is not fin
 
 > `protected` **serializeObject**(`obj`): `string`
 
-Defined in: services/queryBuilder.ts:314
+Defined in: [services/queryBuilder.ts:314](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L314)
 
 Serialize an object to GraphQL format (enum values without quotes).
 
@@ -620,7 +645,7 @@ Error if object is null/undefined/array, contains invalid field names, or has un
 
 > **where**(`filters`): `this`
 
-Defined in: [api/queries/wars.ts:66](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/wars.ts#L66)
+Defined in: [api/queries/wars.ts:90](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/api/queries/wars.ts#L90)
 
 Apply filters to the query
 

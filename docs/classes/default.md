@@ -6,7 +6,7 @@
 
 # Class: default
 
-Defined in: [index.ts:43](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/index.ts#L43)
+Defined in: [index.ts:43](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/index.ts#L43)
 
 Main PnWKit client for interacting with the Politics & War API.
 
@@ -56,7 +56,7 @@ const stats = pnwkit.getCacheStats(); // Check cache utilization
 
 > **new default**(`apiKey`, `options?`): `PnWKit`
 
-Defined in: [index.ts:63](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/index.ts#L63)
+Defined in: [index.ts:63](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/index.ts#L63)
 
 Create a new PnWKit instance.
 
@@ -100,7 +100,7 @@ const pnwkit = new PnWKit("your-api-key", {
 
 > `protected` `readonly` **apiKey**: `string`
 
-Defined in: [api/index.ts:35](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/index.ts#L35)
+Defined in: [api/index.ts:35](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/api/index.ts#L35)
 
 Politics & War API key for authentication
 
@@ -114,7 +114,7 @@ Politics & War API key for authentication
 
 > `protected` `readonly` `optional` **cacheOptions**: `CacheOptions`
 
-Defined in: [api/index.ts:23](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/index.ts#L23)
+Defined in: [api/index.ts:23](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/api/index.ts#L23)
 
 Cache configuration (if enabled)
 
@@ -128,7 +128,7 @@ Cache configuration (if enabled)
 
 > `readonly` **queries**: `Queries`
 
-Defined in: [api/index.ts:17](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/index.ts#L17)
+Defined in: [api/index.ts:17](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/api/index.ts#L17)
 
 Query builders for all Politics & War GraphQL queries
 
@@ -142,7 +142,7 @@ Query builders for all Politics & War GraphQL queries
 
 > `readonly` **utilities**: `utilities`
 
-Defined in: [api/index.ts:20](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/index.ts#L20)
+Defined in: [api/index.ts:20](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/api/index.ts#L20)
 
 Utility functions for calculations and data transformations
 
@@ -156,7 +156,7 @@ Utility functions for calculations and data transformations
 
 > **clearCache**(): `void`
 
-Defined in: [api/index.ts:53](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/index.ts#L53)
+Defined in: [api/index.ts:53](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/api/index.ts#L53)
 
 Clear all cached query responses.
 
@@ -177,7 +177,7 @@ Safe to call even if caching is disabled.
 
 > **getCacheStats**(): \{ `max`: `number`; `size`: `number`; \} \| `undefined`
 
-Defined in: [api/index.ts:63](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/index.ts#L63)
+Defined in: [api/index.ts:63](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/api/index.ts#L63)
 
 Get cache statistics including current size and maximum capacity.
 

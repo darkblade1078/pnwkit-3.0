@@ -22,6 +22,27 @@ import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMap
  * @category Query Builders
  * @template F - Selected field names
  * @template I - Included relations
+ * 
+ * @example
+ * ```typescript
+ * // Basic query with city infrastructure data
+ * const cities = await pnwkit.queries.cities()
+ *   .select('id', 'city_name', 'infrastructure', 'land', 'powered')
+ *   .where({ nation_id: [123456] })
+ *   .execute();
+ * // Type: { id: number, city_name: string, infrastructure: number, land: number, powered: boolean }[]
+ * 
+ * // Query cities with improvements and parent nation
+ * const cities = await pnwkit.queries.cities()
+ *   .select('id', 'city_name', 'oil_power', 'coal_power', 'barracks')
+ *   .include('nation', builder => builder
+ *     .select('id', 'nation_name', 'alliance_id')
+ *   )
+ *   .where({ min_infrastructure: 1000 })
+ *   .first(50)
+ *   .execute();
+ * // Type: { id: number, city_name: string, ..., nation: { id: number, nation_name: string, alliance_id: number } }[]
+ * ```
  */
 export class CitiesQuery<
     F extends readonly (keyof CityFields)[] = [], 

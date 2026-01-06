@@ -12,6 +12,21 @@ import type { TradepriceFields, TradePricesQueryParams, TradePricesRelations } f
  * 
  * @category Query Builders
  * @template F - Selected field names (tracked through chaining for precise autocomplete)
+ * 
+ * @example
+ * ```typescript
+ * // Get latest trade prices for all resources
+ * const prices = await pnwkit.queries.tradePrices()
+ *   .select('date', 'coal', 'oil', 'uranium', 'food', 'aluminum', 'steel', 'gasoline')
+ *   .execute();
+ * // Type: { date: string, coal: number, oil: number, uranium: number, food: number, aluminum: number, steel: number, gasoline: number }
+ * 
+ * // Get historical credit prices
+ * const creditPrices = await pnwkit.queries.tradePrices()
+ *   .select('date', 'credits')
+ *   .execute();
+ * // Type: { date: string, credits: number }
+ * ```
  */
 export class TradePricesQuery<
     F extends readonly (keyof TradepriceFields)[] = []

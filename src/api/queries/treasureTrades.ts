@@ -22,6 +22,29 @@ import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMap
  * @category Query Builders
  * @template F - Selected field names
  * @template I - Included relations
+ * 
+ * @example
+ * ```typescript
+ * // Get active treasure trade offers
+ * const treasureTrades = await pnwkit.queries.treasureTrades()
+ *   .select('id', 'treasure', 'money', 'accepted', 'buying', 'selling')
+ *   .where({ accepted: false })
+ *   .first(50)
+ *   .execute();
+ * // Type: { id: number, treasure: string, money: number, accepted: boolean, buying: number, selling: number }[]
+ * 
+ * // Query trades with buyer and seller details
+ * const treasureTrades = await pnwkit.queries.treasureTrades()
+ *   .select('id', 'treasure', 'money', 'accepted')
+ *   .include('buyer', builder => builder
+ *     .select('id', 'nation_name', 'alliance_id')
+ *   )
+ *   .include('seller', builder => builder
+ *     .select('id', 'nation_name', 'alliance_id')
+ *   )
+ *   .execute();
+ * // Type: { id: number, ..., buyer: {...}, seller: {...} }[]
+ * ```
  */
 export class TreasureTradesQuery<
     F extends readonly (keyof TreasureTradeFields)[] = [], 

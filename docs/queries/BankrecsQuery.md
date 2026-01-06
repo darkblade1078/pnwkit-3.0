@@ -6,7 +6,7 @@
 
 # Class: BankrecsQuery\<F, I\>
 
-Defined in: [api/queries/bankrecs.ts:26](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/bankrecs.ts#L26)
+Defined in: [api/queries/bankrecs.ts:50](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/api/queries/bankrecs.ts#L50)
 
 Query builder for fetching bank record data from the Politics & War API.
 
@@ -19,6 +19,31 @@ Features:
 - Filter by ID, date range, sender/receiver type and ID
 - Access to all transferred resources
 - Pagination support
+
+## Example
+
+```typescript
+// Get recent bank transactions
+const bankrecs = await pnwkit.queries.bankrecs()
+  .select('id', 'date', 'note', 'money', 'food', 'coal')
+  .where({ or_id: [123] })
+  .first(50)
+  .execute();
+// Type: { id: number, date: string, note: string, money: number, food: number, coal: number }[]
+
+// Query transactions with sender and receiver details
+const bankrecs = await pnwkit.queries.bankrecs()
+  .select('id', 'date', 'money', 'food', 'note')
+  .include('sender', builder => builder
+    .select('id', 'nation_name', 'alliance_id')
+  )
+  .include('receiver', builder => builder
+    .select('id', 'nation_name', 'alliance_id')
+  )
+  .where({ min_date: '2026-01-01' })
+  .execute();
+// Type: { id: number, ..., sender: {...}, receiver: {...} }[]
+```
 
 ## Extends
 
@@ -44,7 +69,7 @@ Included relations
 
 > **new BankrecsQuery**\<`F`, `I`\>(`kit`): `BankrecsQuery`\<`F`, `I`\>
 
-Defined in: [api/queries/bankrecs.ts:39](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/bankrecs.ts#L39)
+Defined in: [api/queries/bankrecs.ts:63](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/api/queries/bankrecs.ts#L63)
 
 **`Internal`**
 
@@ -72,7 +97,7 @@ The PnWKit instance containing API credentials
 
 > `protected` **apiKey**: `string`
 
-Defined in: services/queryBuilder.ts:234
+Defined in: [services/queryBuilder.ts:234](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L234)
 
 #### Inherited from
 
@@ -84,7 +109,7 @@ Defined in: services/queryBuilder.ts:234
 
 > `protected` **filters**: `BankRecordsQueryParams`
 
-Defined in: services/queryBuilder.ts:240
+Defined in: [services/queryBuilder.ts:240](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L240)
 
 #### Inherited from
 
@@ -96,7 +121,7 @@ Defined in: services/queryBuilder.ts:240
 
 > `protected` `optional` **limit**: `number`
 
-Defined in: services/queryBuilder.ts:232
+Defined in: [services/queryBuilder.ts:232](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L232)
 
 #### Inherited from
 
@@ -108,7 +133,7 @@ Defined in: services/queryBuilder.ts:232
 
 > `protected` `optional` **pageNum**: `number`
 
-Defined in: services/queryBuilder.ts:233
+Defined in: [services/queryBuilder.ts:233](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L233)
 
 #### Inherited from
 
@@ -120,7 +145,7 @@ Defined in: services/queryBuilder.ts:233
 
 > `protected` **queryName**: `string` = `'bankrecs'`
 
-Defined in: [api/queries/bankrecs.ts:32](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/bankrecs.ts#L32)
+Defined in: [api/queries/bankrecs.ts:56](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/api/queries/bankrecs.ts#L56)
 
 #### Overrides
 
@@ -132,7 +157,7 @@ Defined in: [api/queries/bankrecs.ts:32](https://github.com/darkblade1078/pnwkit
 
 > `protected` **selectedFields**: keyof `BankTaxrecFields`[] = `[]`
 
-Defined in: services/queryBuilder.ts:239
+Defined in: [services/queryBuilder.ts:239](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L239)
 
 #### Inherited from
 
@@ -144,7 +169,7 @@ Defined in: services/queryBuilder.ts:239
 
 > `protected` **subqueries**: `Map`\<`string`, `SubqueryConfig`\<`any`, \{ \}, `Record`\<`string`, `any`\>\>\>
 
-Defined in: services/queryBuilder.ts:237
+Defined in: [services/queryBuilder.ts:237](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L237)
 
 #### Inherited from
 
@@ -156,7 +181,7 @@ Defined in: services/queryBuilder.ts:237
 
 > `protected` `readonly` `static` **MAX\_ARRAY\_SIZE**: `1000` = `1000`
 
-Defined in: services/queryBuilder.ts:254
+Defined in: [services/queryBuilder.ts:254](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L254)
 
 #### Inherited from
 
@@ -168,7 +193,7 @@ Defined in: services/queryBuilder.ts:254
 
 > `protected` `readonly` `static` **MAX\_FIELD\_NAME\_LENGTH**: `100` = `100`
 
-Defined in: services/queryBuilder.ts:255
+Defined in: [services/queryBuilder.ts:255](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L255)
 
 #### Inherited from
 
@@ -180,7 +205,7 @@ Defined in: services/queryBuilder.ts:255
 
 > `protected` `readonly` `static` **MAX\_FIELDS\_PER\_LEVEL**: `100` = `100`
 
-Defined in: services/queryBuilder.ts:251
+Defined in: [services/queryBuilder.ts:251](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L251)
 
 #### Inherited from
 
@@ -192,7 +217,7 @@ Defined in: services/queryBuilder.ts:251
 
 > `protected` `readonly` `static` **MAX\_NESTING\_DEPTH**: `10` = `10`
 
-Defined in: services/queryBuilder.ts:250
+Defined in: [services/queryBuilder.ts:250](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L250)
 
 #### Inherited from
 
@@ -204,7 +229,7 @@ Defined in: services/queryBuilder.ts:250
 
 > `protected` `readonly` `static` **MAX\_QUERY\_SIZE**: `50000` = `50000`
 
-Defined in: services/queryBuilder.ts:252
+Defined in: [services/queryBuilder.ts:252](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L252)
 
 #### Inherited from
 
@@ -216,7 +241,7 @@ Defined in: services/queryBuilder.ts:252
 
 > `protected` `readonly` `static` **MAX\_STRING\_LENGTH**: `10000` = `10000`
 
-Defined in: services/queryBuilder.ts:253
+Defined in: [services/queryBuilder.ts:253](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L253)
 
 #### Inherited from
 
@@ -228,7 +253,7 @@ Defined in: services/queryBuilder.ts:253
 
 > `protected` `readonly` `static` **QUERIES\_WITHOUT\_DATA\_WRAPPER**: `Set`\<`string`\>
 
-Defined in: services/queryBuilder.ts:247
+Defined in: [services/queryBuilder.ts:247](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L247)
 
 Queries that return data directly without wrapping in a 'data' object.
 These queries follow a different GraphQL schema structure.
@@ -243,7 +268,7 @@ These queries follow a different GraphQL schema structure.
 
 > `protected` **buildQuery**(`includePaginator`): `string`
 
-Defined in: services/queryBuilder.ts:549
+Defined in: [services/queryBuilder.ts:549](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L549)
 
 Build the final GraphQL query string with comprehensive validation.
 
@@ -287,7 +312,7 @@ Error if field count/name/size limits exceeded or filters contain invalid values
 
 > `protected` **buildSubqueryFields**(`config`, `baseIndent`, `depth`): `object`
 
-Defined in: services/queryBuilder.ts:487
+Defined in: [services/queryBuilder.ts:487](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L487)
 
 **`Internal`**
 
@@ -344,7 +369,7 @@ Error if nesting depth exceeds MAX_NESTING_DEPTH
 
 > `protected` **buildSubqueryString**(`config`, `depth`): `object`
 
-Defined in: services/queryBuilder.ts:369
+Defined in: [services/queryBuilder.ts:369](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L369)
 
 **`Internal`**
 
@@ -401,7 +426,7 @@ Error if depth exceeds MAX_NESTING_DEPTH or field count exceeds MAX_FIELDS_PER_L
 
 > **execute**(): `Promise`\<`SelectFields`\<`BankTaxrecFields`, `F`, `I`\>[]\>
 
-Defined in: [api/queries/bankrecs.ts:87](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/bankrecs.ts#L87)
+Defined in: [api/queries/bankrecs.ts:111](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/api/queries/bankrecs.ts#L111)
 
 ##### Returns
 
@@ -411,7 +436,7 @@ Defined in: [api/queries/bankrecs.ts:87](https://github.com/darkblade1078/pnwkit
 
 > **execute**(`withPaginator`): `Promise`\<\{ `data`: `SelectFields`\<`BankTaxrecFields`, `F`, `I`\>[]; `paginatorInfo`: `paginatorInfo`; \}\>
 
-Defined in: [api/queries/bankrecs.ts:88](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/bankrecs.ts#L88)
+Defined in: [api/queries/bankrecs.ts:112](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/api/queries/bankrecs.ts#L112)
 
 ##### Parameters
 
@@ -429,7 +454,7 @@ Defined in: [api/queries/bankrecs.ts:88](https://github.com/darkblade1078/pnwkit
 
 > **include**\<`K`, `TConfig`, `TNestedResult`, `TWrappedResult`\>(`relation`, `config`): `BankrecsQuery`\<`F`, `I` & `Record`\<`K`, `TWrappedResult`\>\>
 
-Defined in: [api/queries/bankrecs.ts:73](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/bankrecs.ts#L73)
+Defined in: [api/queries/bankrecs.ts:97](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/api/queries/bankrecs.ts#L97)
 
 #### Type Parameters
 
@@ -469,7 +494,7 @@ Defined in: [api/queries/bankrecs.ts:73](https://github.com/darkblade1078/pnwkit
 
 > `protected` **sanitizeString**(`str`): `string`
 
-Defined in: services/queryBuilder.ts:278
+Defined in: [services/queryBuilder.ts:278](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L278)
 
 Sanitize and escape a string value for safe GraphQL usage.
 
@@ -505,7 +530,7 @@ Error if input is not a string, exceeds maximum length (10KB), or contains null 
 
 > **select**\<`Fields`\>(...`fields`): `BankrecsQuery`\<`Fields`\>
 
-Defined in: [api/queries/bankrecs.ts:51](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/bankrecs.ts#L51)
+Defined in: [api/queries/bankrecs.ts:75](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/api/queries/bankrecs.ts#L75)
 
 Select specific fields to retrieve from bank records
 
@@ -545,7 +570,7 @@ Error if no fields are provided
 
 > `protected` **serializeFilterValue**(`value`): `string`
 
-Defined in: services/queryBuilder.ts:459
+Defined in: [services/queryBuilder.ts:459](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L459)
 
 **`Internal`**
 
@@ -582,7 +607,7 @@ Error if value is null/undefined, array exceeds 1000 elements, number is not fin
 
 > `protected` **serializeObject**(`obj`): `string`
 
-Defined in: services/queryBuilder.ts:314
+Defined in: [services/queryBuilder.ts:314](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/services/queryBuilder.ts#L314)
 
 Serialize an object to GraphQL format (enum values without quotes).
 
@@ -621,7 +646,7 @@ Error if object is null/undefined/array, contains invalid field names, or has un
 
 > **where**(`filters`): `this`
 
-Defined in: [api/queries/bankrecs.ts:67](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/bankrecs.ts#L67)
+Defined in: [api/queries/bankrecs.ts:91](https://github.com/darkblade1078/pnwkit-3.0/blob/2c2ccc96faa529413e40656865f3cc9a4bfaaed9/src/api/queries/bankrecs.ts#L91)
 
 Apply filters to the query
 

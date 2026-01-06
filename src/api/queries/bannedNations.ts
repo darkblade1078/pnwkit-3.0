@@ -18,6 +18,22 @@ import type { BannedNationFields, BannedNationsQueryParams, BannedNationRelation
  * 
  * @category Query Builders
  * @template F - Selected field names
+ * 
+ * @example
+ * ```typescript
+ * // Get all currently banned nations
+ * const banned = await pnwkit.queries.bannedNations()
+ *   .select('nation_id', 'nation_name', 'leader_name', 'reason', 'date', 'days_left')
+ *   .execute();
+ * // Type: { nation_id: number, nation_name: string, leader_name: string, reason: string, date: string, days_left: number }[]
+ * 
+ * // Search for specific banned nation
+ * const banned = await pnwkit.queries.bannedNations()
+ *   .select('nation_id', 'reason', 'days_left')
+ *   .where({ nation_id: [123456] })
+ *   .execute();
+ * // Type: { nation_id: number, reason: string, days_left: number }[]
+ * ```
  */
 export class BannedNationsQuery<
     F extends readonly (keyof BannedNationFields)[] = []

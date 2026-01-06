@@ -19,6 +19,23 @@ import type { ResourceStatsFields, ResourceStatsQueryParams, ResourceStatRelatio
  * 
  * @category Query Builders
  * @template F - Selected field names
+ * 
+ * @example
+ * ```typescript
+ * // Get recent global resource statistics
+ * const stats = await pnwkit.queries.resourceStats()
+ *   .select('date', 'money', 'food', 'coal', 'oil', 'uranium')
+ *   .first(30)
+ *   .execute();
+ * // Type: { date: string, money: number, food: number, coal: number, oil: number, uranium: number }[]
+ * 
+ * // Filter by date range
+ * const stats = await pnwkit.queries.resourceStats()
+ *   .select('date', 'money', 'coal', 'oil')
+ *   .where({ min_date: '2026-01-01', max_date: '2026-01-05' })
+ *   .execute();
+ * // Type: { date: string, money: number, coal: number, oil: number }[]
+ * ```
  */
 export class ResourceStatsQuery<
     F extends readonly (keyof ResourceStatsFields)[] = []

@@ -22,6 +22,27 @@ import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMap
  * @category Query Builders
  * @template F - Selected field names
  * @template I - Included relations
+ * 
+ * @example
+ * ```typescript
+ * // Get recent alliance bulletins
+ * const bulletins = await pnwkit.queries.bulletins()
+ *   .select('id', 'headline', 'body', 'date', 'pinned')
+ *   .where({ alliance_id: [123] })
+ *   .first(50)
+ *   .execute();
+ * // Type: { id: number, headline: string, body: string, date: string, pinned: boolean }[]
+ * 
+ * // Query bulletins with author details
+ * const bulletins = await pnwkit.queries.bulletins()
+ *   .select('id', 'headline', 'date')
+ *   .include('nation', builder => builder
+ *     .select('id', 'nation_name', 'alliance_id')
+ *   )
+ *   .where({ orderBy: [{ column: 'DATE', order: 'DESC' }] })
+ *   .execute();
+ * // Type: { id: number, headline: string, date: string, nation: {...} }[]
+ * ```
  */
 export class BulletinsQuery<
     F extends readonly (keyof BulletinFields)[] = [], 

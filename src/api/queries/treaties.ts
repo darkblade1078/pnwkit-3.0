@@ -20,6 +20,28 @@ import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMap
  * @category Query Builders
  * @template F - Selected field names
  * @template I - Included relations
+ * 
+ * @example
+ * ```typescript
+ * // Get active treaties
+ * const treaties = await pnwkit.queries.treaties()
+ *   .select('id', 'treaty_type', 'turns_left', 'approved')
+ *   .where({ alliance_id: [123] })
+ *   .execute();
+ * // Type: { id: number, treaty_type: string, turns_left: number, approved: boolean }[]
+ * 
+ * // Query treaties with alliance details
+ * const treaties = await pnwkit.queries.treaties()
+ *   .select('id', 'treaty_type', 'turns_left')
+ *   .include('alliance1', builder => builder
+ *     .select('id', 'name', 'score')
+ *   )
+ *   .include('alliance2', builder => builder
+ *     .select('id', 'name', 'score')
+ *   )
+ *   .execute();
+ * // Type: { id: number, treaty_type: string, turns_left: number, alliance1: {...}, alliance2: {...} }[]
+ * ```
  */
 export class TreatiesQuery<
     F extends readonly (keyof TreatyFields)[] = [], 
