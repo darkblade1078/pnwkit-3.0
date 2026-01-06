@@ -6,7 +6,7 @@
 
 # Class: TopTradeInfoQuery\<F, I\>
 
-Defined in: [api/queries/topTradeInfo.ts:58](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/api/queries/topTradeInfo.ts#L58)
+Defined in: [api/queries/topTradeInfo.ts:58](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/topTradeInfo.ts#L58)
 
 Query builder for fetching top trade information from the Politics & War API.
 
@@ -77,7 +77,7 @@ Included relations (tracked through chaining with proper cardinality)
 
 > **new TopTradeInfoQuery**\<`F`, `I`\>(`kit`): `TopTradeInfoQuery`\<`F`, `I`\>
 
-Defined in: [api/queries/topTradeInfo.ts:71](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/api/queries/topTradeInfo.ts#L71)
+Defined in: [api/queries/topTradeInfo.ts:71](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/topTradeInfo.ts#L71)
 
 **`Internal`**
 
@@ -105,7 +105,7 @@ The PnWKit instance containing API credentials
 
 > `protected` **apiKey**: `string`
 
-Defined in: [builders/queryBuilder.ts:232](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L232)
+Defined in: services/queryBuilder.ts:234
 
 #### Inherited from
 
@@ -117,7 +117,7 @@ Defined in: [builders/queryBuilder.ts:232](https://github.com/darkblade1078/pnwk
 
 > `protected` **filters**: `TopTradeInfoQueryParams`
 
-Defined in: [builders/queryBuilder.ts:238](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L238)
+Defined in: services/queryBuilder.ts:240
 
 #### Inherited from
 
@@ -129,7 +129,7 @@ Defined in: [builders/queryBuilder.ts:238](https://github.com/darkblade1078/pnwk
 
 > `protected` `optional` **limit**: `number`
 
-Defined in: [builders/queryBuilder.ts:230](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L230)
+Defined in: services/queryBuilder.ts:232
 
 #### Inherited from
 
@@ -141,7 +141,7 @@ Defined in: [builders/queryBuilder.ts:230](https://github.com/darkblade1078/pnwk
 
 > `protected` `optional` **pageNum**: `number`
 
-Defined in: [builders/queryBuilder.ts:231](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L231)
+Defined in: services/queryBuilder.ts:233
 
 #### Inherited from
 
@@ -153,7 +153,7 @@ Defined in: [builders/queryBuilder.ts:231](https://github.com/darkblade1078/pnwk
 
 > `protected` **queryName**: `string` = `'top_trade_info'`
 
-Defined in: [api/queries/topTradeInfo.ts:64](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/api/queries/topTradeInfo.ts#L64)
+Defined in: [api/queries/topTradeInfo.ts:64](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/topTradeInfo.ts#L64)
 
 #### Overrides
 
@@ -165,7 +165,7 @@ Defined in: [api/queries/topTradeInfo.ts:64](https://github.com/darkblade1078/pn
 
 > `protected` **selectedFields**: keyof `TopTradeInfoFields`[] = `[]`
 
-Defined in: [builders/queryBuilder.ts:237](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L237)
+Defined in: services/queryBuilder.ts:239
 
 #### Inherited from
 
@@ -177,7 +177,7 @@ Defined in: [builders/queryBuilder.ts:237](https://github.com/darkblade1078/pnwk
 
 > `protected` **subqueries**: `Map`\<`string`, `SubqueryConfig`\<`any`, \{ \}, `Record`\<`string`, `any`\>\>\>
 
-Defined in: [builders/queryBuilder.ts:235](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L235)
+Defined in: services/queryBuilder.ts:237
 
 #### Inherited from
 
@@ -185,11 +185,35 @@ Defined in: [builders/queryBuilder.ts:235](https://github.com/darkblade1078/pnwk
 
 ***
 
+### MAX\_ARRAY\_SIZE
+
+> `protected` `readonly` `static` **MAX\_ARRAY\_SIZE**: `1000` = `1000`
+
+Defined in: services/queryBuilder.ts:254
+
+#### Inherited from
+
+`QueryBuilder.MAX_ARRAY_SIZE`
+
+***
+
+### MAX\_FIELD\_NAME\_LENGTH
+
+> `protected` `readonly` `static` **MAX\_FIELD\_NAME\_LENGTH**: `100` = `100`
+
+Defined in: services/queryBuilder.ts:255
+
+#### Inherited from
+
+`QueryBuilder.MAX_FIELD_NAME_LENGTH`
+
+***
+
 ### MAX\_FIELDS\_PER\_LEVEL
 
 > `protected` `readonly` `static` **MAX\_FIELDS\_PER\_LEVEL**: `100` = `100`
 
-Defined in: [builders/queryBuilder.ts:247](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L247)
+Defined in: services/queryBuilder.ts:251
 
 #### Inherited from
 
@@ -201,7 +225,7 @@ Defined in: [builders/queryBuilder.ts:247](https://github.com/darkblade1078/pnwk
 
 > `protected` `readonly` `static` **MAX\_NESTING\_DEPTH**: `10` = `10`
 
-Defined in: [builders/queryBuilder.ts:246](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L246)
+Defined in: services/queryBuilder.ts:250
 
 #### Inherited from
 
@@ -213,7 +237,7 @@ Defined in: [builders/queryBuilder.ts:246](https://github.com/darkblade1078/pnwk
 
 > `protected` `readonly` `static` **MAX\_QUERY\_SIZE**: `50000` = `50000`
 
-Defined in: [builders/queryBuilder.ts:248](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L248)
+Defined in: services/queryBuilder.ts:252
 
 #### Inherited from
 
@@ -225,7 +249,7 @@ Defined in: [builders/queryBuilder.ts:248](https://github.com/darkblade1078/pnwk
 
 > `protected` `readonly` `static` **MAX\_STRING\_LENGTH**: `10000` = `10000`
 
-Defined in: [builders/queryBuilder.ts:249](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L249)
+Defined in: services/queryBuilder.ts:253
 
 #### Inherited from
 
@@ -237,7 +261,10 @@ Defined in: [builders/queryBuilder.ts:249](https://github.com/darkblade1078/pnwk
 
 > `protected` `readonly` `static` **QUERIES\_WITHOUT\_DATA\_WRAPPER**: `Set`\<`string`\>
 
-Defined in: [builders/queryBuilder.ts:243](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L243)
+Defined in: services/queryBuilder.ts:247
+
+Queries that return data directly without wrapping in a 'data' object.
+These queries follow a different GraphQL schema structure.
 
 #### Inherited from
 
@@ -249,7 +276,7 @@ Defined in: [builders/queryBuilder.ts:243](https://github.com/darkblade1078/pnwk
 
 > `protected` **buildQuery**(`includePaginator`): `string`
 
-Defined in: [builders/queryBuilder.ts:541](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L541)
+Defined in: services/queryBuilder.ts:549
 
 Build the final GraphQL query string with comprehensive validation.
 
@@ -293,7 +320,7 @@ Error if field count/name/size limits exceeded or filters contain invalid values
 
 > `protected` **buildSubqueryFields**(`config`, `baseIndent`, `depth`): `object`
 
-Defined in: [builders/queryBuilder.ts:488](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L488)
+Defined in: services/queryBuilder.ts:487
 
 **`Internal`**
 
@@ -350,7 +377,7 @@ Error if nesting depth exceeds MAX_NESTING_DEPTH
 
 > `protected` **buildSubqueryString**(`config`, `depth`): `object`
 
-Defined in: [builders/queryBuilder.ts:362](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L362)
+Defined in: services/queryBuilder.ts:369
 
 **`Internal`**
 
@@ -407,7 +434,7 @@ Error if depth exceeds MAX_NESTING_DEPTH or field count exceeds MAX_FIELDS_PER_L
 
 > **execute**(): `Promise`\<`SelectFields`\<`TopTradeInfoFields`, `F`, `I`\>\>
 
-Defined in: [api/queries/topTradeInfo.ts:169](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/api/queries/topTradeInfo.ts#L169)
+Defined in: [api/queries/topTradeInfo.ts:169](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/topTradeInfo.ts#L169)
 
 Execute the top trade info query and return results.
 
@@ -448,7 +475,7 @@ console.log(result.paginatorInfo.total);     // Total count
 
 > **execute**(`withPaginator`): `Promise`\<\{ `data`: `SelectFields`\<`TopTradeInfoFields`, `F`, `I`\>; `paginatorInfo`: `paginatorInfo`; \}\>
 
-Defined in: [api/queries/topTradeInfo.ts:170](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/api/queries/topTradeInfo.ts#L170)
+Defined in: [api/queries/topTradeInfo.ts:170](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/topTradeInfo.ts#L170)
 
 Execute the top trade info query and return results.
 
@@ -499,7 +526,7 @@ console.log(result.paginatorInfo.total);     // Total count
 
 > **include**\<`K`, `TConfig`, `TNestedResult`, `TWrappedResult`\>(`relation`, `config`): `TopTradeInfoQuery`\<`F`, `I` & `Record`\<`K`, `TWrappedResult`\>\>
 
-Defined in: [api/queries/topTradeInfo.ts:126](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/api/queries/topTradeInfo.ts#L126)
+Defined in: [api/queries/topTradeInfo.ts:126](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/topTradeInfo.ts#L126)
 
 Include related data in the query results
 
@@ -556,7 +583,7 @@ New query instance with included relation
 
 > `protected` **sanitizeString**(`str`): `string`
 
-Defined in: [builders/queryBuilder.ts:264](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L264)
+Defined in: services/queryBuilder.ts:278
 
 Sanitize and escape a string value for safe GraphQL usage.
 
@@ -592,7 +619,7 @@ Error if input is not a string, exceeds maximum length (10KB), or contains null 
 
 > **select**\<`Fields`\>(...`fields`): `TopTradeInfoQuery`\<`Fields`\>
 
-Defined in: [api/queries/topTradeInfo.ts:85](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/api/queries/topTradeInfo.ts#L85)
+Defined in: [api/queries/topTradeInfo.ts:85](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/topTradeInfo.ts#L85)
 
 Select specific fields to retrieve from top trade info
 
@@ -632,7 +659,7 @@ Error if no fields are provided
 
 > `protected` **serializeFilterValue**(`value`): `string`
 
-Defined in: [builders/queryBuilder.ts:415](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L415)
+Defined in: services/queryBuilder.ts:459
 
 **`Internal`**
 
@@ -669,7 +696,7 @@ Error if value is null/undefined, array exceeds 1000 elements, number is not fin
 
 > `protected` **serializeObject**(`obj`): `string`
 
-Defined in: [builders/queryBuilder.ts:301](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L301)
+Defined in: services/queryBuilder.ts:314
 
 Serialize an object to GraphQL format (enum values without quotes).
 
@@ -704,49 +731,11 @@ Error if object is null/undefined/array, contains invalid field names, or has un
 
 ***
 
-### validateInputLength()
-
-> `protected` **validateInputLength**(`str`, `maxLength`): `void`
-
-Defined in: [builders/queryBuilder.ts:639](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L639)
-
-Validate input string length to prevent excessively large queries and DoS attacks.
-
-Used by sanitizeString and other methods to enforce size limits on user input.
-
-#### Parameters
-
-##### str
-
-`string`
-
-String to validate
-
-##### maxLength
-
-`number` = `10000`
-
-Maximum allowed length in characters (default: 10000)
-
-#### Returns
-
-`void`
-
-#### Throws
-
-Error if string exceeds maximum length
-
-#### Inherited from
-
-`QueryBuilder.validateInputLength`
-
-***
-
 ### where()
 
 > **where**(`filters`): `this`
 
-Defined in: [api/queries/topTradeInfo.ts:106](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/api/queries/topTradeInfo.ts#L106)
+Defined in: [api/queries/topTradeInfo.ts:106](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/topTradeInfo.ts#L106)
 
 Apply filters to the query
 

@@ -6,7 +6,7 @@
 
 # Class: ApiKeyDetailsQuery\<F, I\>
 
-Defined in: [api/queries/apiKeyDetails.ts:71](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/api/queries/apiKeyDetails.ts#L71)
+Defined in: [api/queries/apiKeyDetails.ts:71](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/apiKeyDetails.ts#L71)
 
 Query builder for fetching API key details from the Politics & War API.
 
@@ -90,7 +90,7 @@ Included relations (tracked through chaining with proper cardinality)
 
 > **new ApiKeyDetailsQuery**\<`F`, `I`\>(`kit`): `ApiKeyDetailsQuery`\<`F`, `I`\>
 
-Defined in: [api/queries/apiKeyDetails.ts:84](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/api/queries/apiKeyDetails.ts#L84)
+Defined in: [api/queries/apiKeyDetails.ts:84](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/apiKeyDetails.ts#L84)
 
 **`Internal`**
 
@@ -118,7 +118,7 @@ The PnWKit instance containing API credentials
 
 > `protected` **apiKey**: `string`
 
-Defined in: [builders/queryBuilder.ts:232](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L232)
+Defined in: services/queryBuilder.ts:234
 
 #### Inherited from
 
@@ -130,7 +130,7 @@ Defined in: [builders/queryBuilder.ts:232](https://github.com/darkblade1078/pnwk
 
 > `protected` **filters**: `ApiKeyDetailsQueryParams`
 
-Defined in: [builders/queryBuilder.ts:238](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L238)
+Defined in: services/queryBuilder.ts:240
 
 #### Inherited from
 
@@ -142,7 +142,7 @@ Defined in: [builders/queryBuilder.ts:238](https://github.com/darkblade1078/pnwk
 
 > `protected` `optional` **limit**: `number`
 
-Defined in: [builders/queryBuilder.ts:230](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L230)
+Defined in: services/queryBuilder.ts:232
 
 #### Inherited from
 
@@ -154,7 +154,7 @@ Defined in: [builders/queryBuilder.ts:230](https://github.com/darkblade1078/pnwk
 
 > `protected` `optional` **pageNum**: `number`
 
-Defined in: [builders/queryBuilder.ts:231](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L231)
+Defined in: services/queryBuilder.ts:233
 
 #### Inherited from
 
@@ -166,7 +166,7 @@ Defined in: [builders/queryBuilder.ts:231](https://github.com/darkblade1078/pnwk
 
 > `protected` **queryName**: `string` = `'me'`
 
-Defined in: [api/queries/apiKeyDetails.ts:77](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/api/queries/apiKeyDetails.ts#L77)
+Defined in: [api/queries/apiKeyDetails.ts:77](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/apiKeyDetails.ts#L77)
 
 #### Overrides
 
@@ -178,7 +178,7 @@ Defined in: [api/queries/apiKeyDetails.ts:77](https://github.com/darkblade1078/p
 
 > `protected` **selectedFields**: keyof `ApiKeyDetailsFields`[] = `[]`
 
-Defined in: [builders/queryBuilder.ts:237](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L237)
+Defined in: services/queryBuilder.ts:239
 
 #### Inherited from
 
@@ -190,7 +190,7 @@ Defined in: [builders/queryBuilder.ts:237](https://github.com/darkblade1078/pnwk
 
 > `protected` **subqueries**: `Map`\<`string`, `SubqueryConfig`\<`any`, \{ \}, `Record`\<`string`, `any`\>\>\>
 
-Defined in: [builders/queryBuilder.ts:235](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L235)
+Defined in: services/queryBuilder.ts:237
 
 #### Inherited from
 
@@ -198,11 +198,35 @@ Defined in: [builders/queryBuilder.ts:235](https://github.com/darkblade1078/pnwk
 
 ***
 
+### MAX\_ARRAY\_SIZE
+
+> `protected` `readonly` `static` **MAX\_ARRAY\_SIZE**: `1000` = `1000`
+
+Defined in: services/queryBuilder.ts:254
+
+#### Inherited from
+
+`QueryBuilder.MAX_ARRAY_SIZE`
+
+***
+
+### MAX\_FIELD\_NAME\_LENGTH
+
+> `protected` `readonly` `static` **MAX\_FIELD\_NAME\_LENGTH**: `100` = `100`
+
+Defined in: services/queryBuilder.ts:255
+
+#### Inherited from
+
+`QueryBuilder.MAX_FIELD_NAME_LENGTH`
+
+***
+
 ### MAX\_FIELDS\_PER\_LEVEL
 
 > `protected` `readonly` `static` **MAX\_FIELDS\_PER\_LEVEL**: `100` = `100`
 
-Defined in: [builders/queryBuilder.ts:247](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L247)
+Defined in: services/queryBuilder.ts:251
 
 #### Inherited from
 
@@ -214,7 +238,7 @@ Defined in: [builders/queryBuilder.ts:247](https://github.com/darkblade1078/pnwk
 
 > `protected` `readonly` `static` **MAX\_NESTING\_DEPTH**: `10` = `10`
 
-Defined in: [builders/queryBuilder.ts:246](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L246)
+Defined in: services/queryBuilder.ts:250
 
 #### Inherited from
 
@@ -226,7 +250,7 @@ Defined in: [builders/queryBuilder.ts:246](https://github.com/darkblade1078/pnwk
 
 > `protected` `readonly` `static` **MAX\_QUERY\_SIZE**: `50000` = `50000`
 
-Defined in: [builders/queryBuilder.ts:248](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L248)
+Defined in: services/queryBuilder.ts:252
 
 #### Inherited from
 
@@ -238,7 +262,7 @@ Defined in: [builders/queryBuilder.ts:248](https://github.com/darkblade1078/pnwk
 
 > `protected` `readonly` `static` **MAX\_STRING\_LENGTH**: `10000` = `10000`
 
-Defined in: [builders/queryBuilder.ts:249](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L249)
+Defined in: services/queryBuilder.ts:253
 
 #### Inherited from
 
@@ -250,7 +274,10 @@ Defined in: [builders/queryBuilder.ts:249](https://github.com/darkblade1078/pnwk
 
 > `protected` `readonly` `static` **QUERIES\_WITHOUT\_DATA\_WRAPPER**: `Set`\<`string`\>
 
-Defined in: [builders/queryBuilder.ts:243](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L243)
+Defined in: services/queryBuilder.ts:247
+
+Queries that return data directly without wrapping in a 'data' object.
+These queries follow a different GraphQL schema structure.
 
 #### Inherited from
 
@@ -262,7 +289,7 @@ Defined in: [builders/queryBuilder.ts:243](https://github.com/darkblade1078/pnwk
 
 > `protected` **buildQuery**(`includePaginator`): `string`
 
-Defined in: [builders/queryBuilder.ts:541](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L541)
+Defined in: services/queryBuilder.ts:549
 
 Build the final GraphQL query string with comprehensive validation.
 
@@ -306,7 +333,7 @@ Error if field count/name/size limits exceeded or filters contain invalid values
 
 > `protected` **buildSubqueryFields**(`config`, `baseIndent`, `depth`): `object`
 
-Defined in: [builders/queryBuilder.ts:488](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L488)
+Defined in: services/queryBuilder.ts:487
 
 **`Internal`**
 
@@ -363,7 +390,7 @@ Error if nesting depth exceeds MAX_NESTING_DEPTH
 
 > `protected` **buildSubqueryString**(`config`, `depth`): `object`
 
-Defined in: [builders/queryBuilder.ts:362](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L362)
+Defined in: services/queryBuilder.ts:369
 
 **`Internal`**
 
@@ -418,7 +445,7 @@ Error if depth exceeds MAX_NESTING_DEPTH or field count exceeds MAX_FIELDS_PER_L
 
 > **execute**(): `Promise`\<`SelectFields`\<`ApiKeyDetailsFields`, `F`, `I`\>\>
 
-Defined in: [api/queries/apiKeyDetails.ts:200](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/api/queries/apiKeyDetails.ts#L200)
+Defined in: [api/queries/apiKeyDetails.ts:197](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/apiKeyDetails.ts#L197)
 
 Execute the API key details query and return a single object.
 
@@ -460,7 +487,7 @@ console.log(apiKey.nation.nation_name);  // Direct nested access
 
 > **include**\<`K`, `TConfig`, `TNestedResult`, `TWrappedResult`\>(`relation`, `config`): `ApiKeyDetailsQuery`\<`F`, `I` & `Record`\<`K`, `TWrappedResult`\>\>
 
-Defined in: [api/queries/apiKeyDetails.ts:159](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/api/queries/apiKeyDetails.ts#L159)
+Defined in: [api/queries/apiKeyDetails.ts:156](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/apiKeyDetails.ts#L156)
 
 Include related data in the query results
 
@@ -508,10 +535,7 @@ New query instance with included relation
 #### Example
 
 ```typescript
-// Basic subquery with field selection
-.include('bankrecs', builder => builder
-  .select('id', 'date', 'money', 'note')
-)Include nation data
+// Basic subquery - include nation data
 .include('nation', builder => builder
   .select('id', 'nation_name', 'score')
 )
@@ -537,7 +561,7 @@ New query instance with included relation
 
 > `protected` **sanitizeString**(`str`): `string`
 
-Defined in: [builders/queryBuilder.ts:264](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L264)
+Defined in: services/queryBuilder.ts:278
 
 Sanitize and escape a string value for safe GraphQL usage.
 
@@ -573,7 +597,7 @@ Error if input is not a string, exceeds maximum length (10KB), or contains null 
 
 > **select**\<`Fields`\>(...`fields`): `ApiKeyDetailsQuery`\<`Fields`\>
 
-Defined in: [api/queries/apiKeyDetails.ts:98](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/api/queries/apiKeyDetails.ts#L98)
+Defined in: [api/queries/apiKeyDetails.ts:98](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/apiKeyDetails.ts#L98)
 
 Select specific fields to retrieve from API key details
 
@@ -613,7 +637,7 @@ Error if no fields are provided
 
 > `protected` **serializeFilterValue**(`value`): `string`
 
-Defined in: [builders/queryBuilder.ts:415](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L415)
+Defined in: services/queryBuilder.ts:459
 
 **`Internal`**
 
@@ -650,7 +674,7 @@ Error if value is null/undefined, array exceeds 1000 elements, number is not fin
 
 > `protected` **serializeObject**(`obj`): `string`
 
-Defined in: [builders/queryBuilder.ts:301](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L301)
+Defined in: services/queryBuilder.ts:314
 
 Serialize an object to GraphQL format (enum values without quotes).
 
@@ -685,49 +709,11 @@ Error if object is null/undefined/array, contains invalid field names, or has un
 
 ***
 
-### validateInputLength()
-
-> `protected` **validateInputLength**(`str`, `maxLength`): `void`
-
-Defined in: [builders/queryBuilder.ts:639](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/builders/queryBuilder.ts#L639)
-
-Validate input string length to prevent excessively large queries and DoS attacks.
-
-Used by sanitizeString and other methods to enforce size limits on user input.
-
-#### Parameters
-
-##### str
-
-`string`
-
-String to validate
-
-##### maxLength
-
-`number` = `10000`
-
-Maximum allowed length in characters (default: 10000)
-
-#### Returns
-
-`void`
-
-#### Throws
-
-Error if string exceeds maximum length
-
-#### Inherited from
-
-`QueryBuilder.validateInputLength`
-
-***
-
 ### where()
 
 > **where**(`filters`): `this`
 
-Defined in: [api/queries/apiKeyDetails.ts:119](https://github.com/darkblade1078/pnwkit-3.0/blob/8eac265e6869960c4fa52d0af0a54a5ed7c01c95/src/api/queries/apiKeyDetails.ts#L119)
+Defined in: [api/queries/apiKeyDetails.ts:119](https://github.com/darkblade1078/pnwkit-3.0/blob/88b72e1b56360f1739d9ed0782d2c6652815ba6c/src/api/queries/apiKeyDetails.ts#L119)
 
 Apply filters to the query (not supported for API key details)
 

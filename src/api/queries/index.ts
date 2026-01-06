@@ -23,6 +23,30 @@ import { TreasureTradesQuery } from "./treasureTrades.js";
 import { ActivityStatsQuery } from "./activityStats.js";
 import { ResourceStatsQuery } from "./resourceStats.js";
 
+/**
+ * Container class for all Politics & War GraphQL query builders.
+ * 
+ * Provides factory methods to create fresh instances of query builders
+ * for each available GraphQL query endpoint. Each method returns a new
+ * builder instance with full type safety and fluent API support.
+ * 
+ * @example
+ * ```typescript
+ * const queries = new Queries(api);
+ * 
+ * // Get nations data
+ * const nations = await queries.nations()
+ *   .select('id', 'nation_name')
+ *   .where({ first: 10 })
+ *   .execute();
+ * 
+ * // Get alliance data with nested relations
+ * const alliances = await queries.alliances()
+ *   .select('id', 'name')
+ *   .include('nations', builder => builder.select('id', 'nation_name'))
+ *   .execute();
+ * ```
+ */
 export default class Queries {
     constructor(private readonly api: PnwKitApi) {}
 

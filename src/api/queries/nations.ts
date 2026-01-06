@@ -1,5 +1,5 @@
 import type { SelectFields, InferSubqueryType } from "../../types/others.js";
-import { QueryBuilder, type SubqueryConfig } from "../../builders/queryBuilder.js";
+import { QueryBuilder, type SubqueryConfig } from "../../services/queryBuilder.js";
 import graphQLService from "../../services/graphQL.js";
 import type { NationFields, NationQueryParams, NationRelations } from "../../types/queries/nation.js";
 import type { paginatorInfo } from "../../types/others.js";

@@ -1,5 +1,5 @@
 import type { SelectFields, InferSubqueryType } from "../../types/others.js";
-import { QueryBuilder, type SubqueryConfig } from "../../builders/queryBuilder.js";
+import { QueryBuilder, type SubqueryConfig } from "../../services/queryBuilder.js";
 import graphQLService from "../../services/graphQL.js";
 import type { paginatorInfo } from "../../types/others.js";
 import type PnwKitApi from "../index.js";
@@ -133,10 +133,7 @@ extends QueryBuilder<ApiKeyDetailsFields, ApiKeyDetailsQueryParams>
      * @returns New query instance with included relation
      * @example
      * ```typescript
-     * // Basic subquery with field selection
-     * .include('bankrecs', builder => builder
-     *   .select('id', 'date', 'money', 'note')
-     * )Include nation data
+     * // Basic subquery - include nation data
      * .include('nation', builder => builder
      *   .select('id', 'nation_name', 'score')
      * )

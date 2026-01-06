@@ -2,6 +2,12 @@ import type { GetRelationsFor, GetQueryParamsFor } from "../types/relationMappin
 import type { InferSubqueryType } from "../types/others.js";
 
 /**
+ * Unwraps array types to their element type, leaves non-arrays unchanged.
+ * @example `NationFields[]` → `NationFields`, `AllianceFields` → `AllianceFields`
+ */
+type UnwrapArray<T> = T extends any[] ? T[number] : T;
+
+/**
  * Configuration for a subquery that accepts a builder function with full type inference.
  * 
  * The builder function receives a SubqueryBuilder instance with complete type safety for:
@@ -34,8 +40,11 @@ import type { InferSubqueryType } from "../types/others.js";
  *   )
  * ```
 */
-export type SubqueryConfig<TFields, TRelations = GetRelationsFor<TFields>, TQueryParams = GetQueryParamsFor<TFields>> = 
-    (builder: SubqueryBuilder<TFields extends any[] ? TFields[number] : TFields, [], TRelations, {}, TQueryParams>) => SubqueryBuilder<TFields extends any[] ? TFields[number] : TFields, any, TRelations, any, TQueryParams>;
+export type SubqueryConfig<
+    TFields,
+    TRelations = GetRelationsFor<UnwrapArray<TFields>>,
+    TQueryParams = GetQueryParamsFor<UnwrapArray<TFields>>
+> = (builder: SubqueryBuilder<UnwrapArray<TFields>, [], {}>) => SubqueryBuilder<UnwrapArray<TFields>, any, any>;
 
 /**
  * Builder for configuring nested subqueries with full type inference at all nesting levels.
@@ -80,29 +89,22 @@ export type SubqueryConfig<TFields, TRelations = GetRelationsFor<TFields>, TQuer
 export class SubqueryBuilder<
     TFields, 
     TSelected extends readonly (keyof TFields)[] = [],
-    TRelations = {}, 
-    TIncluded extends Record<string, any> = {}, 
-    TQueryParams = Record<string, any>
+    TIncluded extends Record<string, any> = {}
 >
 {
-    // Type brand properties for inference (not used at runtime)
-    declare _fields: TFields;
-    declare _selected: TSelected;
-    declare _included: TIncluded;
-    
     private fields: (keyof TFields)[] = [];
     private nestedSubqueries: Map<string, SubqueryConfig<any>> = new Map();
-    private filters: Partial<TQueryParams> = {};
+    private filters: Partial<GetQueryParamsFor<TFields>> = {};
 
     /**
      * Select fields from the subquery
     */
     select<const F extends readonly (keyof TFields)[]>(
         ...fields: F
-    ): SubqueryBuilder<TFields, F, TRelations, TIncluded, TQueryParams>
+    ): SubqueryBuilder<TFields, F, TIncluded>
     {
-        this.fields = [...new Set(fields)] as any;
-        return this as any;
+        this.fields = [...new Set(fields)] as (keyof TFields)[];
+        return this as SubqueryBuilder<TFields, F, TIncluded>;
     }
 
     /**
@@ -117,10 +119,10 @@ export class SubqueryBuilder<
      *   .where({ id: [1234], min_score: 1000 })  // TypeScript will validate these!
      * ```
     */
-    where(filters: Partial<TQueryParams>): SubqueryBuilder<TFields, TSelected, TRelations, TIncluded, TQueryParams>
+    where(filters: Partial<GetQueryParamsFor<TFields>>): SubqueryBuilder<TFields, TSelected, TIncluded>
     {
         this.filters = { ...this.filters, ...filters };
-        return this as any;
+        return this as SubqueryBuilder<TFields, TSelected, TIncluded>;
     }
 
     /**
@@ -147,17 +149,17 @@ export class SubqueryBuilder<
      * ```
     */
     include<
-        K extends keyof TRelations,
-        TConfig extends SubqueryConfig<TRelations[K], GetRelationsFor<TRelations[K]>, GetQueryParamsFor<TRelations[K]>>,
+        K extends keyof GetRelationsFor<TFields>,
+        TConfig extends SubqueryConfig<GetRelationsFor<TFields>[K]>,
         TNestedResult = InferSubqueryType<ReturnType<TConfig>>,
-        TWrappedResult = TRelations[K] extends any[] ? TNestedResult[] : TNestedResult
+        TWrappedResult = GetRelationsFor<TFields>[K] extends any[] ? TNestedResult[] : TNestedResult
     >(
         relation: K,
         config: TConfig
-    ): SubqueryBuilder<TFields, TSelected, TRelations, TIncluded & Record<K, TWrappedResult>, TQueryParams>
+    ): SubqueryBuilder<TFields, TSelected, TIncluded & Record<K, TWrappedResult>>
     {
-        this.nestedSubqueries.set(relation as string, config as unknown as SubqueryConfig<any>);
-        return this as any;
+        this.nestedSubqueries.set(relation as string, config as SubqueryConfig<any>);
+        return this as SubqueryBuilder<TFields, TSelected, TIncluded & Record<K, TWrappedResult>>;
     }
 
     /**
@@ -182,7 +184,7 @@ export class SubqueryBuilder<
      * @internal
      * Get the filters for this subquery
     */
-    getFilters(): Partial<TQueryParams>
+    getFilters(): Partial<GetQueryParamsFor<TFields>>
     {
         return this.filters;
     }
@@ -238,8 +240,10 @@ TQueryParams = any // Type of the query parameters
     protected filters: TQueryParams = {} as TQueryParams; // query filters
     protected abstract queryName: string; // name of the query (e.g., 'nations')
     
-    // Queries that don't wrap results in a 'data' object
-    // Temporary fix for certain queries
+    /**
+     * Queries that return data directly without wrapping in a 'data' object.
+     * These queries follow a different GraphQL schema structure.
+     */
     protected static readonly QUERIES_WITHOUT_DATA_WRAPPER = new Set(['me', 'treasures', 'colors', 'game_info', 'top_trade_info']);
     
     // Security constants
@@ -247,6 +251,16 @@ TQueryParams = any // Type of the query parameters
     protected static readonly MAX_FIELDS_PER_LEVEL = 100;
     protected static readonly MAX_QUERY_SIZE = 50000;
     protected static readonly MAX_STRING_LENGTH = 10000;
+    protected static readonly MAX_ARRAY_SIZE = 1000;
+    protected static readonly MAX_FIELD_NAME_LENGTH = 100;
+    
+    // Formatting constants
+    private static readonly INDENT_UNIT = '    ';
+    private static readonly QUERY_BASE_INDENT = '                        ';
+    
+    // Compiled regex patterns (reused across calls)
+    private static readonly GRAPHQL_FIELD_NAME_PATTERN = /^[_A-Za-z][_0-9A-Za-z]*$/;
+    private static readonly ENUM_VALUE_PATTERN = /^[_A-Z][_0-9A-Z]*$/;
 
     constructor() {}
 
@@ -266,22 +280,21 @@ TQueryParams = any // Type of the query parameters
         if (typeof str !== 'string')
             throw new Error('Input must be a string');
 
-        // Validate length
-        this.validateInputLength(str, QueryBuilder.MAX_STRING_LENGTH);
+        if (str.length > QueryBuilder.MAX_STRING_LENGTH)
+            throw new Error(`Input exceeds maximum length of ${QueryBuilder.MAX_STRING_LENGTH} characters`);
 
-        // Check for null bytes which can cause issues
         if (str.includes('\0'))
             throw new Error('String contains null byte');
 
-        // Escape special characters in the correct order (backslashes first)
+        // Escape special characters (backslashes first to avoid double-escaping)
         return str
-            .replace(/\\/g, '\\\\')  // Escape backslashes first
-            .replace(/"/g, '\\"')     // Escape quotes
-            .replace(/\n/g, '\\n')    // Escape newlines
-            .replace(/\r/g, '\\r')    // Escape carriage returns
-            .replace(/\t/g, '\\t')    // Escape tabs
-            .replace(/\f/g, '\\f')    // Escape form feeds
-            .replace(/\b/g, '\\b');   // Escape backspaces
+            .replace(/\\/g, '\\\\')
+            .replace(/"/g, '\\"')
+            .replace(/\n/g, '\\n')
+            .replace(/\r/g, '\\r')
+            .replace(/\t/g, '\\t')
+            .replace(/\f/g, '\\f')
+            .replace(/\b/g, '\\b');
     }
 
     /**
@@ -300,38 +313,32 @@ TQueryParams = any // Type of the query parameters
     */
     protected serializeObject(obj: Record<string, any>): string
     {
-        if (obj === null || obj === undefined)
-            throw new Error('Cannot serialize null or undefined object');
-
-        if (typeof obj !== 'object' || Array.isArray(obj))
+        if (!obj || typeof obj !== 'object' || Array.isArray(obj))
             throw new Error('Input must be a plain object');
 
-        // Use own properties only to prevent prototype pollution
-        const pairs = Object.keys(obj)
-        .filter(key => Object.prototype.hasOwnProperty.call(obj, key))
-        .filter(key => obj[key] !== null && obj[key] !== undefined)
-        .map(key => 
-        {
+        const pairs: string[] = [];
+        
+        for (const key in obj) {
+            if (!Object.prototype.hasOwnProperty.call(obj, key)) continue;
+            
             const val = obj[key];
+            if (val === null || val === undefined) continue;
 
-            // Validate key format (GraphQL field names)
-            if (!/^[_A-Za-z][_0-9A-Za-z]*$/.test(key))
+            // Validate key format
+            if (!QueryBuilder.GRAPHQL_FIELD_NAME_PATTERN.test(key))
                 throw new Error(`Invalid GraphQL field name: ${key}`);
 
-            // Prevent dangerous keys
             if (key === '__proto__' || key === 'constructor' || key === 'prototype')
                 throw new Error(`Forbidden field name: ${key}`);
             
-            // Handle different value types
+            // Serialize value based on type
             let serializedValue: string;
             if (typeof val === 'string') {
-                // Validate enum value format
-                if (!/^[_A-Z][_0-9A-Z]*$/.test(val))
+                if (!QueryBuilder.ENUM_VALUE_PATTERN.test(val))
                     throw new Error(`Invalid enum value format: ${val}`);
                 serializedValue = val;
             }
             else if (typeof val === 'number') {
-                // Validate number is safe
                 if (!Number.isFinite(val))
                     throw new Error(`Invalid number value: ${val}`);
                 serializedValue = String(val);
@@ -341,8 +348,8 @@ TQueryParams = any // Type of the query parameters
             else
                 throw new Error(`Unsupported value type in GraphQL object: ${typeof val}`);
             
-            return `${key}:${serializedValue}`;
-        });
+            pairs.push(`${key}:${serializedValue}`);
+        }
         
         return `{${pairs.join(', ')}}`;
     }
@@ -359,7 +366,11 @@ TQueryParams = any // Type of the query parameters
      * @throws Error if depth exceeds MAX_NESTING_DEPTH or field count exceeds MAX_FIELDS_PER_LEVEL
      * @internal
     */
-    protected buildSubqueryString(config: SubqueryConfig<any>, depth: number = 0): { 
+    protected buildSubqueryString(
+        config: SubqueryConfig<any>, 
+        depth: number = 0
+    ): 
+    { 
         scalar: string[]; 
         nested: Array<{ relation: string; config: SubqueryConfig<any> }>; 
         params: Record<string, any> 
@@ -371,7 +382,7 @@ TQueryParams = any // Type of the query parameters
         if (depth > QueryBuilder.MAX_NESTING_DEPTH)
             throw new Error(`Maximum nesting depth of ${QueryBuilder.MAX_NESTING_DEPTH} exceeded`);
 
-        const builder = new SubqueryBuilder<any, [], any, {}, any>();
+        const builder = new SubqueryBuilder<any, [], {}>();
         const configuredBuilder = config(builder);
         
         const fields = configuredBuilder.getFields();
@@ -402,6 +413,39 @@ TQueryParams = any // Type of the query parameters
     }
 
     /**
+     * Check if a string is a GraphQL enum value (uppercase with underscores)
+     * @internal
+    */
+    private static isEnumValue(str: string): boolean
+    {
+        return QueryBuilder.ENUM_VALUE_PATTERN.test(str);
+    }
+
+    /**
+     * Serialize a single value (non-array) for GraphQL
+     * @internal
+    */
+    private serializeSingleValue(value: any): string
+    {
+        if (typeof value === 'string')
+            return QueryBuilder.isEnumValue(value) ? value : `"${this.sanitizeString(value)}"`;
+        
+        if (typeof value === 'number') {
+            if (!Number.isFinite(value))
+                throw new Error(`Invalid number value: ${value}`);
+            return String(value);
+        }
+        
+        if (typeof value === 'boolean')
+            return String(value);
+        
+        if (typeof value === 'object' && value !== null)
+            return this.serializeObject(value);
+        
+        throw new Error(`Unsupported value type: ${typeof value}`);
+    }
+
+    /**
      * Serialize filter value for GraphQL query with validation.
      * 
      * Handles arrays (max 1000 elements), strings (sanitized), numbers (finite only),
@@ -418,58 +462,13 @@ TQueryParams = any // Type of the query parameters
             throw new Error('Cannot serialize null or undefined value');
 
         if (Array.isArray(value)) {
-            // Prevent excessively large arrays
-            if (value.length > 1000)
-                throw new Error('Array size exceeds maximum of 1000 elements');
+            if (value.length > QueryBuilder.MAX_ARRAY_SIZE)
+                throw new Error(`Array size exceeds maximum of ${QueryBuilder.MAX_ARRAY_SIZE} elements`);
             
-            const formatted = value.map(v => {
-                if (typeof v === 'string') 
-                {
-                    // Check if string is an enum value (all uppercase with underscores)
-                    if (/^[_A-Z][_0-9A-Z]*$/.test(v))
-                        return v;
-                    return `"${this.sanitizeString(v)}"`;
-                }
-
-                if (typeof v === 'object' && v !== null)
-                    return this.serializeObject(v);
-
-                if (typeof v === 'number') 
-                {
-                    if (!Number.isFinite(v))
-                        throw new Error(`Invalid number value: ${v}`);
-                    return String(v);
-                }
-
-                if (typeof v === 'boolean')
-                    return String(v);
-
-                throw new Error(`Unsupported array value type: ${typeof v}`);
-            }).join(', ');
-            return `[${formatted}]`;
+            return `[${value.map(v => this.serializeSingleValue(v)).join(', ')}]`;
         }
 
-        if (typeof value === 'string') 
-        {
-            // Check if string is an enum value (all uppercase with underscores)
-            // Enum values should not be quoted or sanitized
-            if (/^[_A-Z][_0-9A-Z]*$/.test(value))
-                return value;
-            return `"${this.sanitizeString(value)}"`;
-        }
-
-        if (typeof value === 'number') {
-            if (!Number.isFinite(value))
-                throw new Error(`Invalid number value: ${value}`);
-            return String(value);
-        }
-        if (typeof value === 'boolean')
-            return String(value);
-
-        if (typeof value === 'object' && value !== null)
-            return this.serializeObject(value);
-
-        throw new Error(`Unsupported filter value type: ${typeof value}`);
+        return this.serializeSingleValue(value);
     }
 
     /**
@@ -485,7 +484,15 @@ TQueryParams = any // Type of the query parameters
      * @throws Error if nesting depth exceeds MAX_NESTING_DEPTH
      * @internal
     */
-    protected buildSubqueryFields(config: SubqueryConfig<any>, baseIndent: number, depth: number = 0): { paramString: string; fieldList: string }
+    protected buildSubqueryFields(
+        config: SubqueryConfig<any>, 
+        baseIndent: number, 
+        depth: number = 0
+    ): 
+    { 
+        paramString: string; 
+        fieldList: string 
+    }
     {
         if (depth > QueryBuilder.MAX_NESTING_DEPTH)
             throw new Error(`Maximum nesting depth of ${QueryBuilder.MAX_NESTING_DEPTH} exceeded`);
@@ -493,28 +500,29 @@ TQueryParams = any // Type of the query parameters
         const { scalar, nested, params } = this.buildSubqueryString(config, depth);
         
         // Build parameter string
-        const paramString = Object.keys(params).length > 0
-            ? `(${Object.entries(params)
-                .filter(([_, value]) => value !== null && value !== undefined)
-                .map(([key, value]) => `${key}: ${this.serializeFilterValue(value)}`)
-                .join(', ')})`
-            : '';
+        const paramEntries = Object.entries(params)
+            .filter(([_, value]) => value !== null && value !== undefined)
+            .map(([key, value]) => `${key}: ${this.serializeFilterValue(value)}`);
         
-        const indent = '    '.repeat(baseIndent);
+        const paramString = paramEntries.length > 0 ? `(${paramEntries.join(', ')})` : '';
+        const indent = QueryBuilder.INDENT_UNIT.repeat(baseIndent);
+        const childIndent = `${indent}${QueryBuilder.INDENT_UNIT}`;
         const fieldLines: string[] = [];
         
         // Add scalar fields
-        scalar.forEach((field: string) => {
-            fieldLines.push(`${indent}    ${field}`);
-        });
+        for (const field of scalar) 
+        {
+            fieldLines.push(`${childIndent}${field}`);
+        }
         
         // Add nested relations (recursively)
-        nested.forEach(({ relation: nestedRel, config: nestedConfig }: { relation: string; config: SubqueryConfig<any> }) => {
+        for (const { relation, config: nestedConfig } of nested) 
+        {
             const nestedResult = this.buildSubqueryFields(nestedConfig, baseIndent + 1, depth + 1);
-            fieldLines.push(`${indent}    ${nestedRel}${nestedResult.paramString} {`);
+            fieldLines.push(`${childIndent}${relation}${nestedResult.paramString} {`);
             fieldLines.push(nestedResult.fieldList);
-            fieldLines.push(`${indent}    }`);
-        });
+            fieldLines.push(`${childIndent}}`);
+        }
         
         return { paramString, fieldList: fieldLines.join('\n') };
     }
@@ -540,14 +548,28 @@ TQueryParams = any // Type of the query parameters
     */
     protected buildQuery(includePaginator: boolean): string
     {
-        // Build the fields string including subqueries
-        const mainFields = this.selectedFields
-        .filter((f: keyof TFields) => !this.subqueries.has(f as string))
-        .join('\n                        ');
+        // Validate field count and names
+        if (this.selectedFields.length > QueryBuilder.MAX_FIELDS_PER_LEVEL)
+            throw new Error(`Maximum ${QueryBuilder.MAX_FIELDS_PER_LEVEL} fields exceeded`);
+
+        for (const f of this.selectedFields) 
+        {
+            const fieldName = String(f);
+
+            if (fieldName.length > QueryBuilder.MAX_FIELD_NAME_LENGTH)
+                throw new Error(`Field name too long: ${fieldName.substring(0, 50)}...`);
+            
+            if (!QueryBuilder.GRAPHQL_FIELD_NAME_PATTERN.test(fieldName))
+                throw new Error(`Invalid field name format: ${fieldName}`);
+        }
+
+        // Separate scalar fields from subqueries
+        const scalarFields = this.selectedFields
+            .filter((f: keyof TFields) => !this.subqueries.has(f as string))
+            .join(`\n${QueryBuilder.QUERY_BASE_INDENT}`);
 
         // Build subquery strings
         const subqueryStrings: string[] = [];
-
         this.subqueries.forEach((config, relation) => {
             const result = this.buildSubqueryFields(config, 5);
             subqueryStrings.push(`
@@ -557,41 +579,30 @@ TQueryParams = any // Type of the query parameters
             `);
         });
 
-        const allFields = [mainFields, ...subqueryStrings]
-            .filter(s => s.length > 0)
-            .join('\n                        ');
+        const allFields = [scalarFields, ...subqueryStrings]
+            .filter(Boolean)
+            .join(`\n${QueryBuilder.QUERY_BASE_INDENT}`);
 
+        // Build query variables (pagination + filters)
         const variables: string[] = [];
-
-        // Add pagination variables
         if (this.limit) variables.push(`first: ${this.limit}`);
         if (this.pageNum) variables.push(`page: ${this.pageNum}`);
 
-        // Validate field count and names
-        if (this.selectedFields.length > QueryBuilder.MAX_FIELDS_PER_LEVEL)
-            throw new Error(`Maximum ${QueryBuilder.MAX_FIELDS_PER_LEVEL} fields exceeded`);
-
-        this.selectedFields.forEach(f => {
-            const fieldName = String(f);
-            if (fieldName.length > 100)
-                throw new Error(`Field name too long: ${fieldName.substring(0, 50)}...`);
+        // Iterate filters with prototype pollution protection (hasOwnProperty check)
+        // Prevents __proto__ and constructor injection attacks
+        for (const key in this.filters) 
+        {
+            if (!Object.prototype.hasOwnProperty.call(this.filters, key)) continue;
             
-            // Validate field name format to prevent injection
-            if (!/^[_A-Za-z][_0-9A-Za-z]*$/.test(fieldName))
-                throw new Error(`Invalid field name format: ${fieldName}`);
-        });
+            const value = (this.filters as Record<string, any>)[key];
 
-        // Add main query filters
-        Object.entries(this.filters as Record<string, any>)
-            .filter(([_, value]) => value !== null && value !== undefined)
-            .forEach(([key, value]) => {
+            if (value !== null && value !== undefined)
                 variables.push(`${key}: ${this.serializeFilterValue(value)}`);
-            });
+        }
 
-        // Construct variable string
-        const varString = variables.length > 0 ? `(${variables.join(', ')})` : '';
+        const variablesString = variables.length > 0 ? `(${variables.join(', ')})` : '';
 
-        // Construct paginator fields if needed
+        // Build paginator fields if needed
         const paginatorFields = includePaginator ? `
             paginatorInfo {
                 count
@@ -611,7 +622,7 @@ TQueryParams = any // Type of the query parameters
         // Construct the final query string
         const finalQuery = `
             query {
-                ${this.queryName}${varString} {
+                ${this.queryName}${variablesString} {
                     ${usesDataWrapper ? 'data {' : ''}
                         ${allFields}
                     ${usesDataWrapper ? '}' : ''}
@@ -625,20 +636,5 @@ TQueryParams = any // Type of the query parameters
             throw new Error(`Query size exceeds maximum of ${QueryBuilder.MAX_QUERY_SIZE} characters`);
 
         return finalQuery;
-    }
-
-    /**
-     * Validate input string length to prevent excessively large queries and DoS attacks.
-     * 
-     * Used by sanitizeString and other methods to enforce size limits on user input.
-     * 
-     * @param str - String to validate
-     * @param maxLength - Maximum allowed length in characters (default: 10000)
-     * @throws Error if string exceeds maximum length
-    */
-    protected validateInputLength(str: string, maxLength: number = 10000): void
-    {
-        if (str.length > maxLength)
-            throw new Error(`Input exceeds maximum length of ${maxLength} characters`);
     }
 }

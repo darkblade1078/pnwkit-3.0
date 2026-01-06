@@ -1,5 +1,5 @@
 import type { SelectFields } from "../../types/others.js";
-import { QueryBuilder } from "../../builders/queryBuilder.js";
+import { QueryBuilder } from "../../services/queryBuilder.js";
 import graphQLService from "../../services/graphQL.js";
 import type { paginatorInfo } from "../../types/others.js";
 import type PnwKitApi from "../index.js";

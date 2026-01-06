@@ -1,5 +1,5 @@
 import type { SelectFields } from "../../types/others.js";
-import { QueryBuilder } from "../../builders/queryBuilder.js";
+import { QueryBuilder } from "../../services/queryBuilder.js";
 import graphQLService from "../../services/graphQL.js";
 import type PnwKitApi from "../index.js";
 import type { TradepriceFields, TradePricesQueryParams, TradePricesRelations } from "../../types/queries/tradePrices.js";
