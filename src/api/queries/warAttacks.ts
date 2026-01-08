@@ -53,7 +53,7 @@ export class WarAttacksQuery<
 > 
 extends QueryBuilder<WarAttackFields, WarAttackQueryParams>
 {
-    protected queryName = 'war_attacks';
+    protected queryName = 'warattacks';
 
     /**
      * Create a new WarAttacksQuery instance

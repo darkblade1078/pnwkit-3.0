@@ -1,5 +1,3 @@
-import { ProjectBits } from "../../types/utilities/projectBits.js";
-
 /**
  * Check if a nation has a specific project built.
  * 
@@ -14,15 +12,16 @@ import { ProjectBits } from "../../types/utilities/projectBits.js";
  * 
  * @example
  * ```typescript
- * const hasAUP = ConvertBitsToProject(data[0].project_bits, 15); // ADVANCED_URBAN_PLANNING
- * console.log(hasAUP); // true or false
+ * const hasIronDome = ConvertBitsToProject(data[0].project_bits, 0); // IRON_DOME
+ * const hasVDS = ConvertBitsToProject(data[0].project_bits, 1);      // VITAL_DEFENSE_SYSTEM
+ * console.log(hasIronDome); // true or false
  * ```
  */
 export function ConvertBitsToProject(projectBits: string, projectPosition: number): boolean
 {
     // Validate projectPosition
-    if (!Number.isInteger(projectPosition) || projectPosition < 0 || projectPosition > 63)
-        throw new Error('projectPosition must be an integer between 0 and 63');
+    if (!Number.isInteger(projectPosition) || projectPosition < 0 || projectPosition > 40)
+        throw new Error('projectPosition must be an integer between 0 and 40');
     
     // Validate projectBits format
     if (typeof projectBits !== 'string' || !/^\d+$/.test(projectBits))

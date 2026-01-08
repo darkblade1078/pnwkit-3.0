@@ -7,14 +7,19 @@
   "type": "module",
   "main": "build/index.js",
   "scripts": {
-    "test": "node build/test.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "build": "tsc",
-    "docs": "typedoc && typedoc --options typedoc.queries.json && node scripts/flatten-docs.js"
+    "docs": "typedoc"
   },
   "devDependencies": {
     "@types/node": "^25.0.3",
+    "@vitest/ui": "^4.0.16",
+    "c8": "^10.1.3",
+    "dotenv": "^17.2.3",
     "typedoc": "^0.28.15",
-    "typedoc-plugin-markdown": "^4.9.0"
+    "typedoc-plugin-markdown": "^4.9.0",
+    "vitest": "^4.0.16"
   },
   "dependencies": {
     "lru-cache": "^11.2.4"

@@ -15,19 +15,25 @@
  * console.log(cost); // Cost for city 41 with current top20Average
  * ```
  */
-export function cityCost(cityToBuy: number, top20Average: number): number 
+export function cityCost(
+    cityToBuy: number, 
+    top20Average: number, 
+    ManifestDestiny: boolean = false, // 5% discount
+    GovernmentSupportAgency: boolean = false, // 50% discount increase
+    BureauOfDomesticAffairs: boolean = false // 25% discount increase
+): number 
 {
     // Validate inputs are finite numbers
     if (!Number.isFinite(cityToBuy) || !Number.isFinite(top20Average))
         throw new Error('Invalid input: parameters must be finite numbers');
     
     // Validate cityToBuy range (Politics & War limits)
-    if (cityToBuy < 1 || cityToBuy > 150)
-        throw new Error('Invalid cityToBuy: must be between 1 and 150');
+    if (cityToBuy < 1 || cityToBuy > 999)
+        throw new Error('Invalid cityToBuy: must be between 1 and 999');
     
     // Validate top20Average range
-    if (top20Average < 1 || top20Average > 150)
-        throw new Error('Invalid top20Average: must be between 1 and 150');
+    if (top20Average < 1 || top20Average > 999)
+        throw new Error('Invalid top20Average: must be between 1 and 999');
     
     // Adjust city number based on top 20% average
     const adjustedCity = cityToBuy - (top20Average / 4);
@@ -42,11 +48,16 @@ export function cityCost(cityToBuy: number, top20Average: number): number
     const minimumCost = (cityToBuy ** 2) * 100000;
     
     // Return the higher of the two costs
-    const result = Math.max(polynomialCost, minimumCost);
-    
-    // Ensure result is a safe integer
-    if (!Number.isSafeInteger(result))
-        throw new Error('Calculation resulted in unsafe integer value');
-    
-    return Math.floor(result);
+    const baseCost = Math.max(polynomialCost, minimumCost);
+
+    let discountPercent = 0;
+
+    if(ManifestDestiny)
+    {
+        discountPercent += 5;
+        if(GovernmentSupportAgency) discountPercent += 2.5;
+        if(GovernmentSupportAgency && BureauOfDomesticAffairs) discountPercent += 1.25;
+    }
+
+    return Math.round(baseCost * (1 - (discountPercent / 100)) * 100) / 100;
 }

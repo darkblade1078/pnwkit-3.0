@@ -132,3 +132,14 @@ dist
 
 # custom
 test.*
+# Test coverage
+coverage/
+*.lcov
+
+# Vitest
+.vitest/
+
+# Manual test files only (test suites are *.test.ts)
+src/test.ts
+build/test.js
+build/test.d.ts
