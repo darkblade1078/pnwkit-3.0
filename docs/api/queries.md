@@ -10,7 +10,7 @@
 
 ### default
 
-Defined in: [api/queries/index.ts:50](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/api/queries/index.ts#L50)
+Defined in: [api/queries/index.ts:50](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/api/queries/index.ts#L50)
 
 Container class for all Politics & War GraphQL query builders.
 
@@ -42,7 +42,7 @@ const alliances = await queries.alliances()
 
 > **new default**(`api`): [`default`](#default)
 
-Defined in: [api/queries/index.ts:51](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/api/queries/index.ts#L51)
+Defined in: [api/queries/index.ts:51](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/api/queries/index.ts#L51)
 
 ###### Parameters
 
@@ -60,7 +60,7 @@ Defined in: [api/queries/index.ts:51](https://github.com/darkblade1078/pnwkit-3.
 
 > **activityStats**(): [`ActivityStatsQuery`](queries/activityStats.md#activitystatsquery)\<\[\]\>
 
-Defined in: [api/queries/index.ts:246](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/api/queries/index.ts#L246)
+Defined in: [api/queries/index.ts:246](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/api/queries/index.ts#L246)
 
 Create a new activity stats query builder
 
@@ -74,7 +74,7 @@ A fresh ActivityStatsQuery instance
 
 > **alliances**(): [`AlliancesQuery`](queries/alliances.md#alliancesquery)\<\[\], \[\]\>
 
-Defined in: [api/queries/index.ts:57](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/api/queries/index.ts#L57)
+Defined in: [api/queries/index.ts:57](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/api/queries/index.ts#L57)
 
 Create a new alliances query builder
 
@@ -88,7 +88,7 @@ A fresh AlliancesQuery instance
 
 > **apiKeyDetails**(): [`ApiKeyDetailsQuery`](queries/apiKeyDetails.md#apikeydetailsquery)\<\[\], \[\]\>
 
-Defined in: [api/queries/index.ts:66](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/api/queries/index.ts#L66)
+Defined in: [api/queries/index.ts:66](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/api/queries/index.ts#L66)
 
 Create a new API key details query builder
 
@@ -102,7 +102,7 @@ A fresh ApiKeyDetailsQuery instance
 
 > **bankrecs**(): [`BankrecsQuery`](queries/bankrecs.md#bankrecsquery)\<\[\], \[\]\>
 
-Defined in: [api/queries/index.ts:201](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/api/queries/index.ts#L201)
+Defined in: [api/queries/index.ts:201](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/api/queries/index.ts#L201)
 
 Create a new bankrecs query builder
 
@@ -116,7 +116,7 @@ A fresh BankrecsQuery instance
 
 > **bannedNations**(): [`BannedNationsQuery`](queries/bannedNations.md#bannednationsquery)\<\[\]\>
 
-Defined in: [api/queries/index.ts:183](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/api/queries/index.ts#L183)
+Defined in: [api/queries/index.ts:183](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/api/queries/index.ts#L183)
 
 Create a new banned nations query builder
 
@@ -130,7 +130,7 @@ A fresh BannedNationsQuery instance
 
 > **bounties**(): [`BountiesQuery`](queries/bounties.md#bountiesquery)\<\[\], \[\]\>
 
-Defined in: [api/queries/index.ts:174](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/api/queries/index.ts#L174)
+Defined in: [api/queries/index.ts:174](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/api/queries/index.ts#L174)
 
 Create a new bounties query builder
 
@@ -144,7 +144,7 @@ A fresh BountiesQuery instance
 
 > **bulletinReplies**(): [`BulletinRepliesQuery`](queries/bulletinReplies.md#bulletinrepliesquery)\<\[\], \[\]\>
 
-Defined in: [api/queries/index.ts:219](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/api/queries/index.ts#L219)
+Defined in: [api/queries/index.ts:219](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/api/queries/index.ts#L219)
 
 Create a new bulletin replies query builder
 
@@ -158,7 +158,7 @@ A fresh BulletinRepliesQuery instance
 
 > **bulletins**(): [`BulletinsQuery`](queries/bulletins.md#bulletinsquery)\<\[\], \[\]\>
 
-Defined in: [api/queries/index.ts:210](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/api/queries/index.ts#L210)
+Defined in: [api/queries/index.ts:210](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/api/queries/index.ts#L210)
 
 Create a new bulletins query builder
 
@@ -172,7 +172,7 @@ A fresh BulletinsQuery instance
 
 > **cities**(): [`CitiesQuery`](queries/cities.md#citiesquery)\<\[\], \[\]\>
 
-Defined in: [api/queries/index.ts:192](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/api/queries/index.ts#L192)
+Defined in: [api/queries/index.ts:192](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/api/queries/index.ts#L192)
 
 Create a new cities query builder
 
@@ -186,7 +186,7 @@ A fresh CitiesQuery instance
 
 > **colors**(): [`ColorsQuery`](queries/colors.md#colorsquery)\<\[\], \[\]\>
 
-Defined in: [api/queries/index.ts:75](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/api/queries/index.ts#L75)
+Defined in: [api/queries/index.ts:75](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/api/queries/index.ts#L75)
 
 Create a new colors query builder
 
@@ -200,7 +200,7 @@ A fresh ColorsQuery instance
 
 > **embargoes**(): [`EmbargoesQuery`](queries/embargoes.md#embargoesquery)\<\[\], \[\]\>
 
-Defined in: [api/queries/index.ts:228](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/api/queries/index.ts#L228)
+Defined in: [api/queries/index.ts:228](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/api/queries/index.ts#L228)
 
 Create a new embargoes query builder
 
@@ -214,7 +214,7 @@ A fresh EmbargoesQuery instance
 
 > **gameInfo**(): [`GameInfoQuery`](queries/gameInfo.md#gameinfoquery)\<\[\], \[\]\>
 
-Defined in: [api/queries/index.ts:93](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/api/queries/index.ts#L93)
+Defined in: [api/queries/index.ts:93](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/api/queries/index.ts#L93)
 
 Create a new game info query builder
 
@@ -228,7 +228,7 @@ A fresh GameInfoQuery instance
 
 > **nationResourceStats**(): [`NationResourceStatsQuery`](queries/nationResourceStats.md#nationresourcestatsquery)\<\[\], \{ \}\>
 
-Defined in: [api/queries/index.ts:111](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/api/queries/index.ts#L111)
+Defined in: [api/queries/index.ts:111](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/api/queries/index.ts#L111)
 
 Create a new nation resource stats query builder
 
@@ -242,7 +242,7 @@ A fresh NationResourceStatsQuery instance
 
 > **nations**(): [`NationsQuery`](queries/nations.md#nationsquery)\<\[\], \[\]\>
 
-Defined in: [api/queries/index.ts:102](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/api/queries/index.ts#L102)
+Defined in: [api/queries/index.ts:102](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/api/queries/index.ts#L102)
 
 Create a new nations query builder
 
@@ -256,7 +256,7 @@ A fresh NationsQuery instance
 
 > **resourceStats**(): [`ResourceStatsQuery`](queries/resourceStats.md#resourcestatsquery)\<\[\]\>
 
-Defined in: [api/queries/index.ts:255](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/api/queries/index.ts#L255)
+Defined in: [api/queries/index.ts:255](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/api/queries/index.ts#L255)
 
 Create a new resource stats query builder
 
@@ -270,7 +270,7 @@ A fresh ResourceStatsQuery instance
 
 > **topTradeInfo**(): [`TopTradeInfoQuery`](queries/topTradeInfo.md#toptradeinfoquery)\<\[\], \{ \}\>
 
-Defined in: [api/queries/index.ts:120](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/api/queries/index.ts#L120)
+Defined in: [api/queries/index.ts:120](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/api/queries/index.ts#L120)
 
 Create a new top trade info query builder
 
@@ -284,7 +284,7 @@ A fresh TopTradeInfoQuery instance
 
 > **tradePrices**(): [`TradePricesQuery`](queries/tradePrices.md#tradepricesquery)\<\[\]\>
 
-Defined in: [api/queries/index.ts:138](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/api/queries/index.ts#L138)
+Defined in: [api/queries/index.ts:138](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/api/queries/index.ts#L138)
 
 Create a new trade prices query builder
 
@@ -298,7 +298,7 @@ A fresh TradePricesQuery instance
 
 > **trades**(): [`TradesQuery`](queries/trades.md#tradesquery)\<\[\], \[\]\>
 
-Defined in: [api/queries/index.ts:129](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/api/queries/index.ts#L129)
+Defined in: [api/queries/index.ts:129](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/api/queries/index.ts#L129)
 
 Create a new trades query builder
 
@@ -312,7 +312,7 @@ A fresh TradesQuery instance
 
 > **treasures**(): [`TreasuresQuery`](queries/treasures.md#treasuresquery)\<\[\], \[\]\>
 
-Defined in: [api/queries/index.ts:84](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/api/queries/index.ts#L84)
+Defined in: [api/queries/index.ts:84](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/api/queries/index.ts#L84)
 
 Create a new treasures query builder
 
@@ -326,7 +326,7 @@ A fresh TreasuresQuery instance
 
 > **treasureTrades**(): [`TreasureTradesQuery`](queries/treasureTrades.md#treasuretradesquery)\<\[\], \[\]\>
 
-Defined in: [api/queries/index.ts:237](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/api/queries/index.ts#L237)
+Defined in: [api/queries/index.ts:237](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/api/queries/index.ts#L237)
 
 Create a new treasure trades query builder
 
@@ -340,7 +340,7 @@ A fresh TreasureTradesQuery instance
 
 > **treaties**(): [`TreatiesQuery`](queries/treaties.md#treatiesquery)\<\[\], \[\]\>
 
-Defined in: [api/queries/index.ts:147](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/api/queries/index.ts#L147)
+Defined in: [api/queries/index.ts:147](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/api/queries/index.ts#L147)
 
 Create a new treaties query builder
 
@@ -354,7 +354,7 @@ A fresh TreatiesQuery instance
 
 > **warAttacks**(): [`WarAttacksQuery`](queries/warAttacks.md#warattacksquery)\<\[\], \[\]\>
 
-Defined in: [api/queries/index.ts:165](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/api/queries/index.ts#L165)
+Defined in: [api/queries/index.ts:165](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/api/queries/index.ts#L165)
 
 Create a new war attacks query builder
 
@@ -368,7 +368,7 @@ A fresh WarAttacksQuery instance
 
 > **wars**(): [`WarsQuery`](queries/wars.md#warsquery)\<\[\], \[\]\>
 
-Defined in: [api/queries/index.ts:156](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/api/queries/index.ts#L156)
+Defined in: [api/queries/index.ts:156](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/api/queries/index.ts#L156)
 
 Create a new wars query builder
 

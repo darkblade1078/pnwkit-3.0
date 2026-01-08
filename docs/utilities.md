@@ -10,7 +10,7 @@
 
 ### default
 
-Defined in: [utilities/index.ts:23](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/utilities/index.ts#L23)
+Defined in: [utilities/index.ts:23](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/utilities/index.ts#L23)
 
 Collection of utility functions for Politics & War calculations and data transformations.
 
@@ -45,9 +45,9 @@ const cost = utils.cityCost(cityCount, top20Average);
 
 ##### cityCost()
 
-> **cityCost**: (`cityToBuy`, `top20Average`, `ManifestDestiny`, `GovernmentSupportAgency`, `BureauOfDomesticAffairs`) => `number`
+> **cityCost**: (`cityToBuy`, `top20Average`, `manifestDestiny`, `governmentSupportAgency`, `bureauOfDomesticAffairs`) => `number`
 
-Defined in: [utilities/index.ts:29](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/utilities/index.ts#L29)
+Defined in: [utilities/index.ts:29](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/utilities/index.ts#L29)
 
 Calculate the cost of purchasing a city based on current city count
 
@@ -70,15 +70,15 @@ The city number being purchased (e.g., if you have 10 cities, this is 11)
 
 The average city count of the top 20% of active nations (updated monthly)
 
-###### ManifestDestiny
+###### manifestDestiny
 
 `boolean` = `false`
 
-###### GovernmentSupportAgency
+###### governmentSupportAgency
 
 `boolean` = `false`
 
-###### BureauOfDomesticAffairs
+###### bureauOfDomesticAffairs
 
 `boolean` = `false`
 
@@ -103,7 +103,7 @@ console.log(cost); // Cost for city 41 with current top20Average
 
 > **convertBitsToProject**: (`projectBits`, `projectPosition`) => `boolean` = `ConvertBitsToProject`
 
-Defined in: [utilities/index.ts:26](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/utilities/index.ts#L26)
+Defined in: [utilities/index.ts:26](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/utilities/index.ts#L26)
 
 Convert project bits to boolean indicating if nation has specific project
 

@@ -10,9 +10,9 @@
 
 ### cityCost()
 
-> **cityCost**(`cityToBuy`, `top20Average`, `ManifestDestiny`, `GovernmentSupportAgency`, `BureauOfDomesticAffairs`): `number`
+> **cityCost**(`cityToBuy`, `top20Average`, `manifestDestiny`, `governmentSupportAgency`, `bureauOfDomesticAffairs`): `number`
 
-Defined in: [utilities/city/cityCost.ts:18](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/utilities/city/cityCost.ts#L18)
+Defined in: [utilities/city/cityCost.ts:18](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/utilities/city/cityCost.ts#L18)
 
 Calculate the cost of a new city based on the new formula (effective late February 2025).
 
@@ -33,15 +33,15 @@ The city number being purchased (e.g., if you have 10 cities, this is 11)
 
 The average city count of the top 20% of active nations (updated monthly)
 
-##### ManifestDestiny
+##### manifestDestiny
 
 `boolean` = `false`
 
-##### GovernmentSupportAgency
+##### governmentSupportAgency
 
 `boolean` = `false`
 
-##### BureauOfDomesticAffairs
+##### bureauOfDomesticAffairs
 
 `boolean` = `false`
 

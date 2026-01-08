@@ -33,4 +33,6 @@
 - [index](index.md)
 - [utilities](utilities.md)
 - [utilities/city/cityCost](utilities/city/cityCost.md)
+- [utilities/city/infraCost](utilities/city/infraCost.md)
+- [utilities/city/landCost](utilities/city/landCost.md)
 - [utilities/nation/projectBits](utilities/nation/projectBits.md)

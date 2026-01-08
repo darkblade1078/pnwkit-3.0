@@ -18,9 +18,9 @@
 export function cityCost(
     cityToBuy: number, 
     top20Average: number, 
-    ManifestDestiny: boolean = false, // 5% discount
-    GovernmentSupportAgency: boolean = false, // 50% discount increase
-    BureauOfDomesticAffairs: boolean = false // 25% discount increase
+    manifestDestiny: boolean = false, // 5% discount
+    governmentSupportAgency: boolean = false, // 50% discount increase
+    bureauOfDomesticAffairs: boolean = false // 25% discount increase
 ): number 
 {
     // Validate inputs are finite numbers
@@ -50,14 +50,15 @@ export function cityCost(
     // Return the higher of the two costs
     const baseCost = Math.max(polynomialCost, minimumCost);
 
-    let discountPercent = 0;
+    let discount = 0;
 
-    if(ManifestDestiny)
+    // Apply discounts
+    if(manifestDestiny)
     {
-        discountPercent += 5;
-        if(GovernmentSupportAgency) discountPercent += 2.5;
-        if(GovernmentSupportAgency && BureauOfDomesticAffairs) discountPercent += 1.25;
+        discount += 5;
+        if(governmentSupportAgency) discount += 2.5;
+        if(governmentSupportAgency && bureauOfDomesticAffairs) discount += 1.25;
     }
 
-    return Math.round(baseCost * (1 - (discountPercent / 100)) * 100) / 100;
+    return Math.round(baseCost * (1 - (discount / 100)) * 100) / 100;
 }

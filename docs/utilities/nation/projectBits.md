@@ -12,7 +12,7 @@
 
 > **ConvertBitsToProject**(`projectBits`, `projectPosition`): `boolean`
 
-Defined in: [utilities/nation/projectBits.ts:20](https://github.com/darkblade1078/pnwkit-3.0/blob/90a5a52aed3afbb66ab886d65370a1461d0b47a4/src/utilities/nation/projectBits.ts#L20)
+Defined in: [utilities/nation/projectBits.ts:20](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/utilities/nation/projectBits.ts#L20)
 
 Check if a nation has a specific project built.
 
