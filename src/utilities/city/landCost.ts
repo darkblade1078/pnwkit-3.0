@@ -1,6 +1,13 @@
 
 /**
  * Calculates the total land cost between two amounts, applying discounts for various projects.
+ *
+ * @example
+ * // Basic usage
+ * const cost = landCost(20, 500);
+ * // With all discounts
+ * const discounted = landCost(20, 500, true, true, true, true, true);
+ *
  * @param startingAmount Starting land amount
  * @param endingAmount Ending land amount
  * @param arableLandAgency If true, applies 5% or 10% discount with advancedEngineeringCorps
@@ -9,11 +16,6 @@
  * @param governmentSupportAgency If true, increases rapidExpansion discount
  * @param bureauOfDomesticAffairs If true, increases rapidExpansion discount further
  * @returns Total land cost after discounts
- * @example
- * // Basic usage
- * const cost = landCost(20, 500);
- * // With all discounts
- * const discounted = landCost(20, 500, true, true, true, true, true);
  */
 export function landCost(
     startingAmount: number, 
@@ -39,11 +41,13 @@ export function landCost(
 
 /**
  * Calculates the total land cost between two amounts, chunked for efficiency.
+ *
+ * @example
+ * const cost = landCostFormula(20, 500);
+ *
  * @param startingAmount Starting land amount
  * @param endingAmount Ending land amount
  * @returns Total cost for the land increase
- * @example
- * const cost = landCostFormula(20, 500);
  */
 function landCostFormula(startingAmount: number, endingAmount: number): number 
 {
@@ -98,10 +102,12 @@ function landCostFormula(startingAmount: number, endingAmount: number): number
 
 /**
  * Calculates the price per unit of land for a given amount.
- * @param amount Land amount
- * @returns Price for the given land amount
+ *
  * @example
  * const price = landPrice(100);
+ *
+ * @param amount Land amount
+ * @returns Price for the given land amount
  */
 function landPrice(amount: number): number {
     return 0.002 * Math.pow(amount - 20, 2) + 50;

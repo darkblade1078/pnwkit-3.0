@@ -10,7 +10,7 @@
 
 ### default
 
-Defined in: [utilities/index.ts:23](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/utilities/index.ts#L23)
+Defined in: [utilities/index.ts:23](https://github.com/darkblade1078/pnwkit-3.0/blob/7be0cfb947feae03d5bb93d0b330b9e11d4123aa/src/utilities/index.ts#L23)
 
 Collection of utility functions for Politics & War calculations and data transformations.
 
@@ -47,7 +47,7 @@ const cost = utils.cityCost(cityCount, top20Average);
 
 > **cityCost**: (`cityToBuy`, `top20Average`, `manifestDestiny`, `governmentSupportAgency`, `bureauOfDomesticAffairs`) => `number`
 
-Defined in: [utilities/index.ts:29](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/utilities/index.ts#L29)
+Defined in: [utilities/index.ts:29](https://github.com/darkblade1078/pnwkit-3.0/blob/7be0cfb947feae03d5bb93d0b330b9e11d4123aa/src/utilities/index.ts#L29)
 
 Calculate the cost of purchasing a city based on current city count
 
@@ -103,7 +103,7 @@ console.log(cost); // Cost for city 41 with current top20Average
 
 > **convertBitsToProject**: (`projectBits`, `projectPosition`) => `boolean` = `ConvertBitsToProject`
 
-Defined in: [utilities/index.ts:26](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/utilities/index.ts#L26)
+Defined in: [utilities/index.ts:26](https://github.com/darkblade1078/pnwkit-3.0/blob/7be0cfb947feae03d5bb93d0b330b9e11d4123aa/src/utilities/index.ts#L26)
 
 Convert project bits to boolean indicating if nation has specific project
 

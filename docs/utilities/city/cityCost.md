@@ -12,7 +12,7 @@
 
 > **cityCost**(`cityToBuy`, `top20Average`, `manifestDestiny`, `governmentSupportAgency`, `bureauOfDomesticAffairs`): `number`
 
-Defined in: [utilities/city/cityCost.ts:18](https://github.com/darkblade1078/pnwkit-3.0/blob/085419c46a49bbb98b19db9f48afa54e31903c55/src/utilities/city/cityCost.ts#L18)
+Defined in: [utilities/city/cityCost.ts:18](https://github.com/darkblade1078/pnwkit-3.0/blob/7be0cfb947feae03d5bb93d0b330b9e11d4123aa/src/utilities/city/cityCost.ts#L18)
 
 Calculate the cost of a new city based on the new formula (effective late February 2025).
 

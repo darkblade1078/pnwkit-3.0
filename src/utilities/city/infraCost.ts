@@ -1,6 +1,13 @@
 
 /**
  * Calculates the total infrastructure cost between two amounts, applying discounts for various projects.
+ *
+ * @example
+ * // Basic usage
+ * const cost = infraCost(100, 200);
+ * // With all discounts
+ * const discounted = infraCost(100, 200, true, true, true, true, true);
+ *
  * @param startingAmount Starting infrastructure amount
  * @param endingAmount Ending infrastructure amount
  * @param centerOfCivilEngineering If true, applies 5% or 10% discount with advancedEngineeringCorps
@@ -9,11 +16,6 @@
  * @param governmentSupportAgency If true, increases urbanization discount
  * @param bureauOfDomesticAffairs If true, increases urbanization discount further
  * @returns Total infrastructure cost after discounts
- * @example
- * // Basic usage
- * const cost = infraCost(100, 200);
- * // With all discounts
- * const discounted = infraCost(100, 200, true, true, true, true, true);
  */
 export function infraCost(
     startingAmount: number, 
@@ -39,11 +41,13 @@ export function infraCost(
 
 /**
  * Calculates the total infrastructure cost between two amounts, chunked for efficiency.
+ *
+ * @example
+ * const cost = infraCostFormula(100, 200);
+ *
  * @param startingAmount Starting infrastructure amount
  * @param endingAmount Ending infrastructure amount
  * @returns Total cost for the infrastructure increase
- * @example
- * const cost = infraCostFormula(100, 200);
  */
 function infraCostFormula(startingAmount: number, endingAmount: number): number 
 {
@@ -99,10 +103,12 @@ function infraCostFormula(startingAmount: number, endingAmount: number): number
 
 /**
  * Calculates the price per unit of infrastructure for a given amount.
- * @param amount Infrastructure amount
- * @returns Price for the given infrastructure amount
+ *
  * @example
  * const price = infraPrice(100);
+ *
+ * @param amount Infrastructure amount
+ * @returns Price for the given infrastructure amount
  */
 function infraPrice(amount: number): number {
     if (amount < 10)

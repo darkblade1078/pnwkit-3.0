@@ -12,7 +12,7 @@
 
 > **landCost**(`startingAmount`, `endingAmount`, `arableLandAgency`, `advancedEngineeringCorps`, `rapidExpansion`, `governmentSupportAgency`, `bureauOfDomesticAffairs`): `number`
 
-Defined in: utilities/city/landCost.ts:18
+Defined in: [utilities/city/landCost.ts:20](https://github.com/darkblade1078/pnwkit-3.0/blob/7be0cfb947feae03d5bb93d0b330b9e11d4123aa/src/utilities/city/landCost.ts#L20)
 
 Calculates the total land cost between two amounts, applying discounts for various projects.
 

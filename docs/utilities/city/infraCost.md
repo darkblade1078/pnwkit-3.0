@@ -12,7 +12,7 @@
 
 > **infraCost**(`startingAmount`, `endingAmount`, `centerOfCivilEngineering`, `advancedEngineeringCorps`, `urbanization`, `governmentSupportAgency`, `bureauOfDomesticAffairs`): `number`
 
-Defined in: utilities/city/infraCost.ts:18
+Defined in: [utilities/city/infraCost.ts:20](https://github.com/darkblade1078/pnwkit-3.0/blob/7be0cfb947feae03d5bb93d0b330b9e11d4123aa/src/utilities/city/infraCost.ts#L20)
 
 Calculates the total infrastructure cost between two amounts, applying discounts for various projects.
 
