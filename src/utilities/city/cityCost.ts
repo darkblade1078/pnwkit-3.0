@@ -15,7 +15,7 @@
  * console.log(cost); // Cost for city 41 with current top20Average
  * ```
  */
-export function cityCost(
+export default function cityCost(
     cityToBuy: number, 
     top20Average: number, 
     manifestDestiny: boolean = false, // 5% discount
@@ -23,15 +23,12 @@ export function cityCost(
     bureauOfDomesticAffairs: boolean = false // 25% discount increase
 ): number 
 {
-    // Validate inputs are finite numbers
     if (!Number.isFinite(cityToBuy) || !Number.isFinite(top20Average))
         throw new Error('Invalid input: parameters must be finite numbers');
     
-    // Validate cityToBuy range (Politics & War limits)
     if (cityToBuy < 1 || cityToBuy > 999)
         throw new Error('Invalid cityToBuy: must be between 1 and 999');
     
-    // Validate top20Average range
     if (top20Average < 1 || top20Average > 999)
         throw new Error('Invalid top20Average: must be between 1 and 999');
     

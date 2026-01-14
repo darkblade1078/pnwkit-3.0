@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { cityCost } from "./cityCost";
+import cityCost from "./cityCost";
 
 describe("cityCost", () => {
     const TOP20_AVG = 43.2035; // Current average

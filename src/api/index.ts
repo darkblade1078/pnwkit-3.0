@@ -2,6 +2,7 @@ import Queries from "./queries/index.js";
 import Utilities from "../utilities/index.js";
 import type { CacheOptions } from "../types/pnwkit.js";
 import graphQLService from "../services/graphQL.js";
+import Subscriptions from "./subscriptions/index.js";
 
 /**
  * Base API class for PnWKit that provides access to queries and utilities.
@@ -15,6 +16,8 @@ export default class PnwKitApi
 {
     /** Query builders for all Politics & War GraphQL queries */
     public readonly queries: Queries;
+
+    public readonly subscriptions: Subscriptions;
     
     /** Utility functions for calculations and data transformations */
     public readonly utilities: Utilities;
@@ -41,6 +44,7 @@ export default class PnwKitApi
             graphQLService.initializeCache(cacheOptions);
         
         this.queries = new Queries(this);
+        this.subscriptions = new Subscriptions(this.apiKey);
         this.utilities = new Utilities();
     }
     

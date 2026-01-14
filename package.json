@@ -22,6 +22,9 @@
     "vitest": "^4.0.16"
   },
   "dependencies": {
-    "lru-cache": "^11.2.4"
+    "crc-32": "^1.2.2",
+    "lru-cache": "^11.2.4",
+    "pusher-js": "^8.4.0",
+    "ws": "^8.19.0"
   }
 }

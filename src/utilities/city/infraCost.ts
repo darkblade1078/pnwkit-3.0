@@ -17,7 +17,7 @@
  * @param bureauOfDomesticAffairs If true, increases urbanization discount further
  * @returns Total infrastructure cost after discounts
  */
-export function infraCost(
+export default function infraCost(
     startingAmount: number, 
     endingAmount: number,
     centerOfCivilEngineering: boolean = false,

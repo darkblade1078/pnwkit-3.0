@@ -1,14 +1,15 @@
 export interface GameInfoFields {
     game_date?: string
-    radiation?: Radiation
     city_average?: number
 }
 
 export interface GameInfoQueryParams {}
 
-export interface GameInfoRelations {}
+export interface GameInfoRelations {
+    radiation: RadiationFields
+}
 
-export interface Radiation {
+export interface RadiationFields {
     global?: number
     north_america?: number
     south_america?: number

@@ -3,7 +3,7 @@ import { QueryBuilder } from "../../services/queryBuilder.js";
 import graphQLService from "../../services/graphQL.js";
 import type { paginatorInfo } from "../../types/others.js";
 import type PnwKitApi from "../index.js";
-import type { ActivityStatsFields, ActivityStatsQueryParams, ActivityStatRelations } from "../../types/queries/activityStats.js";
+import type { ActivityStatsFields, ActivityStatsQueryParams } from "../../types/queries/activityStats.js";
 
 /**
  * Query builder for fetching activity statistics from the Politics & War API.

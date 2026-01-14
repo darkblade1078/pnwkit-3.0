@@ -17,7 +17,7 @@
  * @param bureauOfDomesticAffairs If true, increases rapidExpansion discount further
  * @returns Total land cost after discounts
  */
-export function landCost(
+export default function landCost(
     startingAmount: number, 
     endingAmount: number,
     arableLandAgency: boolean = false,

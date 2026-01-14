@@ -1,5 +1,11 @@
 import { ConvertBitsToProject } from "./nation/projectBits.js";
-import { cityCost } from "./city/cityCost.js";
+import cityCost from "./city/cityCost.js";
+import infraCost from "./city/infraCost.js"; "./city/infraCost.js";
+import landCost from "./city/landCost.js";
+import { basePopulation, populationDensity, ageBonus } from "./city/population.js";
+import commerce from "./city/commerce.js";
+import { buildingBonus } from "./other.js";
+import { foodProduction, radiationModifier } from "./city/food.js";
 
 /**
  * Collection of utility functions for Politics & War calculations and data transformations.
@@ -22,9 +28,28 @@ import { cityCost } from "./city/cityCost.js";
  */
 export default class utilities 
 {
-    /** Convert project bits to boolean indicating if nation has specific project */
+    // Convert project bits to boolean indicating if nation has specific project
     convertBitsToProject = ConvertBitsToProject;
     
-    /** Calculate the cost of purchasing a city based on current city count */
+    // Calculate the cost of purchasing a city based on current city count
     cityCost = cityCost;
+
+    // Land and infrastructure cost utilities
+    infraCost = infraCost;
+    landCost = landCost;
+    
+    // Population related utilities
+    basePopulation = basePopulation;
+    populationDensity = populationDensity;
+    ageBonus = ageBonus;
+
+    // commerce utilites
+    commerce = commerce;
+
+    // production utilities
+    foodProduction = foodProduction;
+
+    // other
+    buildingBonus = buildingBonus;
+    radiationModifier = radiationModifier;
 }

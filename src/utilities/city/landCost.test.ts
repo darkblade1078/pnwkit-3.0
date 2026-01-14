@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { landCost } from "./landCost";
+import landCost from "./landCost";
 
 describe("landCost", () => {
     it("calculates cost with no discounts", () => {

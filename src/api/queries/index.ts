@@ -47,7 +47,8 @@ import { ResourceStatsQuery } from "./resourceStats.js";
  *   .execute();
  * ```
  */
-export default class Queries {
+export default class Queries 
+{
     constructor(private readonly api: PnwKitApi) {}
 
     /**
