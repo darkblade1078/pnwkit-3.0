@@ -32,7 +32,7 @@ export function ConvertBitsToProject(projectBits: string, projectPosition: numbe
         const bits = BigInt(projectBits);
         return (bits & (1n << BigInt(projectPosition))) !== 0n;
     } 
-    catch (error) 
+    catch
     {
         throw new Error(`Invalid project bits value: ${projectBits}`);
     }

@@ -40,9 +40,14 @@ type UnwrapArray<T> = T extends any[] ? T[number] : T;
  *   )
  * ```
 */
+// TRelations/TQueryParams aren't referenced in the body, but they're part of this
+// type's public arity — callers pass them positionally as SubqueryConfig<F, R, P>
+// (~30 call sites), so they can't be dropped without breaking compilation.
 export type SubqueryConfig<
     TFields,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     TRelations = GetRelationsFor<UnwrapArray<TFields>>,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     TQueryParams = GetQueryParamsFor<UnwrapArray<TFields>>
 > = (builder: SubqueryBuilder<UnwrapArray<TFields>, [], {}>) => SubqueryBuilder<UnwrapArray<TFields>, any, any>;
 
@@ -104,7 +109,7 @@ export class SubqueryBuilder<
     ): SubqueryBuilder<TFields, F, TIncluded>
     {
         this.fields = [...new Set(fields)] as (keyof TFields)[];
-        return this as SubqueryBuilder<TFields, F, TIncluded>;
+        return this;
     }
 
     /**
@@ -122,7 +127,7 @@ export class SubqueryBuilder<
     where(filters: Partial<GetQueryParamsFor<TFields>>): SubqueryBuilder<TFields, TSelected, TIncluded>
     {
         this.filters = { ...this.filters, ...filters };
-        return this as SubqueryBuilder<TFields, TSelected, TIncluded>;
+        return this;
     }
 
     /**
@@ -159,7 +164,7 @@ export class SubqueryBuilder<
     ): SubqueryBuilder<TFields, TSelected, TIncluded & Record<K, TWrappedResult>>
     {
         this.nestedSubqueries.set(relation as string, config as SubqueryConfig<any>);
-        return this as SubqueryBuilder<TFields, TSelected, TIncluded & Record<K, TWrappedResult>>;
+        return this;
     }
 
     /**

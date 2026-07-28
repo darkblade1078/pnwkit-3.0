@@ -3,7 +3,7 @@ import { QueryBuilder } from "../../services/queryBuilder.js";
 import graphQLService from "../../services/graphQL.js";
 import type { paginatorInfo } from "../../types/others.js";
 import type PnwKitApi from "../index.js";
-import type { BannedNationFields, BannedNationsQueryParams, BannedNationRelations } from "../../types/queries/bannedNations.js";
+import type { BannedNationFields, BannedNationsQueryParams } from "../../types/queries/bannedNations.js";
 
 /**
  * Query builder for fetching banned nation data from the Politics & War API.
@@ -64,8 +64,8 @@ extends QueryBuilder<BannedNationFields, BannedNationsQueryParams>
         if(fields.length === 0)
             throw new Error("At least one field must be selected.");
 
-        this.selectedFields = [...new Set(fields)] as any;
-        return this as any;
+        this.selectedFields = [...new Set(fields)];
+        return this;
     }
 
     /**

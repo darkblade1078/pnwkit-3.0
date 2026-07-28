@@ -77,7 +77,7 @@ export * from "./api/queries/index.js";
 // and TypeDoc documents them as first-class entries.
 export type { PnWKitOptions, CacheOptions } from "./types/pnwkit.js";
 export type {
-    subscriptionData,
+    SubscriptionData,
     SubscriptionParams,
     EventTime,
     Model,

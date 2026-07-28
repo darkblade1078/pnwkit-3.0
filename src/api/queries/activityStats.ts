@@ -66,8 +66,8 @@ extends QueryBuilder<ActivityStatsFields, ActivityStatsQueryParams>
         if(fields.length === 0)
             throw new Error("At least one field must be selected.");
 
-        this.selectedFields = [...new Set(fields)] as any;
-        return this as any;
+        this.selectedFields = [...new Set(fields)];
+        return this;
     }
 
     /**

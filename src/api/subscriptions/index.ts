@@ -1,12 +1,11 @@
 import * as Pusher from 'pusher-js';
-import CRC32 from 'crc-32';
-import type { EventTime, SubscriptionParams, subscriptionData } from '../../types/subscriptions/other.js';
+import type { EventTime, SubscriptionParams, SubscriptionData } from '../../types/subscriptions/other.js';
 
 export default class Subscriptions
 {
     private pusher;
     private channel: Pusher.Channel | null = null;
-    private subData: subscriptionData | null = null;
+    private subData: SubscriptionData | null = null;
     private lastEventTime: EventTime | null = null;
     private lastCrc32: number | null = null;
     private readonly pusherKey: string = "a22734a47847a64386c8";
@@ -27,7 +26,7 @@ export default class Subscriptions
         });
     }
 
-    public async subscribe(data: subscriptionData): Promise<void>
+    public async subscribe(data: SubscriptionData): Promise<void>
     {
         const { model, event, callback, params, bulk } = data;
 
@@ -64,7 +63,7 @@ export default class Subscriptions
         this.channel?.bind(`${bulk ? 'BULK_' : ''}${model.toUpperCase()}_${event.toUpperCase()}`, callback);
 
         this.subscribeMetaData(model, event, bulk ? true : false);
-        this.subscribeStateChange();
+        void this.subscribeStateChange();
     }
 
     public async unsubscribe(): Promise<void>
@@ -104,7 +103,7 @@ export default class Subscriptions
 
         if(response.status === 404 && this.subData)
         {
-            this.subscribe(this.subData);
+            await this.subscribe(this.subData);
         }
         else if (!response.ok)
             throw new Error(`Rollback error: ${response.statusText}`);
@@ -178,7 +177,7 @@ export default class Subscriptions
             const value = params[key as keyof SubscriptionParams];
 
             if(value !== undefined)
-                queryParams.append(key, value as string);
+                queryParams.append(key, value);
         }
 
         return queryParams.toString();

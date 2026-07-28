@@ -76,8 +76,8 @@ extends QueryBuilder<TreasureTradeFields, TreasureTradesQueryParams>
         if(fields.length === 0)
             throw new Error("At least one field must be selected.");
 
-        this.selectedFields = [...new Set(fields)] as any;
-        return this as any;
+        this.selectedFields = [...new Set(fields)];
+        return this;
     }
 
     /**
@@ -103,8 +103,8 @@ extends QueryBuilder<TreasureTradeFields, TreasureTradesQueryParams>
         config: TConfig
     ): TreasureTradesQuery<F, I & Record<K, TWrappedResult>>
     {
-        this.subqueries.set(relation as string, config as SubqueryConfig<any, any, any>);
-        return this as any;
+        this.subqueries.set(relation, config as SubqueryConfig<any, any, any>);
+        return this;
     }
 
     async execute(): Promise<SelectFields<TreasureTradeFields, F, I>[]>;

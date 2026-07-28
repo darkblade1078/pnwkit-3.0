@@ -3,7 +3,7 @@ import { QueryBuilder } from "../../services/queryBuilder.js";
 import graphQLService from "../../services/graphQL.js";
 import type { paginatorInfo } from "../../types/others.js";
 import type PnwKitApi from "../index.js";
-import type { ResourceStatsFields, ResourceStatsQueryParams, ResourceStatRelations } from "../../types/queries/resourceStats.js";
+import type { ResourceStatsFields, ResourceStatsQueryParams } from "../../types/queries/resourceStats.js";
 
 /**
  * Query builder for fetching resource statistics from the Politics & War API.
@@ -66,8 +66,8 @@ extends QueryBuilder<ResourceStatsFields, ResourceStatsQueryParams>
         if(fields.length === 0)
             throw new Error("At least one field must be selected.");
 
-        this.selectedFields = [...new Set(fields)] as any;
-        return this as any;
+        this.selectedFields = [...new Set(fields)];
+        return this;
     }
 
     /**

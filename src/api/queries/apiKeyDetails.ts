@@ -1,7 +1,6 @@
 import type { SelectFields, InferSubqueryType } from "../../types/others.js";
 import { QueryBuilder, type SubqueryConfig } from "../../services/queryBuilder.js";
 import graphQLService from "../../services/graphQL.js";
-import type { paginatorInfo } from "../../types/others.js";
 import type PnwKitApi from "../index.js";
 import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMappings.js";
 import type { ApiKeyDetailsFields, ApiKeyDetailsRelations, ApiKeyDetailsQueryParams } from "../../types/queries/apiKeyDetails.js";
@@ -103,8 +102,8 @@ extends QueryBuilder<ApiKeyDetailsFields, ApiKeyDetailsQueryParams>
         if(fields.length === 0)
             throw new Error("At least one field must be selected.");
 
-        this.selectedFields = [...new Set(fields)] as any;
-        return this as any;
+        this.selectedFields = [...new Set(fields)];
+        return this;
     }
 
     /**
@@ -163,8 +162,8 @@ extends QueryBuilder<ApiKeyDetailsFields, ApiKeyDetailsQueryParams>
         config: TConfig
     ): ApiKeyDetailsQuery<F, I & Record<K, TWrappedResult>>
     {
-        this.subqueries.set(relation as string, config as SubqueryConfig<any, any, any>);
-        return this as any;
+        this.subqueries.set(relation, config as SubqueryConfig<any, any, any>);
+        return this;
     }
 
     /**

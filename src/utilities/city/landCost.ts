@@ -27,7 +27,7 @@ export default function landCost(
     bureauOfDomesticAffairs: boolean = false,
 ): number 
 {
-    let infraPrice = landCostFormula(startingAmount, endingAmount);
+    const infraPrice = landCostFormula(startingAmount, endingAmount);
     let discount = 0;
 
     // Calculate discount percentage
@@ -78,7 +78,7 @@ function landCostFormula(startingAmount: number, endingAmount: number): number
     {
         const costOfChunk = Math.round(landPrice(startingAmount) * 100) / 100 * 500;
         // Recursively get value of next chunk
-        return costOfChunk + (landCostFormula(startingAmount + 500, endingAmount) as number);
+        return costOfChunk + (landCostFormula(startingAmount + 500, endingAmount));
     }
 
     // See if the amount left is not divisible by 500 but greater than 500
@@ -87,7 +87,7 @@ function landCostFormula(startingAmount: number, endingAmount: number): number
         const chunk = difference % 500;
         const costOfChunk = Math.round(landPrice(startingAmount) * 100) / 100 * chunk;
         // Recursively get value of next chunk
-        return costOfChunk + (landCostFormula(startingAmount + chunk, endingAmount) as number);
+        return costOfChunk + (landCostFormula(startingAmount + chunk, endingAmount));
     }
 
     // If there's less or equal to 500 left, just add that. No need for recursion

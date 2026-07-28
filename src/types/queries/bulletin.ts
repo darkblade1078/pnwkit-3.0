@@ -1,6 +1,6 @@
 import type { DefaultParams, paginatorInfo, SortOrder } from "../others.js";
 import type { AllianceFields } from "./alliance.js";
-import type { BulletinReplyFields } from "./bullentinReplies.js";
+import type { BulletinReplyFields } from "./bulletinReplies.js";
 import type { NationFields } from "./nation.js";
 
 export interface BulletinFields {

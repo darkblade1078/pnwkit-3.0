@@ -1,5 +1,5 @@
 import type { DefaultParams, SortOrder } from "../others.js";
-import type { BulletinFields } from "./bullentin.js";
+import type { BulletinFields } from "./bulletin.js";
 import type { NationFields } from "./nation.js";
 
 export interface BulletinReplyFields {
@@ -33,7 +33,7 @@ export interface BulletinRepliesQueryParams extends DefaultParams {
 
 export interface BulletinReplyRelations {
   nation: NationFields;
-  bullentin: BulletinFields;
+  bulletin: BulletinFields;
 }
 
 export type QueryBulletinRepliesOrderByOrderByClause = {

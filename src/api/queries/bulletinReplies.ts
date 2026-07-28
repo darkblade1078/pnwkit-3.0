@@ -3,7 +3,7 @@ import { QueryBuilder, type SubqueryConfig } from "../../services/queryBuilder.j
 import graphQLService from "../../services/graphQL.js";
 import type { paginatorInfo } from "../../types/others.js";
 import type PnwKitApi from "../index.js";
-import type { BulletinReplyFields, BulletinRepliesQueryParams, BulletinReplyRelations } from "../../types/queries/bullentinReplies.js";
+import type { BulletinReplyFields, BulletinRepliesQueryParams, BulletinReplyRelations } from "../../types/queries/bulletinReplies.js";
 import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMappings.js";
 
 /**
@@ -76,8 +76,8 @@ extends QueryBuilder<BulletinReplyFields, BulletinRepliesQueryParams>
         if(fields.length === 0)
             throw new Error("At least one field must be selected.");
 
-        this.selectedFields = [...new Set(fields)] as any;
-        return this as any;
+        this.selectedFields = [...new Set(fields)];
+        return this;
     }
 
     /**
@@ -103,8 +103,8 @@ extends QueryBuilder<BulletinReplyFields, BulletinRepliesQueryParams>
         config: TConfig
     ): BulletinRepliesQuery<F, I & Record<K, TWrappedResult>>
     {
-        this.subqueries.set(relation as string, config as SubqueryConfig<any, any, any>);
-        return this as any;
+        this.subqueries.set(relation, config as SubqueryConfig<any, any, any>);
+        return this;
     }
 
     async execute(): Promise<SelectFields<BulletinReplyFields, F, I>[]>;

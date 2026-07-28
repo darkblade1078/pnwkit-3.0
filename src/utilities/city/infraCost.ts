@@ -27,7 +27,7 @@ export default function infraCost(
     bureauOfDomesticAffairs: boolean = false,
 ): number 
 {
-    let infraPrice = infraCostFormula(startingAmount, endingAmount);
+    const infraPrice = infraCostFormula(startingAmount, endingAmount);
     let discount = 0;
 
     // Calculate discount percentage
@@ -78,7 +78,7 @@ function infraCostFormula(startingAmount: number, endingAmount: number): number
     {
         const costOfChunk = Math.round(infraPrice(startingAmount) * 100) / 100 * 100;
         // Recursively get value of next chunk
-        return costOfChunk + (infraCostFormula(startingAmount + 100, endingAmount) as number);
+        return costOfChunk + (infraCostFormula(startingAmount + 100, endingAmount));
     }
 
     // See if the amount left is not divisible by 100 but greater than 100
@@ -87,7 +87,7 @@ function infraCostFormula(startingAmount: number, endingAmount: number): number
         const chunk = difference % 100;
         const costOfChunk = Math.round(infraPrice(startingAmount) * 100) / 100 * chunk;
         // Recursively get value of next chunk
-        return costOfChunk + (infraCostFormula(startingAmount + chunk, endingAmount) as number);
+        return costOfChunk + (infraCostFormula(startingAmount + chunk, endingAmount));
     }
 
     // If there's less or equal to 100 left, just add that. No need for recursion

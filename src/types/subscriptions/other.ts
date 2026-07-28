@@ -49,7 +49,7 @@ export interface SubscriptionParams {
   def_alliance_id?: string;
 }
 
-export interface subscriptionData {
+export interface SubscriptionData {
   model: Model, 
   event: Event, 
   callback: Function, 

@@ -1,6 +1,6 @@
 import { ConvertBitsToProject } from "./nation/projectBits.js";
 import cityCost from "./city/cityCost.js";
-import infraCost from "./city/infraCost.js"; "./city/infraCost.js";
+import infraCost from "./city/infraCost.js";
 import landCost from "./city/landCost.js";
 import { basePopulation, populationDensity, ageBonus } from "./city/population.js";
 import commerce from "./city/commerce.js";
@@ -17,7 +17,7 @@ import { foodProduction, radiationModifier } from "./city/food.js";
  * 
  * @example
  * ```typescript
- * const utils = new utilities();
+ * const utils = new Utilities();
  * 
  * // Check if nation has a specific project
  * const hasProject = utils.convertBitsToProject(projectBits, projectNumber);
@@ -26,7 +26,7 @@ import { foodProduction, radiationModifier } from "./city/food.js";
  * const cost = utils.cityCost(cityCount, top20Average);
  * ```
  */
-export default class utilities 
+export default class Utilities 
 {
     // Convert project bits to boolean indicating if nation has specific project
     convertBitsToProject = ConvertBitsToProject;
