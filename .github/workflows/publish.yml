@@ -21,6 +21,9 @@ jobs:
           registry-url: https://registry.npmjs.org
           cache: npm
 
+      # Trusted Publishing (OIDC) requires npm >= 11.5.1
+      - run: npm install -g npm@latest
+
       - run: npm ci
 
       # Guard: the release tag (vX.Y.Z) must match package.json's version,
@@ -34,7 +37,6 @@ jobs:
             exit 1
           fi
 
+      # Authenticated via OIDC Trusted Publishing — no NPM_TOKEN needed.
       # `npm publish` runs the prepublishOnly script (npm run build) first.
       - run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
