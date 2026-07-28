@@ -1,10 +1,9 @@
-import type { SelectFields, InferSubqueryType } from "../../types/others.js";
-import { QueryBuilder, type SubqueryConfig } from "../../services/queryBuilder.js";
-import graphQLService from "../../services/graphQL.js";
-import type { paginatorInfo } from "../../types/others.js";
-import type PnwKitApi from "../index.js";
-import type { BountyFields, BountyQueryParams, BountyRelations } from "../../types/queries/bounty.js";
-import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMappings.js";
+import type { SelectFields, InferSubqueryType } from "../../types/others";
+import { QueryBuilder, type SubqueryConfig } from "../../services/queryBuilder";
+import type { paginatorInfo } from "../../types/others";
+import type PnwKitApi from "../index";
+import type { BountyFields, BountyQueryParams, BountyRelations } from "../../types/queries/bounty";
+import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMappings";
 
 /**
  * Query builder for fetching bounty data from the Politics & War API.
@@ -38,7 +37,7 @@ import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMap
  *   .include('nation', builder => builder
  *     .select('id', 'nation_name', 'score', 'alliance_id')
  *   )
- *   .where({ orderBy: [{ column: 'AMOUNT', order: 'DESC' }] })
+ *   .where({ orderBy: [{ column: Enum('AMOUNT'), order: Enum('DESC') }] })
  *   .execute();
  * // Type: { id: number, amount: number, type: string, nation: {...} }[]
  * ```
@@ -117,7 +116,7 @@ extends QueryBuilder<BountyFields, BountyQueryParams>
         try
         {
             const query = this.buildQuery(withPaginator);
-            const result = await graphQLService.queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
             const queryData = result[this.queryName];
 
             if(!queryData)

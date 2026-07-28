@@ -1,5 +1,6 @@
-import type { DefaultParams, SortOrder } from "../others.js";
-import type { NationFields } from "./nation.js";
+import type { GraphQLEnum } from "../../enum";
+import type { DefaultParams, SortOrder } from "../others";
+import type { NationFields } from "./nation";
 
 export interface CityFields {
   id?: string;
@@ -53,8 +54,8 @@ export type QueryCityOrderByColumn =
   | 'LAND';
 
 export type QueryCityOrderByOrderByClause = {
-  column: QueryCityOrderByColumn;
-  order: SortOrder;
+  column: GraphQLEnum<QueryCityOrderByColumn>;
+  order: GraphQLEnum<SortOrder>;
 }
 
 export interface CityRelations {

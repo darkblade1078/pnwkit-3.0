@@ -1,5 +1,5 @@
-import PnwKitApi from "./api/index.js";
-import type { PnWKitOptions } from "./types/pnwkit.js";
+import PnwKitApi from "./api/index";
+import type { PnWKitOptions } from "./types/pnwkit";
 
 /**
  * Main PnWKit client for interacting with the Politics & War API.
@@ -68,18 +68,21 @@ export default class PnWKit extends PnwKitApi
 
 // Public class re-exports so the container classes and every query builder are
 // documented as first-class entries and importable by consumers.
-export { default as Queries } from "./api/queries/index.js";
-export { default as Subscriptions } from "./api/subscriptions/index.js";
-export { default as Utilities } from "./utilities/index.js";
-export * from "./api/queries/index.js";
+export { default as Queries } from "./api/queries/index";
+export { default as Subscriptions } from "./api/subscriptions/index";
+export { default as Utilities } from "./utilities/index";
+export * from "./api/queries/index";
+
+// Enum wrapper for GraphQL enum filter values (e.g. order-by direction/column)
+export { Enum, GraphQLEnum } from "./enum";
 
 // Public type re-exports so consumers can import the option/input shapes by name
 // and TypeDoc documents them as first-class entries.
-export type { PnWKitOptions, CacheOptions } from "./types/pnwkit.js";
+export type { PnWKitOptions, CacheOptions } from "./types/pnwkit";
 export type {
     SubscriptionData,
     SubscriptionParams,
     EventTime,
     Model,
     Event,
-} from "./types/subscriptions/other.js";
+} from "./types/subscriptions/other";

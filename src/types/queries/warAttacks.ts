@@ -1,6 +1,7 @@
-import type { DefaultParams, SortOrder } from "../others.js";
-import type { NationFields } from "./nation.js";
-import type { WarFields } from "./war.js";
+import type { GraphQLEnum } from "../../enum";
+import type { DefaultParams, SortOrder } from "../others";
+import type { NationFields } from "./nation";
+import type { WarFields } from "./war";
 
 export interface WarAttackFields {
     id?: string;
@@ -76,8 +77,8 @@ export type QueryWarAttacksOrderByColumn =
     | 'DATE'
 
 export type QueryWarAttacksOrderByOrderByClause = {
-    column: QueryWarAttacksOrderByColumn;
-    order: SortOrder;
+    column: GraphQLEnum<QueryWarAttacksOrderByColumn>;
+    order: GraphQLEnum<SortOrder>;
 };
 
 export interface WarAttackRelations {

@@ -1,5 +1,6 @@
-import type { DefaultParams, SortOrder } from "../others.js"
-import type { AllianceFields } from "./alliance.js"
+import type { GraphQLEnum } from "../../enum";
+import type { DefaultParams, SortOrder } from "../others"
+import type { AllianceFields } from "./alliance"
 
 export interface TreatyFields {
     id?: string
@@ -23,8 +24,8 @@ export interface TreatyRelations {
 }
 
 export type QueryTreatiesOrderByOrderByClause = {
-  column: QueryTreatiesOrderByColumn;
-  order: SortOrder;
+  column: GraphQLEnum<QueryTreatiesOrderByColumn>;
+  order: GraphQLEnum<SortOrder>;
 }
 
 export type QueryTreatiesOrderByColumn = 

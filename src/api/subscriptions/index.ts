@@ -48,7 +48,7 @@ export default class Subscriptions
         if(!this.subData)
             this.subData = data;
 
-        const channelResult = await response.json();
+        const channelResult: any = await response.json();
 
         if(!response.ok)
             throw new Error(`Subscription error: ${channelResult.message || response.statusText}`);

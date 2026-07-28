@@ -1,15 +1,16 @@
-import type { AllianceFields } from "./alliance.js";
-import type { AlliancePositionFields } from "./alliancePosition.js";
-import type { AwardFields } from "./award.js";
-import type { BankTaxrecFields } from "./bankTaxRec.js";
-import type { BountyFields } from "./bounty.js";
-import type { BulletinFields } from "./bulletin.js";
-import type { BulletinReplyFields } from "./bulletinReplies.js";
-import type { CityFields } from "./cities.js";
-import type { TradeFields } from "./trade.js";
-import type { TreasureFields } from "./treasure.js";
-import type { WarFields } from "./war.js";
-import type { DefaultParams, SortOrder } from "../others.js";
+import type { GraphQLEnum } from "../../enum";
+import type { AllianceFields } from "./alliance";
+import type { AlliancePositionFields } from "./alliancePosition";
+import type { AwardFields } from "./award";
+import type { BankTaxrecFields } from "./bankTaxRec";
+import type { BountyFields } from "./bounty";
+import type { BulletinFields } from "./bulletin";
+import type { BulletinReplyFields } from "./bulletinReplies";
+import type { CityFields } from "./cities";
+import type { TradeFields } from "./trade";
+import type { TreasureFields } from "./treasure";
+import type { WarFields } from "./war";
+import type { DefaultParams, SortOrder } from "../others";
 
 export interface NationFields {
   __typename?: 'Nation';
@@ -176,8 +177,8 @@ export interface NationQueryParams extends DefaultParams {
 }
 
 export type QueryNationsOrderByOrderByClause = {
-  column: QueryNationsOrderByColumn
-  order: SortOrder
+  column: GraphQLEnum<QueryNationsOrderByColumn>
+  order: GraphQLEnum<SortOrder>
 }
 
 export type QueryNationsOrderByColumn = 

@@ -1,10 +1,9 @@
-import type { SelectFields, InferSubqueryType } from "../../types/others.js";
-import { QueryBuilder, type SubqueryConfig } from "../../services/queryBuilder.js";
-import graphQLService from "../../services/graphQL.js";
-import type { paginatorInfo } from "../../types/others.js";
-import type PnwKitApi from "../index.js";
-import type { BulletinReplyFields, BulletinRepliesQueryParams, BulletinReplyRelations } from "../../types/queries/bulletinReplies.js";
-import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMappings.js";
+import type { SelectFields, InferSubqueryType } from "../../types/others";
+import { QueryBuilder, type SubqueryConfig } from "../../services/queryBuilder";
+import type { paginatorInfo } from "../../types/others";
+import type PnwKitApi from "../index";
+import type { BulletinReplyFields, BulletinRepliesQueryParams, BulletinReplyRelations } from "../../types/queries/bulletinReplies";
+import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMappings";
 
 /**
  * Query builder for fetching bulletin reply data from the Politics & War API.
@@ -120,7 +119,7 @@ extends QueryBuilder<BulletinReplyFields, BulletinRepliesQueryParams>
         try
         {
             const query = this.buildQuery(withPaginator);
-            const result = await graphQLService.queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
             const queryData = result[this.queryName];
 
             if(!queryData)

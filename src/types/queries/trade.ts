@@ -1,4 +1,5 @@
-import type { DefaultParams, SortOrder } from "../others.js";
+import type { GraphQLEnum } from "../../enum";
+import type { DefaultParams, SortOrder } from "../others";
 
 export interface TradeFields {
   id?: string;
@@ -39,8 +40,8 @@ export type QueryTradesOrderByColumn =
   | 'PRICE'
 
 export type QueryTradesOrderByOrderByClause = {
-  column: QueryTradesOrderByColumn;
-  order: SortOrder;
+  column: GraphQLEnum<QueryTradesOrderByColumn>;
+  order: GraphQLEnum<SortOrder>;
 };
 
 export interface TradeRelations {}

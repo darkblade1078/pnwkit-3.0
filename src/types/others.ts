@@ -1,4 +1,4 @@
-import type { SubqueryBuilder } from "../services/queryBuilder.js";
+import type { SubqueryBuilder } from "../services/queryBuilder";
 
 /**
  * Infer the subquery result type from a SubqueryBuilder's type parameters

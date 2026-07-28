@@ -1,22 +1,22 @@
-import type { AllianceRelations, AllianceQueryParams } from "./queries/alliance.js";
-import type { ApiKeyDetailsQueryParams, ApiKeyDetailsRelations } from "./queries/apiKeyDetails.js";
-import type { NationRelations, NationQueryParams } from "./queries/nation.js";
-import type { TradeRelations, TradeQueryParams } from "./queries/trade.js";
-import type { TradePricesQueryParams } from "./queries/tradePrices.js";
-import type { TreatyRelations, TreatyQueryParams } from "./queries/treaties.js";
-import type { WarRelations, WarQueryParams } from "./queries/war.js";
-import type { WarAttackRelations, WarAttackQueryParams } from "./queries/warAttacks.js";
-import type { BountyRelations, BountyQueryParams } from "./queries/bounty.js";
-import type { BannedNationsQueryParams } from "./queries/bannedNations.js";
-import type { CityRelations, CityQueryParams } from "./queries/cities.js";
-import type { BankRecordsQueryParams, BankRelations } from "./queries/bankTaxRec.js";
-import type { BulletinRelations, BulletinQueryParams } from "./queries/bulletin.js";
-import type { BulletinRepliesQueryParams, BulletinReplyRelations } from "./queries/bulletinReplies.js";
-import type { EmbargoRelations, EmbargoQueryParams } from "./queries/embargo.js";
-import type { TreasureTradesQueryParams, TreasureTradeRelations } from "./queries/treasureTrades.js";
-import type { ActivityStatsQueryParams } from "./queries/activityStats.js";
-import type { ResourceStatsQueryParams } from "./queries/resourceStats.js";
-import type { TopTradeInfoResourceQueryParams, TopTradeResourceInfoRelations } from "./queries/topTradeInfo.js";
+import type { AllianceRelations, AllianceQueryParams } from "./queries/alliance";
+import type { ApiKeyDetailsQueryParams, ApiKeyDetailsRelations } from "./queries/apiKeyDetails";
+import type { NationRelations, NationQueryParams } from "./queries/nation";
+import type { TradeRelations, TradeQueryParams } from "./queries/trade";
+import type { TradePricesQueryParams } from "./queries/tradePrices";
+import type { TreatyRelations, TreatyQueryParams } from "./queries/treaties";
+import type { WarRelations, WarQueryParams } from "./queries/war";
+import type { WarAttackRelations, WarAttackQueryParams } from "./queries/warAttacks";
+import type { BountyRelations, BountyQueryParams } from "./queries/bounty";
+import type { BannedNationsQueryParams } from "./queries/bannedNations";
+import type { CityRelations, CityQueryParams } from "./queries/cities";
+import type { BankRecordsQueryParams, BankRelations } from "./queries/bankTaxRec";
+import type { BulletinRelations, BulletinQueryParams } from "./queries/bulletin";
+import type { BulletinRepliesQueryParams, BulletinReplyRelations } from "./queries/bulletinReplies";
+import type { EmbargoRelations, EmbargoQueryParams } from "./queries/embargo";
+import type { TreasureTradesQueryParams, TreasureTradeRelations } from "./queries/treasureTrades";
+import type { ActivityStatsQueryParams } from "./queries/activityStats";
+import type { ResourceStatsQueryParams } from "./queries/resourceStats";
+import type { TopTradeInfoResourceQueryParams, TopTradeResourceInfoRelations } from "./queries/topTradeInfo";
 
 /**
  * Unwrap array types to get the element type

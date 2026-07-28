@@ -1,10 +1,9 @@
-import type { SelectFields, InferSubqueryType } from "../../types/others.js";
-import { QueryBuilder, type SubqueryConfig } from "../../services/queryBuilder.js";
-import graphQLService from "../../services/graphQL.js";
-import type { paginatorInfo } from "../../types/others.js";
-import type PnwKitApi from "../index.js";
-import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMappings.js";
-import type { TopTradeInfoFields, TopTradeInfoQueryParams, TopTradeInfoRelations } from "../../types/queries/topTradeInfo.js";
+import type { SelectFields, InferSubqueryType } from "../../types/others";
+import { QueryBuilder, type SubqueryConfig } from "../../services/queryBuilder";
+import type { paginatorInfo } from "../../types/others";
+import type PnwKitApi from "../index";
+import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMappings";
+import type { TopTradeInfoFields, TopTradeInfoQueryParams, TopTradeInfoRelations } from "../../types/queries/topTradeInfo";
 
 /**
  * Query builder for fetching top trade information from the Politics & War API.
@@ -182,7 +181,7 @@ extends QueryBuilder<TopTradeInfoFields, TopTradeInfoQueryParams>
             const query = this.buildQuery(withPaginator);
 
             // Execute the query
-            const result = await graphQLService.queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
             const queryData = result[this.queryName];
 
             if(!queryData)

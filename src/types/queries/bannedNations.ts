@@ -1,4 +1,5 @@
-import type { DefaultParams, SortOrder } from "../others.js";
+import type { GraphQLEnum } from "../../enum";
+import type { DefaultParams, SortOrder } from "../others";
 
 export interface BannedNationFields {
     nation_id?: string;
@@ -17,8 +18,8 @@ export interface BannedNationsQueryParams extends DefaultParams {
 export interface BannedNationRelations {}
 
 export type QueryBannedNationsOrderByOrderByClause = {
-  column: QueryBannedNationsOrderByColumn;
-  order: SortOrder;
+  column: GraphQLEnum<QueryBannedNationsOrderByColumn>;
+  order: GraphQLEnum<SortOrder>;
 }
 
 export type QueryBannedNationsOrderByColumn =

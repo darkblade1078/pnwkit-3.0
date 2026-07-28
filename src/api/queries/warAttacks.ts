@@ -1,10 +1,9 @@
-import type { SelectFields, InferSubqueryType } from "../../types/others.js";
-import { QueryBuilder, type SubqueryConfig } from "../../services/queryBuilder.js";
-import graphQLService from "../../services/graphQL.js";
-import type { paginatorInfo } from "../../types/others.js";
-import type PnwKitApi from "../index.js";
-import type { WarAttackFields, WarAttackQueryParams, WarAttackRelations } from "../../types/queries/warAttacks.js";
-import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMappings.js";
+import type { SelectFields, InferSubqueryType } from "../../types/others";
+import { QueryBuilder, type SubqueryConfig } from "../../services/queryBuilder";
+import type { paginatorInfo } from "../../types/others";
+import type PnwKitApi from "../index";
+import type { WarAttackFields, WarAttackQueryParams, WarAttackRelations } from "../../types/queries/warAttacks";
+import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMappings";
 
 /**
  * Query builder for fetching war attack data from the Politics & War API.
@@ -121,7 +120,7 @@ extends QueryBuilder<WarAttackFields, WarAttackQueryParams>
         try
         {
             const query = this.buildQuery(withPaginator);
-            const result = await graphQLService.queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
             const queryData = result[this.queryName];
 
             if(!queryData)

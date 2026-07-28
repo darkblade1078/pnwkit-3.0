@@ -1,8 +1,7 @@
-import type { SelectFields } from "../../types/others.js";
-import { QueryBuilder } from "../../services/queryBuilder.js";
-import graphQLService from "../../services/graphQL.js";
-import type PnwKitApi from "../index.js";
-import type { TradepriceFields, TradePricesQueryParams } from "../../types/queries/tradePrices.js";
+import type { SelectFields } from "../../types/others";
+import { QueryBuilder } from "../../services/queryBuilder";
+import type PnwKitApi from "../index";
+import type { TradepriceFields, TradePricesQueryParams } from "../../types/queries/tradePrices";
 
 /**
  * Query builder for fetching trade price data from the Politics & War API.
@@ -77,7 +76,7 @@ extends QueryBuilder<TradepriceFields, TradePricesQueryParams>
         try
         {
             const query = this.buildQuery(false);
-            const result = await graphQLService.queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
             const queryData = result[this.queryName];
 
             if(!queryData)

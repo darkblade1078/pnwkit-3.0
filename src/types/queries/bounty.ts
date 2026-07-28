@@ -1,5 +1,6 @@
-import type { DefaultParams, SortOrder } from "../others.js";
-import type { NationFields } from "./nation.js";
+import type { GraphQLEnum } from "../../enum";
+import type { DefaultParams, SortOrder } from "../others";
+import type { NationFields } from "./nation";
 
 export interface BountyFields {
   id?: string;
@@ -22,8 +23,8 @@ export type QueryBountiesOrderByColumn =
   | 'AMOUNT';
 
 export type QueryBountiesOrderByOrderByClause = {
-  column: QueryBountiesOrderByColumn;
-  order: SortOrder;
+  column: GraphQLEnum<QueryBountiesOrderByColumn>;
+  order: GraphQLEnum<SortOrder>;
 };
 
 export interface BountyRelations {

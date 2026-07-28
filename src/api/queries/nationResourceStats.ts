@@ -1,10 +1,9 @@
-import type { SelectFields, InferSubqueryType } from "../../types/others.js";
-import { QueryBuilder, type SubqueryConfig } from "../../services/queryBuilder.js";
-import graphQLService from "../../services/graphQL.js";
-import type { paginatorInfo } from "../../types/others.js";
-import type PnwKitApi from "../index.js";
-import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMappings.js";
-import type { NationResourceStatsFields, NationResourceStatsQueryParams, NationResourceStatsRelations } from "../../types/queries/nationResourceStats.js";
+import type { SelectFields, InferSubqueryType } from "../../types/others";
+import { QueryBuilder, type SubqueryConfig } from "../../services/queryBuilder";
+import type { paginatorInfo } from "../../types/others";
+import type PnwKitApi from "../index";
+import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMappings";
+import type { NationResourceStatsFields, NationResourceStatsQueryParams, NationResourceStatsRelations } from "../../types/queries/nationResourceStats";
 
 /**
  * Query builder for fetching nation resource statistics from the Politics & War API.
@@ -35,7 +34,7 @@ import type { NationResourceStatsFields, NationResourceStatsQueryParams, NationR
  *   .select('date', 'money', 'food', 'steel')
  *   .where({ 
  *     after: '2025-01-01',
- *     orderBy: { column: 'DATE', order: 'DESC' }
+ *     orderBy: { column: Enum('DATE'), order: Enum('DESC') }
  *   })
  *   .first(50)
  *   .execute();
@@ -107,7 +106,7 @@ extends QueryBuilder<NationResourceStatsFields, NationResourceStatsQueryParams>
      * .where({ 
      *   before: '2025-12-31',
      *   after: '2025-01-01',
-     *   orderBy: { column: 'DATE', order: 'DESC' }
+     *   orderBy: { column: Enum('DATE'), order: Enum('DESC') }
      * })
      * ```
     */
@@ -205,7 +204,7 @@ extends QueryBuilder<NationResourceStatsFields, NationResourceStatsQueryParams>
             const query = this.buildQuery(withPaginator);
 
             // Execute the query
-            const result = await graphQLService.queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
             const queryData = result[this.queryName];
 
             if(!queryData)

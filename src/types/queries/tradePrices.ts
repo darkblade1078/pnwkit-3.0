@@ -1,4 +1,4 @@
-import type { DefaultParams } from "../others.js"
+import type { DefaultParams } from "../others"
 
 export interface TradepriceFields {
     id?: string

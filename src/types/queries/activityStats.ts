@@ -1,4 +1,5 @@
-import type { DefaultParams, SortOrder } from "../others.js";
+import type { GraphQLEnum } from "../../enum";
+import type { DefaultParams, SortOrder } from "../others";
 
 export interface ActivityStatsFields {
     date?: string;
@@ -20,8 +21,8 @@ export interface ActivityStatsQueryParams extends DefaultParams {
 export interface ActivityStatRelations {}
 
 export type QueryActivityStatsOrderByOrderByClause = {
-  column: QueryActivityStatsOrderByColumn;
-  order: SortOrder;
+  column: GraphQLEnum<QueryActivityStatsOrderByColumn>;
+  order: GraphQLEnum<SortOrder>;
 }
 
 export type QueryActivityStatsOrderByColumn =

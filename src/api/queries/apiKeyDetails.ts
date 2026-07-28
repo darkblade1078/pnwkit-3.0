@@ -1,9 +1,8 @@
-import type { SelectFields, InferSubqueryType } from "../../types/others.js";
-import { QueryBuilder, type SubqueryConfig } from "../../services/queryBuilder.js";
-import graphQLService from "../../services/graphQL.js";
-import type PnwKitApi from "../index.js";
-import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMappings.js";
-import type { ApiKeyDetailsFields, ApiKeyDetailsRelations, ApiKeyDetailsQueryParams } from "../../types/queries/apiKeyDetails.js";
+import type { SelectFields, InferSubqueryType } from "../../types/others";
+import { QueryBuilder, type SubqueryConfig } from "../../services/queryBuilder";
+import type PnwKitApi from "../index";
+import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMappings";
+import type { ApiKeyDetailsFields, ApiKeyDetailsRelations, ApiKeyDetailsQueryParams } from "../../types/queries/apiKeyDetails";
 
 /**
  * Query builder for fetching API key details from the Politics & War API.
@@ -201,7 +200,7 @@ extends QueryBuilder<ApiKeyDetailsFields, ApiKeyDetailsQueryParams>
             const query = this.buildQuery(false);
 
             // Execute the query
-            const result = await graphQLService.queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
             const queryData = result[this.queryName];
 
             if(!queryData)

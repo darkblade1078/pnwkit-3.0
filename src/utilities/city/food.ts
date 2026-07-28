@@ -1,5 +1,5 @@
-import type { Season } from "../../types/utilities/cities.js";
-import { buildingBonus } from "../other.js";
+import type { Season } from "../../types/utilities/cities";
+import { buildingBonus } from "../other";
 
 /**
  * Calculates the food production for a city based on farms, land, radiation index, irrigation, and season.

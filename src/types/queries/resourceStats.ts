@@ -1,4 +1,5 @@
-import type { DefaultParams, SortOrder } from "../others.js"
+import type { GraphQLEnum } from "../../enum";
+import type { DefaultParams, SortOrder } from "../others"
 
 export interface ResourceStatsFields {
     date?: string
@@ -25,8 +26,8 @@ export interface ResourceStatsQueryParams extends DefaultParams {
 export interface ResourceStatRelations {}
 
 export type QueryResourceStatsOrderByOrderByClause = {
-  column: QueryResourceStatsOrderByColumn;
-  order: SortOrder;
+  column: GraphQLEnum<QueryResourceStatsOrderByColumn>;
+  order: GraphQLEnum<SortOrder>;
 }
 
 export type QueryResourceStatsOrderByColumn =

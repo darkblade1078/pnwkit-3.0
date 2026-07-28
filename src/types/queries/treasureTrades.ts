@@ -1,5 +1,6 @@
-import type { DefaultParams, SortOrder } from "../others.js";
-import type { NationFields } from "./nation.js"
+import type { GraphQLEnum } from "../../enum";
+import type { DefaultParams, SortOrder } from "../others";
+import type { NationFields } from "./nation"
 
 
 export interface TreasureTradeFields {
@@ -31,8 +32,8 @@ export interface TreasureTradeRelations {
 }
 
 export type QueryTreasureTradesOrderByOrderByClause = {
-  column: QueryTreasureTradesOrderByColumn;
-  order: SortOrder
+  column: GraphQLEnum<QueryTreasureTradesOrderByColumn>;
+  order: GraphQLEnum<SortOrder>
 }
 
 export type QueryTreasureTradesOrderByColumn =

@@ -1,5 +1,6 @@
-import type { DefaultParams, SortOrder } from "../others.js";
-import type { NationFields } from "./nation.js";
+import type { GraphQLEnum } from "../../enum";
+import type { DefaultParams, SortOrder } from "../others";
+import type { NationFields } from "./nation";
 
 export interface BankTaxrecFields {
   id?: string;
@@ -47,8 +48,8 @@ export interface BankRelations {
 }
 
 export type QueryBankrecsOrderByOrderByClause = {
-  column: QueryBankrecsOrderByColumn;
-  order: SortOrder
+  column: GraphQLEnum<QueryBankrecsOrderByColumn>;
+  order: GraphQLEnum<SortOrder>
 }
 
 export type QueryBankrecsOrderByColumn =

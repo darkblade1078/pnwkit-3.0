@@ -1,4 +1,4 @@
-import type { NationFields } from "./nation.js";
+import type { NationFields } from "./nation";
 
 export interface TreasureFields {
   name?: string;

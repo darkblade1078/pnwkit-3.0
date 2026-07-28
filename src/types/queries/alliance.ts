@@ -1,10 +1,11 @@
-import type { DefaultParams, SortOrder } from "../others.js";
-import type { AlliancePositionFields } from "./alliancePosition.js";
-import type { BankTaxrecFields } from "./bankTaxRec.js";
-import type { BulletinFields } from "./bulletin.js";
-import type { NationFields } from "./nation.js";
-import type { TaxBracketFields } from "./taxBrackets.js";
-import type { WarFields } from "./war.js";
+import type { GraphQLEnum } from "../../enum";
+import type { DefaultParams, SortOrder } from "../others";
+import type { AlliancePositionFields } from "./alliancePosition";
+import type { BankTaxrecFields } from "./bankTaxRec";
+import type { BulletinFields } from "./bulletin";
+import type { NationFields } from "./nation";
+import type { TaxBracketFields } from "./taxBrackets";
+import type { WarFields } from "./war";
 
 export interface AllianceFields {
   __typename?: 'Alliance';
@@ -53,8 +54,8 @@ export interface AllianceRelations {
 }
 
 export type QueryAlliancesOrderByOrderByClause = {
-  column: QueryAlliancesOrderByColumn;
-  order: SortOrder;
+  column: GraphQLEnum<QueryAlliancesOrderByColumn>;
+  order: GraphQLEnum<SortOrder>;
 }
 
 export type QueryAlliancesOrderByColumn = 

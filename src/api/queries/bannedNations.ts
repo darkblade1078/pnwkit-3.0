@@ -1,9 +1,8 @@
-import type { SelectFields } from "../../types/others.js";
-import { QueryBuilder } from "../../services/queryBuilder.js";
-import graphQLService from "../../services/graphQL.js";
-import type { paginatorInfo } from "../../types/others.js";
-import type PnwKitApi from "../index.js";
-import type { BannedNationFields, BannedNationsQueryParams } from "../../types/queries/bannedNations.js";
+import type { SelectFields } from "../../types/others";
+import { QueryBuilder } from "../../services/queryBuilder";
+import type { paginatorInfo } from "../../types/others";
+import type PnwKitApi from "../index";
+import type { BannedNationFields, BannedNationsQueryParams } from "../../types/queries/bannedNations";
 
 /**
  * Query builder for fetching banned nation data from the Politics & War API.
@@ -94,7 +93,7 @@ extends QueryBuilder<BannedNationFields, BannedNationsQueryParams>
         try
         {
             const query = this.buildQuery(withPaginator);
-            const result = await graphQLService.queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
             const queryData = result[this.queryName];
 
             if(!queryData)

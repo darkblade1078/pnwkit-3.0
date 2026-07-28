@@ -1,9 +1,8 @@
-import type { SelectFields } from "../../types/others.js";
-import { QueryBuilder } from "../../services/queryBuilder.js";
-import graphQLService from "../../services/graphQL.js";
-import type { paginatorInfo } from "../../types/others.js";
-import type PnwKitApi from "../index.js";
-import type { ActivityStatsFields, ActivityStatsQueryParams } from "../../types/queries/activityStats.js";
+import type { SelectFields } from "../../types/others";
+import { QueryBuilder } from "../../services/queryBuilder";
+import type { paginatorInfo } from "../../types/others";
+import type PnwKitApi from "../index";
+import type { ActivityStatsFields, ActivityStatsQueryParams } from "../../types/queries/activityStats";
 
 /**
  * Query builder for fetching activity statistics from the Politics & War API.
@@ -96,7 +95,7 @@ extends QueryBuilder<ActivityStatsFields, ActivityStatsQueryParams>
         try
         {
             const query = this.buildQuery(withPaginator);
-            const result = await graphQLService.queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
             const queryData = result[this.queryName];
 
             if(!queryData)

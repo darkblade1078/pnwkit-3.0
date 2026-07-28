@@ -1,11 +1,11 @@
-import { ConvertBitsToProject } from "./nation/projectBits.js";
-import cityCost from "./city/cityCost.js";
-import infraCost from "./city/infraCost.js";
-import landCost from "./city/landCost.js";
-import { basePopulation, populationDensity, ageBonus } from "./city/population.js";
-import commerce from "./city/commerce.js";
-import { buildingBonus } from "./other.js";
-import { foodProduction, radiationModifier } from "./city/food.js";
+import { ConvertBitsToProject } from "./nation/projectBits";
+import cityCost from "./city/cityCost";
+import infraCost from "./city/infraCost";
+import landCost from "./city/landCost";
+import { basePopulation, populationDensity, ageBonus } from "./city/population";
+import commerce from "./city/commerce";
+import { buildingBonus } from "./other";
+import { foodProduction, radiationModifier } from "./city/food";
 
 /**
  * Collection of utility functions for Politics & War calculations and data transformations.

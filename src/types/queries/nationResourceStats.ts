@@ -1,4 +1,5 @@
-import type { SortOrder } from "../others.js"
+import type { GraphQLEnum } from "../../enum";
+import type { SortOrder } from "../others"
 
 export interface NationResourceStatsFields {
     date?: string
@@ -25,8 +26,8 @@ export interface NationResourceStatsQueryParams {
 export interface NationResourceStatsRelations {}
 
 export type QueryNationResourceStatsByOrderByClause = {
-  column: QueryNationResourceStatsOrderByColumn;
-  order: SortOrder;
+  column: GraphQLEnum<QueryNationResourceStatsOrderByColumn>;
+  order: GraphQLEnum<SortOrder>;
 }
 
 export type QueryNationResourceStatsOrderByColumn = 

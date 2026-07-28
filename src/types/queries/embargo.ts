@@ -1,5 +1,6 @@
-import type { DefaultParams, SortOrder } from "../others.js"
-import type { NationFields } from "./nation.js"
+import type { GraphQLEnum } from "../../enum";
+import type { DefaultParams, SortOrder } from "../others"
+import type { NationFields } from "./nation"
 
 export interface EmbargoFields {
   id?: string;
@@ -24,8 +25,8 @@ export interface EmbargoRelations {
 }
 
 export type QueryEmbargoOrderByOrderByClause = {
-  column: QueryEmbargoOrderByColumn;
-  order: SortOrder;
+  column: GraphQLEnum<QueryEmbargoOrderByColumn>;
+  order: GraphQLEnum<SortOrder>;
 }
 
 export type QueryEmbargoOrderByColumn =

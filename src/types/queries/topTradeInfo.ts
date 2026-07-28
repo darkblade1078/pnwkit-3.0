@@ -1,4 +1,4 @@
-import type { TradeFields } from "./trade.js"
+import type { TradeFields } from "./trade"
 
 export interface TopTradeInfoFields {
     __typename?: 'top_trade_info'

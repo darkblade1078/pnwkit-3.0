@@ -1,6 +1,7 @@
-import type { DefaultParams, SortOrder } from "../others.js";
-import type { BulletinFields } from "./bulletin.js";
-import type { NationFields } from "./nation.js";
+import type { GraphQLEnum } from "../../enum";
+import type { DefaultParams, SortOrder } from "../others";
+import type { BulletinFields } from "./bulletin";
+import type { NationFields } from "./nation";
 
 export interface BulletinReplyFields {
   id?: string;
@@ -37,8 +38,8 @@ export interface BulletinReplyRelations {
 }
 
 export type QueryBulletinRepliesOrderByOrderByClause = {
-  column: QueryBulletinRepliesOrderByColumn;
-  order: SortOrder;
+  column: GraphQLEnum<QueryBulletinRepliesOrderByColumn>;
+  order: GraphQLEnum<SortOrder>;
 }
 
 export type QueryBulletinRepliesOrderByColumn =

@@ -2,6 +2,22 @@ import { LRUCache } from 'lru-cache';
 import type { CacheOptions } from '../types/pnwkit.js';
 
 /**
+ * Internal error that records whether the failed request is worth retrying.
+ *
+ * Transient failures (rate limits, 5xx, timeouts, network errors) are retryable;
+ * client errors (4xx), malformed responses, and GraphQL validation errors are not.
+ * @internal
+ */
+class RequestError extends Error
+{
+    constructor(message: string, public readonly retryable: boolean)
+    {
+        super(message);
+        this.name = 'RequestError';
+    }
+}
+
+/**
  * Service for making GraphQL API requests to Politics & War API.
  * 
  * Features:
@@ -24,42 +40,44 @@ import type { CacheOptions } from '../types/pnwkit.js';
  * 
  * @example
  * ```typescript
- * import graphQLService from './services/graphQL';
- * 
- * const data = await graphQLService.queryCall<MyDataType>(apiKey, query);
+ * import GraphQLService from './services/graphQL';
+ *
+ * const service = new GraphQLService({ enabled: true, ttl: 60_000 });
+ * const data = await service.queryCall<MyDataType>(apiKey, query);
  * ```
  */
 class GraphQLService 
 {
     private url = 'https://api.politicsandwar.com/graphql';
-    private readonly MAX_QUERY_LENGTH = 50000; // 50,000 characters
-    private readonly REQUEST_TIMEOUT = 30000; // 30 seconds
+    private readonly MAX_QUERY_LENGTH = 50_000; // 50,000 characters
+    private readonly REQUEST_TIMEOUT = 30_000; // 30 seconds
     private readonly MIN_REQUEST_INTERVAL = 100; // Minimum 100ms between requests
     private readonly MAX_RETRIES = 3; // Maximum retry attempts
-    private readonly RETRY_DELAY = 1000; // Initial retry delay in ms
+    private readonly RETRY_DELAY = 1_000; // Initial retry delay in ms
 
     private lastRequestTime = 0;
     private cache?: LRUCache<string, any>;
 
+    // Serializes rate-limit slot acquisition so concurrent requests are spaced
+    // correctly instead of all reading the same stale lastRequestTime.
+    private rateLimitGate: Promise<void> = Promise.resolve();
+
     /**
-     * Initialize cache with the provided options.
-     * 
-     * Only initializes once - subsequent calls are ignored to prevent
-     * cache configuration conflicts when multiple PnWKit instances are created.
-     * 
-     * @param options - Cache configuration options
+     * Create a GraphQL service with an optional per-instance cache.
+     *
+     * Each PnWKit client owns its own service instance, so the cache and rate
+     * limiter are scoped to that client rather than shared globally.
+     *
+     * @param cacheOptions - Optional LRU cache configuration. When omitted or
+     *   disabled, responses are not cached.
      */
-    public initializeCache(options: CacheOptions): void 
+    constructor(cacheOptions?: CacheOptions)
     {
-        // Only initialize if not already initialized
-        if (this.cache)
-            return;
-        
-        if (options.enabled) 
+        if (cacheOptions?.enabled)
         {
             this.cache = new LRUCache({
-                max: options.maxSize ?? 100,
-                ttl: options.ttl ?? 60000,
+                max: cacheOptions.maxSize ?? 100,
+                ttl: cacheOptions.ttl ?? 60_000,
                 updateAgeOnGet: true,
                 updateAgeOnHas: false
             });
@@ -136,7 +154,7 @@ class GraphQLService
      * 
      * @example
      * ```typescript
-     * const nations = await graphQLService.queryCall<Nation[]>(apiKey, `
+     * const nations = await service.queryCall<Nation[]>(apiKey, `
      *   query { nations(first: 10) { data { id nation_name } } }
      * `);
      * ```
@@ -181,18 +199,19 @@ class GraphQLService
                 
                 return result;
             } 
-            catch (error) 
+            catch (error)
             {
+
+                // Capture the error for potential rethrow after retries
                 lastError = error instanceof Error ? error : new Error('Unknown error');
-                
-                // Don't retry on client errors (4xx) or validation errors
-                if 
-                (
-                    lastError.message.includes('Invalid') || 
-                    lastError.message.includes('Request failed')
-                )
+
+                // Only retry failures explicitly marked transient (rate limit,
+                // 5xx, timeout, network). Everything else fails fast.
+                const retryable = error instanceof RequestError && error.retryable;
+
+                if (!retryable)
                     throw lastError;
-                
+
                 // Don't retry if we've exhausted attempts
                 if (attempt === this.MAX_RETRIES)
                     throw lastError;
@@ -204,6 +223,31 @@ class GraphQLService
         }
         
         throw lastError!;
+    }
+
+    /**
+     * Acquire the next rate-limit slot.
+     *
+     * Chains each caller onto the previous one so that, even under concurrent
+     * requests, no two proceed within MIN_REQUEST_INTERVAL of each other.
+     * @internal
+     */
+    private async acquireRateLimitSlot(): Promise<void>
+    {
+        const previous = this.rateLimitGate;
+        let release!: () => void;
+        this.rateLimitGate = new Promise<void>(resolve => { release = resolve; });
+
+        // Wait for the prior request to claim its slot before claiming ours.
+        await previous;
+
+        const elapsed = Date.now() - this.lastRequestTime;
+        
+        if (elapsed < this.MIN_REQUEST_INTERVAL)
+            await new Promise(resolve => setTimeout(resolve, this.MIN_REQUEST_INTERVAL - elapsed));
+
+        this.lastRequestTime = Date.now();
+        release();
     }
 
     /**
@@ -225,16 +269,8 @@ class GraphQLService
      */
     private async executeQuery<TData>(apiKey: string, query: string): Promise<TData>
     {
-        // Rate Limiting
-        const now = Date.now();
-        const timeSinceLastRequest = now - this.lastRequestTime;
-
-        if(timeSinceLastRequest < this.MIN_REQUEST_INTERVAL)
-        {
-            const waitTime = this.MIN_REQUEST_INTERVAL - timeSinceLastRequest;
-            await new Promise(resolve => setTimeout(resolve, waitTime));
-        }
-        this.lastRequestTime = Date.now();
+        // Rate limiting (serialized so concurrent calls are spaced correctly)
+        await this.acquireRateLimitSlot();
 
         // Sanitize API key to prevent injection in URL
         const sanitizedApiKey = encodeURIComponent(apiKey);
@@ -257,47 +293,61 @@ class GraphQLService
 
             clearTimeout(timeoutId);
 
-            if (!response.ok) 
+            if (!response.ok)
             {
-                const message = response.status === 429 
+                // 429 and 5xx are transient and worth retrying; other 4xx are not.
+                const retryable = response.status === 429 || response.status >= 500;
+                const message = response.status === 429
                 ? 'Rate limit exceeded. Please try again later.'
                 : response.status >= 500
                 ? 'API server error. Please try again later.'
                 : 'Request failed. Please check your API key and try again.';
 
-                throw new Error(message);
+                throw new RequestError(message, retryable);
             }
 
-            const result = await response.json();
+            // GraphQL responses are dynamically typed at this boundary.
+            const result: any = await response.json();
 
             if(!result || typeof result !== 'object')
-                throw new Error('Invalid response format from API');
+                throw new RequestError('Invalid response format from API', false);
 
             if(result.errors)
             {
-                const errorMessages = Array.isArray(result.errors) 
+                const errorMessages = Array.isArray(result.errors)
                     ? result.errors.map((e: { message: string }) => e.message).join(', ')
                     : 'Unknown GraphQL error';
-                throw new Error(errorMessages);
+
+                // GraphQL validation errors are deterministic
+                throw new RequestError(errorMessages, false);
             }
 
             if(!result.data)
-                throw new Error('No data field in response from API');
+                throw new RequestError('No data field in response from API', false);
 
             return result.data;
-        } 
-        catch (error) 
+        }
+        catch (error)
         {
             clearTimeout(timeoutId);
-            
-            if (error instanceof Error) {
-                if (error.name === 'AbortError')
-                    throw new Error(`Request timeout after ${this.REQUEST_TIMEOUT}ms`);
+
+            // Already classified — propagate as-is.
+            if (error instanceof RequestError)
                 throw error;
+
+            if (error instanceof Error)
+            {
+                // Timeout and network failures are transient.
+                if (error.name === 'AbortError')
+                    throw new RequestError(`Request timeout after ${this.REQUEST_TIMEOUT}ms`, true);
+
+                // Network errors (fetch failed) are transient.
+                throw new RequestError(error.message, true);
             }
-            throw new Error('Unknown error occurred during GraphQL query');
+            
+            throw new RequestError('Unknown error occurred during GraphQL query', false);
         }
     }
 }
 
-export default new GraphQLService();
+export default GraphQLService;

@@ -1,5 +1,6 @@
-import type { GetRelationsFor, GetQueryParamsFor } from "../types/relationMappings.js";
-import type { InferSubqueryType } from "../types/others.js";
+import type { GetRelationsFor, GetQueryParamsFor } from "../types/relationMappings";
+import type { InferSubqueryType } from "../types/others";
+import { GraphQLEnum } from "../enum";
 
 /**
  * Unwraps array types to their element type, leaves non-arrays unchanged.
@@ -234,8 +235,6 @@ TFields = any, // Type of the main query fields
 TQueryParams = any // Type of the query parameters
 >
 {
-    protected limit?: number;   // max records to retrieve
-    protected pageNum?: number; // page number for pagination
     protected apiKey!: string;  // API key for authentication
     
     // Updated: Now supports both simple arrays and nested builders
@@ -299,7 +298,7 @@ TQueryParams = any // Type of the query parameters
             .replace(/\r/g, '\\r')
             .replace(/\t/g, '\\t')
             .replace(/\f/g, '\\f')
-            .replace(/\b/g, '\\b');
+            .replace(/[\b]/g, '\\b'); // [\b] = backspace char; /\b/ would match word boundaries
     }
 
     /**
@@ -336,13 +335,13 @@ TQueryParams = any // Type of the query parameters
             if (key === '__proto__' || key === 'constructor' || key === 'prototype')
                 throw new Error(`Forbidden field name: ${key}`);
             
-            // Serialize value based on type
+            // Serialize value based on type. Strings are always quoted; only
+            // Enum()-wrapped values are emitted unquoted.
             let serializedValue: string;
-            if (typeof val === 'string') {
-                if (!QueryBuilder.ENUM_VALUE_PATTERN.test(val))
-                    throw new Error(`Invalid enum value format: ${val}`);
-                serializedValue = val;
-            }
+            if (val instanceof GraphQLEnum)
+                serializedValue = this.serializeEnumValue(val);
+            else if (typeof val === 'string')
+                serializedValue = `"${this.sanitizeString(val)}"`;
             else if (typeof val === 'number') {
                 if (!Number.isFinite(val))
                     throw new Error(`Invalid number value: ${val}`);
@@ -418,35 +417,44 @@ TQueryParams = any // Type of the query parameters
     }
 
     /**
-     * Check if a string is a GraphQL enum value (uppercase with underscores)
+     * Serialize an {@link Enum}-wrapped value to its unquoted GraphQL form.
      * @internal
     */
-    private static isEnumValue(str: string): boolean
+    private serializeEnumValue(value: GraphQLEnum): string
     {
-        return QueryBuilder.ENUM_VALUE_PATTERN.test(str);
+        if (!QueryBuilder.ENUM_VALUE_PATTERN.test(value.value))
+            throw new Error(`Invalid enum value format: ${value.value}`);
+
+        return value.value;
     }
 
     /**
-     * Serialize a single value (non-array) for GraphQL
+     * Serialize a single value (non-array) for GraphQL.
+     *
+     * Plain strings are always quoted and escaped; enum values must be wrapped
+     * with {@link Enum} to be emitted unquoted.
      * @internal
     */
     private serializeSingleValue(value: any): string
     {
+        if (value instanceof GraphQLEnum)
+            return this.serializeEnumValue(value);
+
         if (typeof value === 'string')
-            return QueryBuilder.isEnumValue(value) ? value : `"${this.sanitizeString(value)}"`;
-        
+            return `"${this.sanitizeString(value)}"`;
+
         if (typeof value === 'number') {
             if (!Number.isFinite(value))
                 throw new Error(`Invalid number value: ${value}`);
             return String(value);
         }
-        
+
         if (typeof value === 'boolean')
             return String(value);
-        
+
         if (typeof value === 'object' && value !== null)
             return this.serializeObject(value);
-        
+
         throw new Error(`Unsupported value type: ${typeof value}`);
     }
 
@@ -588,10 +596,9 @@ TQueryParams = any // Type of the query parameters
             .filter(Boolean)
             .join(`\n${QueryBuilder.QUERY_BASE_INDENT}`);
 
-        // Build query variables (pagination + filters)
+        // Build query variables from filters (pagination flows through
+        // `first` / `page` in the filter set — see where()).
         const variables: string[] = [];
-        if (this.limit) variables.push(`first: ${this.limit}`);
-        if (this.pageNum) variables.push(`page: ${this.pageNum}`);
 
         // Iterate filters with prototype pollution protection (hasOwnProperty check)
         // Prevents __proto__ and constructor injection attacks

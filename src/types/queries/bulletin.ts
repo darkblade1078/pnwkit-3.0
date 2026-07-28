@@ -1,7 +1,8 @@
-import type { DefaultParams, paginatorInfo, SortOrder } from "../others.js";
-import type { AllianceFields } from "./alliance.js";
-import type { BulletinReplyFields } from "./bulletinReplies.js";
-import type { NationFields } from "./nation.js";
+import type { GraphQLEnum } from "../../enum";
+import type { DefaultParams, paginatorInfo, SortOrder } from "../others";
+import type { AllianceFields } from "./alliance";
+import type { BulletinReplyFields } from "./bulletinReplies";
+import type { NationFields } from "./nation";
 
 export interface BulletinFields {
   id?: string;
@@ -43,8 +44,8 @@ export interface BulletinRelations {
 }
 
 export type QueryBulletinOrderByOrderByClause = {
-  column: QueryBulletinOrderByColumn;
-  order: SortOrder;
+  column: GraphQLEnum<QueryBulletinOrderByColumn>;
+  order: GraphQLEnum<SortOrder>;
 }
 
 export type BulletinReplyPaginator= {
