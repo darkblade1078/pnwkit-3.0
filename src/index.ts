@@ -65,3 +65,21 @@ export default class PnWKit extends PnwKitApi
         super(apiKey, options?.cache);
     }
 }
+
+// Public class re-exports so the container classes and every query builder are
+// documented as first-class entries and importable by consumers.
+export { default as Queries } from "./api/queries/index.js";
+export { default as Subscriptions } from "./api/subscriptions/index.js";
+export { default as Utilities } from "./utilities/index.js";
+export * from "./api/queries/index.js";
+
+// Public type re-exports so consumers can import the option/input shapes by name
+// and TypeDoc documents them as first-class entries.
+export type { PnWKitOptions, CacheOptions } from "./types/pnwkit.js";
+export type {
+    subscriptionData,
+    SubscriptionParams,
+    EventTime,
+    Model,
+    Event,
+} from "./types/subscriptions/other.js";

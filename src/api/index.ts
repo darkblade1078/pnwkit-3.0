@@ -9,8 +9,10 @@ import Subscriptions from "./subscriptions/index.js";
  * 
  * Handles cache initialization and provides cache management methods.
  * All GraphQL queries flow through this class to the underlying GraphQLService.
- * 
- * @internal
+ *
+ * The public members here (`queries`, `subscriptions`, `utilities`, and the
+ * cache methods) form the inherited surface of the {@link default | PnWKit}
+ * client, so this class is part of the documented public API.
  */
 export default class PnwKitApi
 {

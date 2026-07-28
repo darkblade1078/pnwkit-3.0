@@ -23,6 +23,16 @@ import { TreasureTradesQuery } from "./treasureTrades.js";
 import { ActivityStatsQuery } from "./activityStats.js";
 import { ResourceStatsQuery } from "./resourceStats.js";
 
+// Re-export every query builder so they are documented as part of the public API
+// and importable by consumers.
+export {
+    NationsQuery, AlliancesQuery, ApiKeyDetailsQuery, TreasuresQuery, ColorsQuery,
+    GameInfoQuery, TopTradeInfoQuery, NationResourceStatsQuery, TradesQuery, TradePricesQuery,
+    TreatiesQuery, WarsQuery, WarAttacksQuery, BountiesQuery, BannedNationsQuery,
+    CitiesQuery, BankrecsQuery, BulletinsQuery, BulletinRepliesQuery, EmbargoesQuery,
+    TreasureTradesQuery, ActivityStatsQuery, ResourceStatsQuery,
+};
+
 /**
  * Container class for all Politics & War GraphQL query builders.
  * 

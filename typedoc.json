@@ -1,24 +1,21 @@
 {
-  "entryPoints": [
-    "src/index.ts",
-    "src/api/queries/*.ts",
-    "src/utilities/**/*.ts"
-  ],
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["src/index.ts"],
+  "entryPointStrategy": "resolve",
   "out": "docs",
-  "exclude": [
-    "**/*.test.ts", 
-    "**/node_modules/**"
-  ],
+  "name": "pnwkit 3.0",
+  "readme": "README.md",
+  "includeVersion": true,
+  "excludeInternal": true,
   "excludePrivate": true,
   "excludeProtected": false,
-  "excludeInternal": true,
-  "readme": "README.md",
-  "name": "pnwkit 3.0",
-  "includeVersion": true,
-  "plugin": ["typedoc-plugin-markdown"],
-  "outputFileStrategy": "modules",
   "categorizeByGroup": true,
+  "navigationLinks": {
+    "GitHub": "https://github.com/darkblade1078/pnwkit-3.0"
+  },
   "validation": {
-    "notExported": false
+    "notExported": false,
+    "invalidLink": true,
+    "notDocumented": false
   }
 }
