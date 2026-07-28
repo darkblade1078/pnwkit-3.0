@@ -1,0 +1,40 @@
+name: Publish
+
+# Publishes to npm whenever you create a GitHub Release.
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  id-token: write # enables npm provenance (public repos only)
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+          cache: npm
+
+      - run: npm ci
+
+      # Guard: the release tag (vX.Y.Z) must match package.json's version,
+      # otherwise npm would reject the publish or ship the wrong version.
+      - name: Verify tag matches package.json version
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          PKG="$(node -p "require('./package.json').version")"
+          if [ "$TAG" != "$PKG" ]; then
+            echo "::error::Release tag '$TAG' does not match package.json version '$PKG'"
+            exit 1
+          fi
+
+      # `npm publish` runs the prepublishOnly script (npm run build) first.
+      - run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

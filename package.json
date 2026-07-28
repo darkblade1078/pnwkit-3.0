@@ -4,7 +4,26 @@
   "description": "The 3.0 version of the PnWKit library.",
   "license": "MIT",
   "author": "Darkblade",
+  "keywords": [
+    "politics-and-war",
+    "politicsandwar",
+    "pnw",
+    "graphql",
+    "api",
+    "api-wrapper",
+    "sdk",
+    "client"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/darkblade1078/pnwkit-3.0.git"
+  },
+  "homepage": "https://darkblade1078.github.io/pnwkit-3.0",
+  "bugs": {
+    "url": "https://github.com/darkblade1078/pnwkit-3.0/issues"
+  },
   "type": "module",
+  "sideEffects": false,
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "exports": {
@@ -16,13 +35,20 @@
   "files": [
     "build"
   ],
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "build": "tsc",
-    "docs": "typedoc"
+    "docs": "typedoc",
+    "lint": "eslint src",
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "@types/node": "^25.0.3",
-    "typedoc": "^0.28.20"
+    "eslint": "^10.8.0",
+    "typedoc": "^0.28.20",
+    "typescript-eslint": "^8.65.0"
   },
   "dependencies": {
     "crc-32": "^1.2.2",
