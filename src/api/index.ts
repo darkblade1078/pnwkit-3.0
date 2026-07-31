@@ -1,4 +1,5 @@
 import Queries from "./queries/index";
+import Mutations from "./mutations/index";
 import Utilities from "../utilities/index";
 import type { CacheOptions } from "../types/pnwkit";
 import GraphQLService from "../services/graphQL";
@@ -19,6 +20,9 @@ export default class PnwKitApi
     /** Query builders for all Politics & War GraphQL queries */
     public readonly queries: Queries;
 
+    /** Mutation builders for all Politics & War GraphQL mutations */
+    public readonly mutations: Mutations;
+
     public readonly subscriptions: Subscriptions;
     
     /** Utility functions for calculations and data transformations */
@@ -26,6 +30,9 @@ export default class PnwKitApi
     
     /** Cache configuration (if enabled) */
     protected readonly cacheOptions?: CacheOptions | undefined;
+
+    /** Verified-bot key used to authorize whitelisted mutations (if provided) @internal */
+    protected readonly botKey?: string | undefined;
 
     /** This client's GraphQL service (owns its cache and rate limiter) @internal */
     protected readonly graphQL: GraphQLService;
@@ -38,13 +45,16 @@ export default class PnwKitApi
      *
      * @param apiKey - Politics & War API key for authentication
      * @param cacheOptions - Optional cache configuration (LRU with TTL)
+     * @param botKey - Optional verified-bot key for authorizing whitelisted mutations
      */
-    constructor(protected readonly apiKey: string, cacheOptions?: CacheOptions)
+    constructor(protected readonly apiKey: string, cacheOptions?: CacheOptions, botKey?: string)
     {
         this.cacheOptions = cacheOptions;
+        this.botKey = botKey;
         this.graphQL = new GraphQLService(cacheOptions);
 
         this.queries = new Queries(this);
+        this.mutations = new Mutations(this);
         this.subscriptions = new Subscriptions(this.apiKey);
         this.utilities = new Utilities();
     }

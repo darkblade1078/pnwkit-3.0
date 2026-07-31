@@ -24,10 +24,20 @@ export interface CacheOptions {
 
 /**
  * PnWKit configuration options.
- * 
+ *
  * All options are optional. When cache is omitted or disabled, all queries
  * will be sent directly to the Politics & War API without caching.
 */
 export interface PnWKitOptions {
     cache?: CacheOptions;
+    /**
+     * Verified-bot key used to authorize whitelisted mutations (currently
+     * `bankWithdraw` and `bankDeposit`).
+     *
+     * When set, mutations are sent with the `X-Bot-Key` (this key) and
+     * `X-Api-Key` (the acting nation's API key) headers. If it is not set,
+     * attempting to run any mutation throws — queries and subscriptions are
+     * unaffected.
+     */
+    botKey?: string;
 }

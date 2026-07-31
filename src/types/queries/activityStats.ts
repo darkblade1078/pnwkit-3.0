@@ -2,6 +2,7 @@ import type { GraphQLEnum } from "../../enum";
 import type { DefaultParams, SortOrder } from "../others";
 
 export interface ActivityStatsFields {
+    __typename?: 'activity_stats';
     date?: string;
     total_nations?: number;
     nations_created?: number;

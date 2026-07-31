@@ -43,7 +43,7 @@ import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMap
  * ```
  */
 export class TreatiesQuery<
-    F extends readonly (keyof TreatyFields)[] = [], 
+    F extends readonly (Exclude<keyof TreatyFields, '__typename'>)[] = [], 
     I extends Record<string, any> = {}
 > 
 extends QueryBuilder<TreatyFields, TreatyQueryParams>
@@ -67,7 +67,7 @@ extends QueryBuilder<TreatyFields, TreatyQueryParams>
      * @example
      * .select('id', 'treaty_type', 'turns_left', 'approved')
     */
-    select<const Fields extends readonly (keyof TreatyFields)[]>(...fields: Fields): TreatiesQuery<Fields> 
+    select<const Fields extends readonly (Exclude<keyof TreatyFields, '__typename'>)[]>(...fields: Fields): TreatiesQuery<Fields> 
     {
         if(fields.length === 0)
             throw new Error("At least one field must be selected.");
@@ -116,7 +116,7 @@ extends QueryBuilder<TreatyFields, TreatyQueryParams>
         try
         {
             const query = this.buildQuery(withPaginator);
-            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.apiKeyOverride ?? this.kit['apiKey'], query, { skipCache: this.skipCacheFlag });
             const queryData = result[this.queryName];
 
             if(!queryData)

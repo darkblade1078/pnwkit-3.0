@@ -44,7 +44,7 @@ import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMap
  * ```
  */
 export class CitiesQuery<
-    F extends readonly (keyof CityFields)[] = [], 
+    F extends readonly (Exclude<keyof CityFields, '__typename'>)[] = [], 
     I extends Record<string, any> = {}
 > 
 extends QueryBuilder<CityFields, CityQueryParams>
@@ -68,7 +68,7 @@ extends QueryBuilder<CityFields, CityQueryParams>
      * @example
      * .select('id', 'name', 'infrastructure', 'land', 'powered')
     */
-    select<const Fields extends readonly (keyof CityFields)[]>(...fields: Fields): CitiesQuery<Fields> 
+    select<const Fields extends readonly (Exclude<keyof CityFields, '__typename'>)[]>(...fields: Fields): CitiesQuery<Fields> 
     {
         if(fields.length === 0)
             throw new Error("At least one field must be selected.");
@@ -117,7 +117,7 @@ extends QueryBuilder<CityFields, CityQueryParams>
         try
         {
             const query = this.buildQuery(withPaginator);
-            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.apiKeyOverride ?? this.kit['apiKey'], query, { skipCache: this.skipCacheFlag });
             const queryData = result[this.queryName];
 
             if(!queryData)

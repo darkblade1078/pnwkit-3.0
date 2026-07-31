@@ -1,8 +1,11 @@
 import type { GraphQLEnum } from "../../enum";
 import type { DefaultParams, SortOrder } from "../others";
+import type { AlliancePositionFields } from "./alliancePosition";
 import type { NationFields } from "./nation";
+import type { WarAttackFields } from "./warAttacks";
 
 export interface WarFields {
+    __typename?: 'wars';
     id?: string;
     date?: string;
     reason?: string;
@@ -38,14 +41,14 @@ export interface WarFields {
     def_infra_destroyed?: number;
     att_money_looted?: number;
     def_money_looted?: number;
-    att_soldiers_killed?: number;
-    def_soldiers_killed?: number;
-    att_tanks_killed?: number;
-    def_tanks_killed?: number;
-    att_aircraft_killed?: number;
-    def_aircraft_killed?: number;
-    att_ships_killed?: number;
-    def_ships_killed?: number;
+    att_soldiers_lost?: number;
+    def_soldiers_lost?: number;
+    att_tanks_lost?: number;
+    def_tanks_lost?: number;
+    att_aircraft_lost?: number;
+    def_aircraft_lost?: number;
+    att_ships_lost?: number;
+    def_ships_lost?: number;
     att_missiles_used?: number;
     def_missiles_used?: number;
     att_nukes_used?: number;
@@ -85,9 +88,9 @@ export type QueryWarsOrderByOrderByClause = {
 };
 
 export interface WarRelations {
-    attacks: any[]; // Replace with WarAttack when defined
-    att_alliance_position: any; // Replace with AlliancePositionEnum when defined
-    def_alliance_position: any; // Replace with AlliancePositionEnum when defined
+    attacks: WarAttackFields[];
+    att_alliance_position: AlliancePositionFields;
+    def_alliance_position: AlliancePositionFields;
     attacker: NationFields;
     defender: NationFields;
 }

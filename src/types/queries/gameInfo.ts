@@ -1,4 +1,5 @@
 export interface GameInfoFields {
+    __typename?: 'game_info';
     game_date?: string
     city_average?: number
 }

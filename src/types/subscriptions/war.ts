@@ -1,4 +1,4 @@
-export interface War {
+export interface WarSubscriptionFields {
     id: number,
     date: string,
     reason: string,

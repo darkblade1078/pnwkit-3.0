@@ -3,6 +3,7 @@ import type { DefaultParams, SortOrder } from "../others";
 import type { NationFields } from "./nation";
 
 export interface BountyFields {
+  __typename?: 'bounties';
   id?: string;
   date?: string;
   nation_id?: string;

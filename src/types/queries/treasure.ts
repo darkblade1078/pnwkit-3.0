@@ -1,6 +1,7 @@
 import type { NationFields } from "./nation";
 
 export interface TreasureFields {
+  __typename?: 'treasures';
   name?: string;
   color?: string;
   continent?: string;

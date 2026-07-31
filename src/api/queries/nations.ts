@@ -83,7 +83,7 @@ import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMap
  * ```
 */
 export class NationsQuery<
-    F extends readonly (keyof NationFields)[] = [], // Selected fields
+    F extends readonly (Exclude<keyof NationFields, '__typename'>)[] = [], // Selected fields
     I extends Record<string, any> = {}  // Included relations
 > 
 extends QueryBuilder<
@@ -110,7 +110,7 @@ NationQueryParams   // Filter parameters
      * @example
      * .select('id', 'nation_name', 'score')
     */
-    select<const Fields extends readonly (keyof NationFields)[]>(...fields: Fields): NationsQuery<Fields>
+    select<const Fields extends readonly (Exclude<keyof NationFields, '__typename'>)[]>(...fields: Fields): NationsQuery<Fields>
     {
         if(fields.length === 0)
             throw new Error("At least one field must be selected.");
@@ -195,7 +195,6 @@ NationQueryParams   // Filter parameters
      * Results only include selected fields and included relations.
      * All other fields are excluded from the response.
      * 
-     * @param withPaginator - Whether to include pagination metadata in response
      * @returns Array of nations, or object with data and paginatorInfo if withPaginator is true
      * @throws Error if the query fails or returns no data
      * 
@@ -230,7 +229,7 @@ NationQueryParams   // Filter parameters
             const query = this.buildQuery(withPaginator);
 
             // Execute the query
-            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.apiKeyOverride ?? this.kit['apiKey'], query, { skipCache: this.skipCacheFlag });
             const queryData = result[this.queryName];
 
             if(!queryData)

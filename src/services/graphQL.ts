@@ -1,5 +1,5 @@
 import { LRUCache } from 'lru-cache';
-import type { CacheOptions } from '../types/pnwkit.js';
+import type { CacheOptions } from '../types/pnwkit';
 
 /**
  * Internal error that records whether the failed request is worth retrying.
@@ -159,7 +159,7 @@ class GraphQLService
      * `);
      * ```
      */
-    public async queryCall<TData = any>(apiKey: string, query: string): Promise<TData>
+    public async queryCall<TData = any>(apiKey: string, query: string, options?: { skipCache?: boolean; botKey?: string }): Promise<TData>
     {
         // Validate inputs
         if (!apiKey || typeof apiKey !== 'string')
@@ -171,11 +171,15 @@ class GraphQLService
         if (query.length > this.MAX_QUERY_LENGTH)
             throw new Error(`Query exceeds maximum length of ${this.MAX_QUERY_LENGTH} characters`);
 
+        // Mutations pass skipCache so a state-changing call is never served from
+        // (or written to) the cache.
+        const useCache = this.cache && !options?.skipCache;
+
         // Check cache first
-        if (this.cache) 
+        if (useCache)
         {
             const cacheKey = this.getCacheKey(apiKey, query);
-            const cached = this.cache.get(cacheKey);
+            const cached = this.cache!.get(cacheKey);
 
             if (cached !== undefined)
                 return cached;
@@ -188,13 +192,13 @@ class GraphQLService
         {
             try 
             {
-                const result = await this.executeQuery<TData>(apiKey, query);
+                const result = await this.executeQuery<TData>(apiKey, query, options?.botKey);
                 
                 // Cache successful result
-                if (this.cache) 
+                if (useCache)
                 {
                     const cacheKey = this.getCacheKey(apiKey, query);
-                    this.cache.set(cacheKey, result);
+                    this.cache!.set(cacheKey, result);
                 }
                 
                 return result;
@@ -267,7 +271,7 @@ class GraphQLService
      * @throws Error for network failures, timeouts, invalid responses, or API errors
      * @internal
      */
-    private async executeQuery<TData>(apiKey: string, query: string): Promise<TData>
+    private async executeQuery<TData>(apiKey: string, query: string, botKey?: string): Promise<TData>
     {
         // Rate limiting (serialized so concurrent calls are spaced correctly)
         await this.acquireRateLimitSlot();
@@ -276,17 +280,24 @@ class GraphQLService
         const sanitizedApiKey = encodeURIComponent(apiKey);
         const url = `${this.url}?api_key=${sanitizedApiKey}`;
 
+        // Verified-bot requests (whitelisted mutations) authenticate via headers:
+        // the bot key plus the acting nation's API key.
+        const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+        if (botKey)
+        {
+            headers['X-Bot-Key'] = botKey;
+            headers['X-Api-Key'] = apiKey;
+        }
+
         // Create abort controller for timeout
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), this.REQUEST_TIMEOUT);
 
-        try 
+        try
         {
             const response = await fetch(url, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers,
                 body: JSON.stringify({ query }),
                 signal: controller.signal
             });
@@ -344,7 +355,7 @@ class GraphQLService
                 // Network errors (fetch failed) are transient.
                 throw new RequestError(error.message, true);
             }
-            
+
             throw new RequestError('Unknown error occurred during GraphQL query', false);
         }
     }

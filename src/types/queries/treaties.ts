@@ -3,6 +3,7 @@ import type { DefaultParams, SortOrder } from "../others"
 import type { AllianceFields } from "./alliance"
 
 export interface TreatyFields {
+    __typename?: 'treaties';
     id?: string
     date?: string
     treaty_type?: string

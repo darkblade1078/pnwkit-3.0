@@ -2,6 +2,7 @@ import type { GraphQLEnum } from "../../enum";
 import type { SortOrder } from "../others"
 
 export interface NationResourceStatsFields {
+    __typename?: 'nation_resource_stats';
     date?: string
     money?: string
     food?: string

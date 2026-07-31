@@ -22,6 +22,9 @@ import { EmbargoesQuery } from "./embargoes";
 import { TreasureTradesQuery } from "./treasureTrades";
 import { ActivityStatsQuery } from "./activityStats";
 import { ResourceStatsQuery } from "./resourceStats";
+import { BaseballGamesQuery } from "./baseballGames";
+import { BaseballTeamsQuery } from "./baseballTeams";
+import { BaseballPlayersQuery } from "./baseballPlayers";
 
 // Re-export every query builder so they are documented as part of the public API
 // and importable by consumers.
@@ -31,6 +34,7 @@ export {
     TreatiesQuery, WarsQuery, WarAttacksQuery, BountiesQuery, BannedNationsQuery,
     CitiesQuery, BankrecsQuery, BulletinsQuery, BulletinRepliesQuery, EmbargoesQuery,
     TreasureTradesQuery, ActivityStatsQuery, ResourceStatsQuery,
+    BaseballGamesQuery, BaseballTeamsQuery, BaseballPlayersQuery,
 };
 
 /**
@@ -263,8 +267,35 @@ export default class Queries
      * Create a new resource stats query builder
      * @returns A fresh ResourceStatsQuery instance
     */
-    resourceStats(): ResourceStatsQuery<[]> 
+    resourceStats(): ResourceStatsQuery<[]>
     {
         return new ResourceStatsQuery(this.api);
+    }
+
+    /**
+     * Create a new baseball games query builder
+     * @returns A fresh BaseballGamesQuery instance
+    */
+    baseballGames(): BaseballGamesQuery<[], []>
+    {
+        return new BaseballGamesQuery(this.api);
+    }
+
+    /**
+     * Create a new baseball teams query builder
+     * @returns A fresh BaseballTeamsQuery instance
+    */
+    baseballTeams(): BaseballTeamsQuery<[], []>
+    {
+        return new BaseballTeamsQuery(this.api);
+    }
+
+    /**
+     * Create a new baseball players query builder
+     * @returns A fresh BaseballPlayersQuery instance
+    */
+    baseballPlayers(): BaseballPlayersQuery<[], []>
+    {
+        return new BaseballPlayersQuery(this.api);
     }
 }

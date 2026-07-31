@@ -16,7 +16,10 @@ import type { EmbargoRelations, EmbargoQueryParams } from "./queries/embargo";
 import type { TreasureTradesQueryParams, TreasureTradeRelations } from "./queries/treasureTrades";
 import type { ActivityStatsQueryParams } from "./queries/activityStats";
 import type { ResourceStatsQueryParams } from "./queries/resourceStats";
-import type { TopTradeInfoResourceQueryParams, TopTradeResourceInfoRelations } from "./queries/topTradeInfo";
+import type { TopTradeInfoRelations, TopTradeInfoQueryParams, TopTradeInfoResourceQueryParams, TopTradeResourceInfoRelations } from "./queries/topTradeInfo";
+import type { BaseballGameRelations, QueryBaseballGamesQueryParams } from "./queries/baseballGames";
+import type { BaseballTeamRelations, QueryBaseballTeamsQueryParams } from "./queries/baseballTeams";
+import type { BaseballPlayerRelations, QueryBaseballPlayersQueryParams } from "./queries/baseballPlayers";
 
 /**
  * Unwrap array types to get the element type
@@ -28,50 +31,58 @@ type UnwrapArray<T> = T extends (infer U)[] ? U : T;
  * This uses the __typename discriminator for reliable type resolution
 */
 export interface FieldsToQueryParamsMap {
-    Alliance: AllianceQueryParams;
-    Nation: NationQueryParams;
-    ApiKeyDetails: ApiKeyDetailsQueryParams;
-    Trade: TradeQueryParams;
-    Tradeprice: TradePricesQueryParams;
-    Treaty: TreatyQueryParams;
-    War: WarQueryParams;
-    WarAttack: WarAttackQueryParams;
-    Bounty: BountyQueryParams;
-    BannedNation: BannedNationsQueryParams;
-    City: CityQueryParams;
-    Bankrec: BankRecordsQueryParams;
-    Bulletin: BulletinQueryParams;
-    BulletinReply: BulletinRepliesQueryParams;
-    Embargo: EmbargoQueryParams;
-    TreasureTrade: TreasureTradesQueryParams;
-    ActivityStat: ActivityStatsQueryParams;
-    ResourceStat: ResourceStatsQueryParams;
-    TopTradeResourceInfo: TopTradeInfoResourceQueryParams;
+    alliances: AllianceQueryParams;
+    nations: NationQueryParams;
+    me: ApiKeyDetailsQueryParams;
+    trades: TradeQueryParams;
+    tradeprices: TradePricesQueryParams;
+    treaties: TreatyQueryParams;
+    wars: WarQueryParams;
+    warattacks: WarAttackQueryParams;
+    bounties: BountyQueryParams;
+    banned_nations: BannedNationsQueryParams;
+    cities: CityQueryParams;
+    bankrecs: BankRecordsQueryParams;
+    bulletins: BulletinQueryParams;
+    bulletin_replies: BulletinRepliesQueryParams;
+    embargoes: EmbargoQueryParams;
+    treasure_trades: TreasureTradesQueryParams;
+    activity_stats: ActivityStatsQueryParams;
+    resource_stats: ResourceStatsQueryParams;
+    top_trade_info: TopTradeInfoQueryParams;
+    top_trade_resource_info: TopTradeInfoResourceQueryParams;
+    baseball_games: QueryBaseballGamesQueryParams;
+    baseball_teams: QueryBaseballTeamsQueryParams;
+    baseball_players: QueryBaseballPlayersQueryParams;
 }
 
 /**
  * Explicit lookup table mapping Fields types to their Relations types
 */
 export interface FieldsToRelationsMap {
-    Alliance: AllianceRelations;
-    Nation: NationRelations;
-    ApiKeyDetails: ApiKeyDetailsRelations;
-    Trade: TradeRelations;
-    Tradeprice: {};
-    Treaty: TreatyRelations;
-    War: WarRelations;
-    WarAttack: WarAttackRelations;
-    Bounty: BountyRelations;
-    BannedNation: {};
-    City: CityRelations;
-    Bankrec: BankRelations;
-    Bulletin: BulletinRelations;
-    BulletinReply: BulletinReplyRelations;
-    Embargo: EmbargoRelations;
-    TreasureTrade: TreasureTradeRelations;
-    ActivityStat: {};
-    ResourceStat: {};
-    TopTradeResourceInfo: TopTradeResourceInfoRelations;
+    alliances: AllianceRelations;
+    nations: NationRelations;
+    me: ApiKeyDetailsRelations;
+    trades: TradeRelations;
+    tradeprices: {};
+    treaties: TreatyRelations;
+    wars: WarRelations;
+    warattacks: WarAttackRelations;
+    bounties: BountyRelations;
+    banned_nations: {};
+    cities: CityRelations;
+    bankrecs: BankRelations;
+    bulletins: BulletinRelations;
+    bulletin_replies: BulletinReplyRelations;
+    embargoes: EmbargoRelations;
+    treasure_trades: TreasureTradeRelations;
+    activity_stats: {};
+    resource_stats: {};
+    top_trade_info: TopTradeInfoRelations;
+    top_trade_resource_info: TopTradeResourceInfoRelations;
+    baseball_games: BaseballGameRelations;
+    baseball_teams: BaseballTeamRelations;
+    baseball_players: BaseballPlayerRelations;
 }
 
 /**

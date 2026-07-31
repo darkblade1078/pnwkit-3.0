@@ -47,7 +47,7 @@ import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMap
  * ```
  */
 export class BankrecsQuery<
-    F extends readonly (keyof BankTaxrecFields)[] = [], 
+    F extends readonly (Exclude<keyof BankTaxrecFields, '__typename'>)[] = [], 
     I extends Record<string, any> = {}
 > 
 extends QueryBuilder<BankTaxrecFields, BankRecordsQueryParams>
@@ -71,7 +71,7 @@ extends QueryBuilder<BankTaxrecFields, BankRecordsQueryParams>
      * @example
      * .select('id', 'date', 'note', 'money', 'food', 'coal')
     */
-    select<const Fields extends readonly (keyof BankTaxrecFields)[]>(...fields: Fields): BankrecsQuery<Fields> 
+    select<const Fields extends readonly (Exclude<keyof BankTaxrecFields, '__typename'>)[]>(...fields: Fields): BankrecsQuery<Fields> 
     {
         if(fields.length === 0)
             throw new Error("At least one field must be selected.");
@@ -120,7 +120,7 @@ extends QueryBuilder<BankTaxrecFields, BankRecordsQueryParams>
         try
         {
             const query = this.buildQuery(withPaginator);
-            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.apiKeyOverride ?? this.kit['apiKey'], query, { skipCache: this.skipCacheFlag });
             const queryData = result[this.queryName];
 
             if(!queryData)

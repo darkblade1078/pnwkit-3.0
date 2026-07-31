@@ -59,7 +59,7 @@ import type { NationResourceStatsFields, NationResourceStatsQueryParams, NationR
  * ```
 */
 export class NationResourceStatsQuery<
-    F extends readonly (keyof NationResourceStatsFields)[] = [], 
+    F extends readonly (Exclude<keyof NationResourceStatsFields, '__typename'>)[] = [], 
     I extends Record<string, any> = {}
 > 
 extends QueryBuilder<NationResourceStatsFields, NationResourceStatsQueryParams>
@@ -85,7 +85,7 @@ extends QueryBuilder<NationResourceStatsFields, NationResourceStatsQueryParams>
      * .select('date', 'money', 'food', 'steel', 'aluminum')
      * ```
     */
-    select<const Fields extends readonly (keyof NationResourceStatsFields)[]>
+    select<const Fields extends readonly (Exclude<keyof NationResourceStatsFields, '__typename'>)[]>
     (
         ...fields: Fields
     ): NationResourceStatsQuery<Fields> 
@@ -169,7 +169,6 @@ extends QueryBuilder<NationResourceStatsFields, NationResourceStatsQueryParams>
      * Results only include selected fields.
      * All other fields are excluded from the response.
      * 
-     * @param withPaginator - Whether to include pagination metadata in response
      * @returns Array of resource stats, or object with data and paginatorInfo if withPaginator is true
      * @throws Error if the query fails or returns no data
      * 
@@ -204,7 +203,7 @@ extends QueryBuilder<NationResourceStatsFields, NationResourceStatsQueryParams>
             const query = this.buildQuery(withPaginator);
 
             // Execute the query
-            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.apiKeyOverride ?? this.kit['apiKey'], query, { skipCache: this.skipCacheFlag });
             const queryData = result[this.queryName];
 
             if(!queryData)

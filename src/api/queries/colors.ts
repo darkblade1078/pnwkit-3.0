@@ -49,7 +49,7 @@ import type { ColorFields, ColorQueryParams, ColorRelations } from "../../types/
  * ```
 */
 export class ColorsQuery<
-    F extends readonly (keyof ColorFields)[] = [], 
+    F extends readonly (Exclude<keyof ColorFields, '__typename'>)[] = [], 
     I extends Record<string, any> = {}
 > 
 extends QueryBuilder<ColorFields, ColorQueryParams>
@@ -75,7 +75,7 @@ extends QueryBuilder<ColorFields, ColorQueryParams>
      * .select('color', 'bloc_name', 'turn_bonus')
      * ```
     */
-    select<const Fields extends readonly (keyof ColorFields)[]>
+    select<const Fields extends readonly (Exclude<keyof ColorFields, '__typename'>)[]>
     (
         ...fields: Fields
     ): ColorsQuery<Fields> 
@@ -91,7 +91,7 @@ extends QueryBuilder<ColorFields, ColorQueryParams>
      * Apply filters to the query
      * @param filters - Query parameters for filtering results
      * @returns This query instance for method chaining
-     * @note Colors query does not support filtering parameters
+     * @remarks Colors query does not support filtering parameters
      * @example
      * ```typescript
      * .where({})
@@ -156,7 +156,6 @@ extends QueryBuilder<ColorFields, ColorQueryParams>
      * Results only include selected fields.
      * All other fields are excluded from the response.
      * 
-     * @param withPaginator - Whether to include pagination metadata in response
      * @returns Array of colors, or object with data and paginatorInfo if withPaginator is true
      * @throws Error if the query fails or returns no data
      * 
@@ -191,7 +190,7 @@ extends QueryBuilder<ColorFields, ColorQueryParams>
             const query = this.buildQuery(withPaginator);
 
             // Execute the query
-            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.apiKeyOverride ?? this.kit['apiKey'], query, { skipCache: this.skipCacheFlag });
             const queryData = result[this.queryName];
 
             if(!queryData)

@@ -55,7 +55,7 @@ import type { TopTradeInfoFields, TopTradeInfoQueryParams, TopTradeInfoRelations
  * ```
 */
 export class TopTradeInfoQuery<
-    F extends readonly (keyof TopTradeInfoFields)[] = [], 
+    F extends readonly (Exclude<keyof TopTradeInfoFields, '__typename'>)[] = [], 
     I extends Record<string, any> = {}
 > 
 extends QueryBuilder<TopTradeInfoFields, TopTradeInfoQueryParams>
@@ -81,7 +81,7 @@ extends QueryBuilder<TopTradeInfoFields, TopTradeInfoQueryParams>
      * .select('market_index')
      * ```
     */
-    select<const Fields extends readonly (keyof TopTradeInfoFields)[]>
+    select<const Fields extends readonly (Exclude<keyof TopTradeInfoFields, '__typename'>)[]>
     (
         ...fields: Fields
     ): TopTradeInfoQuery<Fields> 
@@ -146,7 +146,6 @@ extends QueryBuilder<TopTradeInfoFields, TopTradeInfoQueryParams>
      * Results only include selected fields.
      * All other fields are excluded from the response.
      * 
-     * @param withPaginator - Whether to include pagination metadata in response
      * @returns Single top trade info object, or object with data and paginatorInfo if withPaginator is true
      * @throws Error if the query fails or returns no data
      * 
@@ -181,7 +180,7 @@ extends QueryBuilder<TopTradeInfoFields, TopTradeInfoQueryParams>
             const query = this.buildQuery(withPaginator);
 
             // Execute the query
-            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.apiKeyOverride ?? this.kit['apiKey'], query, { skipCache: this.skipCacheFlag });
             const queryData = result[this.queryName];
 
             if(!queryData)

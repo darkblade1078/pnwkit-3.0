@@ -2,6 +2,7 @@ import type { GraphQLEnum } from "../../enum";
 import type { DefaultParams, SortOrder } from "../others";
 
 export interface TradeFields {
+  __typename?: 'trades';
   id?: string;
   type?: string;
   date?: string;

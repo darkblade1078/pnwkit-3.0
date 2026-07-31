@@ -1,7 +1,7 @@
 import type { NationFields } from "./nation";
 
 export interface ApiKeyDetailsFields {
-  __typename?: 'ApiKeyDetails';
+  __typename?: 'me';
   key?: string;
   requests?: number;
   max_requests?: number;

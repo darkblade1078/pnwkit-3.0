@@ -62,16 +62,19 @@ export default class PnWKit extends PnwKitApi
      */
     constructor(apiKey: string, options?: PnWKitOptions) {
 
-        super(apiKey, options?.cache);
+        super(apiKey, options?.cache, options?.botKey);
     }
 }
 
 // Public class re-exports so the container classes and every query builder are
 // documented as first-class entries and importable by consumers.
 export { default as Queries } from "./api/queries/index";
+export { default as Mutations } from "./api/mutations/index";
 export { default as Subscriptions } from "./api/subscriptions/index";
 export { default as Utilities } from "./utilities/index";
 export * from "./api/queries/index";
+export * from "./api/mutations/index";
+export { MutationBuilder } from "./services/mutationBuilder";
 
 // Enum wrapper for GraphQL enum filter values (e.g. order-by direction/column)
 export { Enum, GraphQLEnum } from "./enum";
@@ -80,9 +83,11 @@ export { Enum, GraphQLEnum } from "./enum";
 // and TypeDoc documents them as first-class entries.
 export type { PnWKitOptions, CacheOptions } from "./types/pnwkit";
 export type {
-    SubscriptionData,
+    SubscribeOptions,
+    SubscriptionModels,
     SubscriptionParams,
     EventTime,
     Model,
     Event,
 } from "./types/subscriptions/other";
+export { default as Subscription } from "./api/subscriptions/subscriptions";

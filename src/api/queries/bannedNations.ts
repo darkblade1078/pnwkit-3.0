@@ -35,7 +35,7 @@ import type { BannedNationFields, BannedNationsQueryParams } from "../../types/q
  * ```
  */
 export class BannedNationsQuery<
-    F extends readonly (keyof BannedNationFields)[] = []
+    F extends readonly (Exclude<keyof BannedNationFields, '__typename'>)[] = []
 > 
 extends QueryBuilder<BannedNationFields, BannedNationsQueryParams>
 {
@@ -58,7 +58,7 @@ extends QueryBuilder<BannedNationFields, BannedNationsQueryParams>
      * @example
      * .select('nation_id', 'reason', 'date', 'days_left')
     */
-    select<const Fields extends readonly (keyof BannedNationFields)[]>(...fields: Fields): BannedNationsQuery<Fields> 
+    select<const Fields extends readonly (Exclude<keyof BannedNationFields, '__typename'>)[]>(...fields: Fields): BannedNationsQuery<Fields> 
     {
         if(fields.length === 0)
             throw new Error("At least one field must be selected.");
@@ -93,7 +93,7 @@ extends QueryBuilder<BannedNationFields, BannedNationsQueryParams>
         try
         {
             const query = this.buildQuery(withPaginator);
-            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.apiKeyOverride ?? this.kit['apiKey'], query, { skipCache: this.skipCacheFlag });
             const queryData = result[this.queryName];
 
             if(!queryData)

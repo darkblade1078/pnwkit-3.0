@@ -64,7 +64,7 @@ import type { TreasureQueryParams, TreasureRelations, TreasureFields } from "../
  * ```
 */
 export class TreasuresQuery<
-    F extends readonly (keyof TreasureFields)[] = [], 
+    F extends readonly (Exclude<keyof TreasureFields, '__typename'>)[] = [], 
     I extends Record<string, any> = {}
 > 
 extends QueryBuilder<TreasureFields, TreasureQueryParams>
@@ -90,7 +90,7 @@ extends QueryBuilder<TreasureFields, TreasureQueryParams>
      * .select('name', 'color', 'continent', 'bonus', 'spawn_date')
      * ```
     */
-    select<const Fields extends readonly (keyof TreasureFields)[]>
+    select<const Fields extends readonly (Exclude<keyof TreasureFields, '__typename'>)[]>
     (
         ...fields: Fields
     ): TreasuresQuery<Fields> 
@@ -173,7 +173,6 @@ extends QueryBuilder<TreasureFields, TreasureQueryParams>
      * Results only include selected fields and included relations.
      * All other fields are excluded from the response.
      * 
-     * @param withPaginator - Whether to include pagination metadata in response
      * @returns Array of treasures, or object with data and paginatorInfo if withPaginator is true
      * @throws Error if the query fails or returns no data
      * 
@@ -208,7 +207,7 @@ extends QueryBuilder<TreasureFields, TreasureQueryParams>
             const query = this.buildQuery(withPaginator);
 
             // Execute the query
-            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.apiKeyOverride ?? this.kit['apiKey'], query, { skipCache: this.skipCacheFlag });
             const queryData = result[this.queryName];
 
             if(!queryData)

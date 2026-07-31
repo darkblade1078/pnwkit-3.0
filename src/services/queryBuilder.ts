@@ -94,22 +94,22 @@ export type SubqueryConfig<
 */
 export class SubqueryBuilder<
     TFields, 
-    TSelected extends readonly (keyof TFields)[] = [],
+    TSelected extends readonly (Exclude<keyof TFields, '__typename'>)[] = [],
     TIncluded extends Record<string, any> = {}
 >
 {
-    private fields: (keyof TFields)[] = [];
+    private fields: (Exclude<keyof TFields, '__typename'>)[] = [];
     private nestedSubqueries: Map<string, SubqueryConfig<any>> = new Map();
     private filters: Partial<GetQueryParamsFor<TFields>> = {};
 
     /**
      * Select fields from the subquery
     */
-    select<const F extends readonly (keyof TFields)[]>(
+    select<const F extends readonly (Exclude<keyof TFields, '__typename'>)[]>(
         ...fields: F
     ): SubqueryBuilder<TFields, F, TIncluded>
     {
-        this.fields = [...new Set(fields)] as (keyof TFields)[];
+        this.fields = [...new Set(fields)] as (Exclude<keyof TFields, '__typename'>)[];
         return this;
     }
 
@@ -172,7 +172,7 @@ export class SubqueryBuilder<
      * @internal
      * Get the selected fields
     */
-    getFields(): (keyof TFields)[]
+    getFields(): (Exclude<keyof TFields, '__typename'>)[]
     {
         return this.fields;
     }
@@ -235,14 +235,18 @@ TFields = any, // Type of the main query fields
 TQueryParams = any // Type of the query parameters
 >
 {
-    protected apiKey!: string;  // API key for authentication
-    
+    /** Per-call API key override, set via {@link apiKey}. */
+    protected apiKeyOverride?: string;
+
     // Updated: Now supports both simple arrays and nested builders
     protected subqueries: Map<string, SubqueryConfig<any>> = new Map();
     
-    protected selectedFields: (keyof TFields)[] = []; // main query fields
+    protected selectedFields: (Exclude<keyof TFields, '__typename'>)[] = []; // main query fields
     protected filters: TQueryParams = {} as TQueryParams; // query filters
     protected abstract queryName: string; // name of the query (e.g., 'nations')
+
+    /** When true, this call bypasses the response cache. Set via {@link skipCache}. */
+    protected skipCacheFlag: boolean = false;
     
     /**
      * Queries that return data directly without wrapping in a 'data' object.
@@ -267,6 +271,43 @@ TQueryParams = any // Type of the query parameters
     private static readonly ENUM_VALUE_PATTERN = /^[_A-Z][_0-9A-Z]*$/;
 
     constructor() {}
+
+    /**
+     * Bypass the response cache for this call.
+     *
+     * Only meaningful when caching is enabled on the client (`cache.enabled`).
+     * The result is fetched fresh from the API and is neither read from nor
+     * written to the cache. No effect when caching is disabled.
+     *
+     * @returns This query builder instance for method chaining.
+     * @example
+     * await pnwkit.queries.nations()
+     *   .select('id', 'nation_name')
+     *   .skipCache()
+     *   .execute();
+     */
+    public skipCache(): this
+    {
+        this.skipCacheFlag = true;
+        return this;
+    }
+
+    /**
+     * Use a specific API key for this call instead of the client's default key.
+     *
+     * @param key - The Politics & War API key to authenticate this query with.
+     * @returns This query builder instance for method chaining.
+     * @example
+     * await pnwkit.queries.nations()
+     *   .select('id', 'nation_name')
+     *   .apiKey('another-api-key')
+     *   .execute();
+     */
+    public apiKey(key: string): this
+    {
+        this.apiKeyOverride = key;
+        return this;
+    }
 
     /**
      * Sanitize and escape a string value for safe GraphQL usage.
@@ -578,7 +619,7 @@ TQueryParams = any // Type of the query parameters
 
         // Separate scalar fields from subqueries
         const scalarFields = this.selectedFields
-            .filter((f: keyof TFields) => !this.subqueries.has(f as string))
+            .filter((f: Exclude<keyof TFields, '__typename'>) => !this.subqueries.has(f as string))
             .join(`\n${QueryBuilder.QUERY_BASE_INDENT}`);
 
         // Build subquery strings

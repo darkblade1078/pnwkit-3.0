@@ -37,7 +37,7 @@ import type { ResourceStatsFields, ResourceStatsQueryParams } from "../../types/
  * ```
  */
 export class ResourceStatsQuery<
-    F extends readonly (keyof ResourceStatsFields)[] = []
+    F extends readonly (Exclude<keyof ResourceStatsFields, '__typename'>)[] = []
 > 
 extends QueryBuilder<ResourceStatsFields, ResourceStatsQueryParams>
 {
@@ -60,7 +60,7 @@ extends QueryBuilder<ResourceStatsFields, ResourceStatsQueryParams>
      * @example
      * .select('date', 'money', 'food', 'coal', 'oil', 'uranium')
     */
-    select<const Fields extends readonly (keyof ResourceStatsFields)[]>(...fields: Fields): ResourceStatsQuery<Fields> 
+    select<const Fields extends readonly (Exclude<keyof ResourceStatsFields, '__typename'>)[]>(...fields: Fields): ResourceStatsQuery<Fields> 
     {
         if(fields.length === 0)
             throw new Error("At least one field must be selected.");
@@ -95,7 +95,7 @@ extends QueryBuilder<ResourceStatsFields, ResourceStatsQueryParams>
         try
         {
             const query = this.buildQuery(withPaginator);
-            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.apiKeyOverride ?? this.kit['apiKey'], query, { skipCache: this.skipCacheFlag });
             const queryData = result[this.queryName];
 
             if(!queryData)

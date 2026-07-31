@@ -13,7 +13,7 @@ import type { WarFields } from "./war";
 import type { DefaultParams, SortOrder } from "../others";
 
 export interface NationFields {
-  __typename?: 'Nation';
+  __typename?: 'nations';
   id?: string;
   alliance_id?: number;
   alliance_position?: string;

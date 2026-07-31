@@ -3,6 +3,7 @@ import type { DefaultParams, SortOrder } from "../others";
 import type { NationFields } from "./nation";
 
 export interface BankTaxrecFields {
+  __typename?: 'bankrecs';
   id?: string;
   date?: string;
   sender_id?: string;

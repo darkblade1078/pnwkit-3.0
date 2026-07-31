@@ -4,6 +4,7 @@ import type { NationFields } from "./nation"
 
 
 export interface TreasureTradeFields {
+    __typename?: 'treasure_trades';
     id?: string;
     offer_date?: string;
     accept_date?: string;

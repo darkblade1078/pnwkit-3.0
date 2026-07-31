@@ -47,7 +47,7 @@ import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMap
  * ```
  */
 export class WarAttacksQuery<
-    F extends readonly (keyof WarAttackFields)[] = [], 
+    F extends readonly (Exclude<keyof WarAttackFields, '__typename'>)[] = [], 
     I extends Record<string, any> = {}
 > 
 extends QueryBuilder<WarAttackFields, WarAttackQueryParams>
@@ -71,7 +71,7 @@ extends QueryBuilder<WarAttackFields, WarAttackQueryParams>
      * @example
      * .select('id', 'date', 'type', 'victor', 'success')
     */
-    select<const Fields extends readonly (keyof WarAttackFields)[]>(...fields: Fields): WarAttacksQuery<Fields> 
+    select<const Fields extends readonly (Exclude<keyof WarAttackFields, '__typename'>)[]>(...fields: Fields): WarAttacksQuery<Fields> 
     {
         if(fields.length === 0)
             throw new Error("At least one field must be selected.");
@@ -120,7 +120,7 @@ extends QueryBuilder<WarAttackFields, WarAttackQueryParams>
         try
         {
             const query = this.buildQuery(withPaginator);
-            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.apiKeyOverride ?? this.kit['apiKey'], query, { skipCache: this.skipCacheFlag });
             const queryData = result[this.queryName];
 
             if(!queryData)

@@ -3,6 +3,7 @@ import type { DefaultParams, SortOrder } from "../others";
 import type { NationFields } from "./nation";
 
 export interface CityFields {
+  __typename?: 'cities';
   id?: string;
   nation_id?: string;
   name?: string;

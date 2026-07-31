@@ -79,7 +79,7 @@ import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMap
  * ```
 */
 export class AlliancesQuery<
-    F extends readonly (keyof AllianceFields)[] = [], 
+    F extends readonly (Exclude<keyof AllianceFields, '__typename'>)[] = [], 
     I extends Record<string, any> = {}
 > 
 extends QueryBuilder<AllianceFields, AllianceQueryParams>
@@ -105,7 +105,7 @@ extends QueryBuilder<AllianceFields, AllianceQueryParams>
      * .select('id', 'name', 'score', 'color')
      * ```
     */
-    select<const Fields extends readonly (keyof AllianceFields)[]>
+    select<const Fields extends readonly (Exclude<keyof AllianceFields, '__typename'>)[]>
     (
         ...fields: Fields
     ): AlliancesQuery<Fields> 
@@ -198,7 +198,6 @@ extends QueryBuilder<AllianceFields, AllianceQueryParams>
      * Results only include selected fields and included relations.
      * All other fields are excluded from the response.
      * 
-     * @param withPaginator - Whether to include pagination metadata in response
      * @returns Array of alliances, or object with data and paginatorInfo if withPaginator is true
      * @throws Error if the query fails or returns no data
      * 
@@ -233,7 +232,7 @@ extends QueryBuilder<AllianceFields, AllianceQueryParams>
             const query = this.buildQuery(withPaginator);
 
             // Execute the query
-            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.apiKeyOverride ?? this.kit['apiKey'], query, { skipCache: this.skipCacheFlag });
             const queryData = result[this.queryName];
 
             if(!queryData)

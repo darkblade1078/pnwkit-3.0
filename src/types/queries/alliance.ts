@@ -8,7 +8,7 @@ import type { TaxBracketFields } from "./taxBrackets";
 import type { WarFields } from "./war";
 
 export interface AllianceFields {
-  __typename?: 'Alliance';
+  __typename?: 'alliances';
   id?: string;
   name?: string;
   acronym?: string;

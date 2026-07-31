@@ -43,7 +43,7 @@ import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMap
  * ```
  */
 export class BountiesQuery<
-    F extends readonly (keyof BountyFields)[] = [], 
+    F extends readonly (Exclude<keyof BountyFields, '__typename'>)[] = [], 
     I extends Record<string, any> = {}
 > 
 extends QueryBuilder<BountyFields, BountyQueryParams>
@@ -67,7 +67,7 @@ extends QueryBuilder<BountyFields, BountyQueryParams>
      * @example
      * .select('id', 'date', 'nation_id', 'amount', 'type')
     */
-    select<const Fields extends readonly (keyof BountyFields)[]>(...fields: Fields): BountiesQuery<Fields> 
+    select<const Fields extends readonly (Exclude<keyof BountyFields, '__typename'>)[]>(...fields: Fields): BountiesQuery<Fields> 
     {
         if(fields.length === 0)
             throw new Error("At least one field must be selected.");
@@ -116,7 +116,7 @@ extends QueryBuilder<BountyFields, BountyQueryParams>
         try
         {
             const query = this.buildQuery(withPaginator);
-            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.apiKeyOverride ?? this.kit['apiKey'], query, { skipCache: this.skipCacheFlag });
             const queryData = result[this.queryName];
 
             if(!queryData)

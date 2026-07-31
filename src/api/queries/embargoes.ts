@@ -46,7 +46,7 @@ import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMap
  * ```
  */
 export class EmbargoesQuery<
-    F extends readonly (keyof EmbargoFields)[] = [], 
+    F extends readonly (Exclude<keyof EmbargoFields, '__typename'>)[] = [], 
     I extends Record<string, any> = {}
 > 
 extends QueryBuilder<EmbargoFields, EmbargoQueryParams>
@@ -70,7 +70,7 @@ extends QueryBuilder<EmbargoFields, EmbargoQueryParams>
      * @example
      * .select('id', 'date', 'sender_id', 'receiver_id', 'reason', 'type')
     */
-    select<const Fields extends readonly (keyof EmbargoFields)[]>(...fields: Fields): EmbargoesQuery<Fields> 
+    select<const Fields extends readonly (Exclude<keyof EmbargoFields, '__typename'>)[]>(...fields: Fields): EmbargoesQuery<Fields> 
     {
         if(fields.length === 0)
             throw new Error("At least one field must be selected.");
@@ -119,7 +119,7 @@ extends QueryBuilder<EmbargoFields, EmbargoQueryParams>
         try
         {
             const query = this.buildQuery(withPaginator);
-            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.apiKeyOverride ?? this.kit['apiKey'], query, { skipCache: this.skipCacheFlag });
             const queryData = result[this.queryName];
 
             if(!queryData)

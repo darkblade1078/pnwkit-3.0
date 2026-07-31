@@ -46,7 +46,7 @@ import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMap
  * ```
  */
 export class BulletinRepliesQuery<
-    F extends readonly (keyof BulletinReplyFields)[] = [], 
+    F extends readonly (Exclude<keyof BulletinReplyFields, '__typename'>)[] = [], 
     I extends Record<string, any> = {}
 > 
 extends QueryBuilder<BulletinReplyFields, BulletinRepliesQueryParams>
@@ -70,7 +70,7 @@ extends QueryBuilder<BulletinReplyFields, BulletinRepliesQueryParams>
      * @example
      * .select('id', 'message', 'date', 'nation_name', 'like_count')
     */
-    select<const Fields extends readonly (keyof BulletinReplyFields)[]>(...fields: Fields): BulletinRepliesQuery<Fields> 
+    select<const Fields extends readonly (Exclude<keyof BulletinReplyFields, '__typename'>)[]>(...fields: Fields): BulletinRepliesQuery<Fields> 
     {
         if(fields.length === 0)
             throw new Error("At least one field must be selected.");
@@ -119,7 +119,7 @@ extends QueryBuilder<BulletinReplyFields, BulletinRepliesQueryParams>
         try
         {
             const query = this.buildQuery(withPaginator);
-            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.apiKeyOverride ?? this.kit['apiKey'], query, { skipCache: this.skipCacheFlag });
             const queryData = result[this.queryName];
 
             if(!queryData)

@@ -37,7 +37,7 @@ import type { ActivityStatsFields, ActivityStatsQueryParams } from "../../types/
  * ```
  */
 export class ActivityStatsQuery<
-    F extends readonly (keyof ActivityStatsFields)[] = []
+    F extends readonly (Exclude<keyof ActivityStatsFields, '__typename'>)[] = []
 > 
 extends QueryBuilder<ActivityStatsFields, ActivityStatsQueryParams>
 {
@@ -60,7 +60,7 @@ extends QueryBuilder<ActivityStatsFields, ActivityStatsQueryParams>
      * @example
      * .select('date', 'total_nations', 'active_1_day', 'active_1_week')
     */
-    select<const Fields extends readonly (keyof ActivityStatsFields)[]>(...fields: Fields): ActivityStatsQuery<Fields> 
+    select<const Fields extends readonly (Exclude<keyof ActivityStatsFields, '__typename'>)[]>(...fields: Fields): ActivityStatsQuery<Fields> 
     {
         if(fields.length === 0)
             throw new Error("At least one field must be selected.");
@@ -95,7 +95,7 @@ extends QueryBuilder<ActivityStatsFields, ActivityStatsQueryParams>
         try
         {
             const query = this.buildQuery(withPaginator);
-            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.apiKeyOverride ?? this.kit['apiKey'], query, { skipCache: this.skipCacheFlag });
             const queryData = result[this.queryName];
 
             if(!queryData)

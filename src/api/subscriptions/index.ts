@@ -1,13 +1,20 @@
 import * as Pusher from 'pusher-js';
-import type { EventTime, SubscriptionParams, SubscriptionData } from '../../types/subscriptions/other.js';
+import type { EventTime, Model, SubscribeOptions, SubscriptionParams } from '../../types/subscriptions/other';
+import Subscription, { type SubscriptionDeps } from './subscriptions';
 
+/**
+ * Manages real-time Politics & War subscriptions over a shared Pusher connection.
+ *
+ * Each `subscribe()` call returns an independent {@link Subscription} handle, so a
+ * client can watch as many model/event streams as it likes and tear each down
+ * individually. On reconnect, every active subscription replays missed events.
+ *
+ * @category Subscriptions
+ */
 export default class Subscriptions
 {
     private pusher;
-    private channel: Pusher.Channel | null = null;
-    private subData: SubscriptionData | null = null;
-    private lastEventTime: EventTime | null = null;
-    private lastCrc32: number | null = null;
+    private readonly active = new Set<Subscription<any, any>>();
     private readonly pusherKey: string = "a22734a47847a64386c8";
     private readonly wsHost: string = "socket.politicsandwar.com";
     private readonly authEndpoint: string = "https://api.politicsandwar.com/subscriptions/v1/auth";
@@ -24,159 +31,112 @@ export default class Subscriptions
             authEndpoint: this.authEndpoint,
             forceTLS: true,
         });
-    }
 
-    public async subscribe(data: SubscriptionData): Promise<void>
-    {
-        const { model, event, callback, params, bulk } = data;
-
-        const paramString = params ? this.buildParams(params) : "";
-
-        let response;
-
-        try
-        {
-            response = await fetch(`${this.baseEndpoint}/${model}/${event}?api_key=${this.apiKey}&${paramString}&metadata=true`, {
-                method: 'GET'
-            });
-        }
-        catch (error)
-        {
-            throw new Error(`Network error during subscription: ${(error as Error).message}`);
-        }
-
-        if(!this.subData)
-            this.subData = data;
-
-        const channelResult: any = await response.json();
-
-        if(!response.ok)
-            throw new Error(`Subscription error: ${channelResult.message || response.statusText}`);
-
-        const channelName = channelResult.channel;
-
-        this.channel = this.pusher.subscribe(channelName);
-
-        if(!this.channel)
-            throw new Error("Failed to subscribe to channel");
-
-        this.channel?.bind(`${bulk ? 'BULK_' : ''}${model.toUpperCase()}_${event.toUpperCase()}`, callback);
-
-        this.subscribeMetaData(model, event, bulk ? true : false);
-        void this.subscribeStateChange();
-    }
-
-    public async unsubscribe(): Promise<void>
-    {
-        if(!this.channel)
-            throw new Error("No active subscription to unsubscribe from");
-
-        this.pusher.unsubscribe(this.channel.name);
-        this.channel = null;
-        this.lastEventTime = null;
-    }
-
-    private async rollbackChannel(): Promise<any>
-    {
-
-        let response;
-
-        try
-        {
-            response = await fetch(this.rollbackEndpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({  
-                    channel_name: this.channel?.name,
-                    time: this.lastEventTime?.millis,
-                    nanos: this.lastEventTime?.nanos
-                }),
-            });
-        }
-        catch(error)
-        {
-            throw new Error(`Network error during rollback: ${(error as Error).message}`);
-        }
-
-
-        if(response.status === 404 && this.subData)
-        {
-            await this.subscribe(this.subData);
-        }
-        else if (!response.ok)
-            throw new Error(`Rollback error: ${response.statusText}`);
-
-        const data = await response.json();
-
-        return data;
-    }
-
-    private async subscribeStateChange()
-    {
-        this.pusher.connection.bind('state_change', async (states: { previous: string, current: string }) => {
-
-            console.log(`Pusher state changed: ${states.previous} -> ${states.current}`);
-            
-            switch(states.current)
-            {
-                case 'connected':
-                {
-                    console.log("Connected to subscription channel.");
-
-                    if (
-                        this.lastEventTime &&
-                        typeof this.lastEventTime.millis !== "undefined" &&
-                        typeof this.lastEventTime.nanos !== "undefined" &&
-                        this.channel?.name
-                    ) 
-                    {
-                        console.log("Attempting rollback with:", {
-                            channel_name: this.channel.name,
-                            time: this.lastEventTime.millis,
-                            nanos: this.lastEventTime.nanos
-                        });
-
-                        await this.rollbackChannel();
-                    }
-                    break;
-                }
-            }
+        // On reconnect, replay events missed by every active subscription.
+        this.pusher.connection.bind('state_change', (states: { previous: string; current: string }) => {
+            if (states.current === 'connected')
+                for (const sub of this.active)
+                    void sub.rollback();
         });
     }
 
-    private subscribeMetaData(model: string, event: string, bulk: boolean): void
+    /**
+     * Subscribe to a Politics & War event stream.
+     *
+     * @param options - Model, event, optional filters, and typed `onData` / `onError` handlers
+     * @returns A {@link Subscription} handle; call `.unsubscribe()` to stop it
+     *
+     * @example
+     * ```typescript
+     * const sub = await pnwkit.subscriptions.subscribe({
+     *   model: "nation",
+     *   event: "update",
+     *   filters: { alliance_id: "1234" },
+     *   onData: (nation) => console.log(nation.id, nation.nation_name),
+     * });
+     *
+     * // later
+     * sub.unsubscribe();
+     * ```
+     */
+    public async subscribe<M extends Model, B extends boolean = false>(
+        options: SubscribeOptions<M, B>,
+    ): Promise<Subscription<M, B>>
     {
-        if(!this.channel)
-            throw new Error("No active subscription to retrieve metadata from");
+        // Runs the HTTP subscribe handshake and returns a fresh Pusher channel.
+        // Reused by the subscription itself when a channel expires (404 rollback).
+        const subscribeChannel = async (resumeFrom?: EventTime | null): Promise<Pusher.Channel> => {
+            const paramString = options.filters ? this.buildParams(options.filters) : "";
+            // On an expired-channel rollback, resume from the last event seen so
+            // the missed window is replayed instead of dropped.
+            const resume = resumeFrom ? `&since=${resumeFrom.millis}&nanos=${resumeFrom.nanos}` : "";
+            // Per-call key override falls back to the client's default key.
+            const apiKey = options.apiKey ?? this.apiKey;
 
-        this.channel?.bind(`${bulk ? 'BULK_' : ''}${model.toUpperCase()}_${event.toUpperCase()}_METADATA`, (metadata: any) => {
-            if 
-            (
-                metadata && 
-                metadata.max && 
-                typeof metadata.max.millis !== "undefined" && 
-                typeof metadata.max.nanos !== "undefined" &&
-                typeof metadata.crc32 !== "undefined"
-
-            )
+            let response: Response;
+            try
             {
-                this.lastEventTime = metadata.max;
-                this.lastCrc32 = metadata.crc32;
+                response = await fetch(
+                    `${this.baseEndpoint}/${options.model}/${options.event}?api_key=${apiKey}&${paramString}&metadata=true${resume}`,
+                    { method: 'GET' },
+                );
             }
-        });
+            catch (error)
+            {
+                throw new Error(`Network error during subscription: ${(error as Error).message}`);
+            }
+
+            const result: any = await response.json();
+
+            if (!response.ok)
+                throw new Error(`Subscription error: ${result.message || response.statusText}`);
+
+            const channel: Pusher.Channel = this.pusher.subscribe(result.channel);
+
+            if (!channel)
+                throw new Error("Failed to subscribe to channel");
+
+            return channel;
+        };
+
+        const channel = await subscribeChannel();
+
+        // eslint-disable-next-line prefer-const -- captured by the onClose closure below
+        let subscription: Subscription<M, B>;
+
+        const deps: SubscriptionDeps = {
+            pusher: this.pusher,
+            rollbackEndpoint: this.rollbackEndpoint,
+            subscribeChannel,
+            onClose: () => this.active.delete(subscription),
+        };
+
+        subscription = new Subscription<M, B>(channel, options, deps);
+        this.active.add(subscription);
+        return subscription;
     }
 
+    /**
+     * Stop every active subscription.
+     */
+    public unsubscribeAll(): void
+    {
+        for (const sub of [...this.active])
+            sub.unsubscribe();
+    }
+
+    /**
+     * Serialize subscription filters into a URL query string.
+     * @internal
+     */
     private buildParams(params: SubscriptionParams): string
     {
         const queryParams = new URLSearchParams();
 
-        for(const key in params)
+        for (const key in params)
         {
             const value = params[key as keyof SubscriptionParams];
-
-            if(value !== undefined)
+            if (value !== undefined)
                 queryParams.append(key, value);
         }
 

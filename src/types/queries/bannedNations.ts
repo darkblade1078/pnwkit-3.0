@@ -2,6 +2,7 @@ import type { GraphQLEnum } from "../../enum";
 import type { DefaultParams, SortOrder } from "../others";
 
 export interface BannedNationFields {
+    __typename?: 'banned_nations';
     nation_id?: string;
     reason?: string;
     date?: string;

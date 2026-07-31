@@ -5,6 +5,7 @@ import type { BulletinReplyFields } from "./bulletinReplies";
 import type { NationFields } from "./nation";
 
 export interface BulletinFields {
+  __typename?: 'bulletins';
   id?: string;
   nation_id?: string;
   alliance_id?: string;

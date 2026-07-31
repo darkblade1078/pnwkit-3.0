@@ -51,7 +51,7 @@ import type { GameInfoFields, GameInfoQueryParams, GameInfoRelations } from "../
  * ```
 */
 export class GameInfoQuery<
-    F extends readonly (keyof GameInfoFields)[] = [], 
+    F extends readonly (Exclude<keyof GameInfoFields, '__typename'>)[] = [], 
     I extends Record<string, any> = {}
 > 
 extends QueryBuilder<GameInfoFields, GameInfoQueryParams>
@@ -77,7 +77,7 @@ extends QueryBuilder<GameInfoFields, GameInfoQueryParams>
      * .select('game_date', 'radiation', 'city_average')
      * ```
     */
-    select<const Fields extends readonly (keyof GameInfoFields)[]>
+    select<const Fields extends readonly (Exclude<keyof GameInfoFields, '__typename'>)[]>
     (
         ...fields: Fields
     ): GameInfoQuery<Fields> 
@@ -93,7 +93,7 @@ extends QueryBuilder<GameInfoFields, GameInfoQueryParams>
      * Apply filters to the query
      * @param filters - Query parameters for filtering results
      * @returns This query instance for method chaining
-     * @note Game info query does not support filtering parameters
+     * @remarks Game info query does not support filtering parameters
      * @example
      * ```typescript
      * .where({})
@@ -158,7 +158,6 @@ extends QueryBuilder<GameInfoFields, GameInfoQueryParams>
      * Results only include selected fields and included relations.
      * All other fields are excluded from the response.
      * 
-     * @param withPaginator - Whether to include pagination metadata in response
      * @returns Single game info object, or object with data and paginatorInfo if withPaginator is true
      * @throws Error if the query fails or returns no data
      * 
@@ -194,7 +193,7 @@ extends QueryBuilder<GameInfoFields, GameInfoQueryParams>
             const query = this.buildQuery(withPaginator);
 
             // Execute the query
-            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.apiKeyOverride ?? this.kit['apiKey'], query, { skipCache: this.skipCacheFlag });
             const queryData = result[this.queryName];
 
             if(!queryData)

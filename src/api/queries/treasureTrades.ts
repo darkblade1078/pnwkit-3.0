@@ -46,7 +46,7 @@ import type { GetRelationsFor, GetQueryParamsFor } from "../../types/relationMap
  * ```
  */
 export class TreasureTradesQuery<
-    F extends readonly (keyof TreasureTradeFields)[] = [], 
+    F extends readonly (Exclude<keyof TreasureTradeFields, '__typename'>)[] = [], 
     I extends Record<string, any> = {}
 > 
 extends QueryBuilder<TreasureTradeFields, TreasureTradesQueryParams>
@@ -70,7 +70,7 @@ extends QueryBuilder<TreasureTradeFields, TreasureTradesQueryParams>
      * @example
      * .select('id', 'treasure', 'money', 'accepted', 'buying', 'selling')
     */
-    select<const Fields extends readonly (keyof TreasureTradeFields)[]>(...fields: Fields): TreasureTradesQuery<Fields> 
+    select<const Fields extends readonly (Exclude<keyof TreasureTradeFields, '__typename'>)[]>(...fields: Fields): TreasureTradesQuery<Fields> 
     {
         if(fields.length === 0)
             throw new Error("At least one field must be selected.");
@@ -119,7 +119,7 @@ extends QueryBuilder<TreasureTradeFields, TreasureTradesQueryParams>
         try
         {
             const query = this.buildQuery(withPaginator);
-            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.apiKeyOverride ?? this.kit['apiKey'], query, { skipCache: this.skipCacheFlag });
             const queryData = result[this.queryName];
 
             if(!queryData)

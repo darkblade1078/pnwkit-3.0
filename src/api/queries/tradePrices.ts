@@ -28,7 +28,7 @@ import type { TradepriceFields, TradePricesQueryParams } from "../../types/queri
  * ```
  */
 export class TradePricesQuery<
-    F extends readonly (keyof TradepriceFields)[] = []
+    F extends readonly (Exclude<keyof TradepriceFields, '__typename'>)[] = []
 > 
 extends QueryBuilder<TradepriceFields, TradePricesQueryParams>
 {
@@ -51,7 +51,7 @@ extends QueryBuilder<TradepriceFields, TradePricesQueryParams>
      * @example
      * .select('date', 'coal', 'oil', 'uranium', 'food')
     */
-    select<const Fields extends readonly (keyof TradepriceFields)[]>(...fields: Fields): TradePricesQuery<Fields> 
+    select<const Fields extends readonly (Exclude<keyof TradepriceFields, '__typename'>)[]>(...fields: Fields): TradePricesQuery<Fields> 
     {
         if(fields.length === 0)
             throw new Error("At least one field must be selected.");
@@ -76,7 +76,7 @@ extends QueryBuilder<TradepriceFields, TradePricesQueryParams>
         try
         {
             const query = this.buildQuery(false);
-            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.apiKeyOverride ?? this.kit['apiKey'], query, { skipCache: this.skipCacheFlag });
             const queryData = result[this.queryName];
 
             if(!queryData)

@@ -67,7 +67,7 @@ import type { ApiKeyDetailsFields, ApiKeyDetailsRelations, ApiKeyDetailsQueryPar
  * ```
 */
 export class ApiKeyDetailsQuery<
-    F extends readonly (keyof ApiKeyDetailsFields)[] = [], 
+    F extends readonly (Exclude<keyof ApiKeyDetailsFields, '__typename'>)[] = [], 
     I extends Record<string, any> = {}
 > 
 extends QueryBuilder<ApiKeyDetailsFields, ApiKeyDetailsQueryParams>
@@ -93,7 +93,7 @@ extends QueryBuilder<ApiKeyDetailsFields, ApiKeyDetailsQueryParams>
      * .select('key', 'requests', 'max_requests', 'permissions')
      * ```
     */
-    select<const Fields extends readonly (keyof ApiKeyDetailsFields)[]>
+    select<const Fields extends readonly (Exclude<keyof ApiKeyDetailsFields, '__typename'>)[]>
     (
         ...fields: Fields
     ): ApiKeyDetailsQuery<Fields> 
@@ -200,7 +200,7 @@ extends QueryBuilder<ApiKeyDetailsFields, ApiKeyDetailsQueryParams>
             const query = this.buildQuery(false);
 
             // Execute the query
-            const result = await this.kit['graphQL'].queryCall(this.kit['apiKey'], query);
+            const result = await this.kit['graphQL'].queryCall(this.apiKeyOverride ?? this.kit['apiKey'], query, { skipCache: this.skipCacheFlag });
             const queryData = result[this.queryName];
 
             if(!queryData)

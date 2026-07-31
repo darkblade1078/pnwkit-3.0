@@ -4,6 +4,7 @@ import type { NationFields } from "./nation";
 import type { WarFields } from "./war";
 
 export interface WarAttackFields {
+    __typename?: 'warattacks';
     id?: string;
     date?: string;
     att_id?: string;

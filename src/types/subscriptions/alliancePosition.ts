@@ -1,0 +1,30 @@
+export interface AlliancePositionSubscriptionFields {
+  id: number;
+  date: string;
+  alliance_id: number;
+  name: string;
+  creator_id: number;
+  last_editor_id: number;
+  date_modified: string;
+  position_level: number;
+  leader: number;
+  heir: number;
+  officer: number;
+  member: number;
+  view_bank: number;
+  withdraw_bank: number;
+  change_permissions: number;
+  see_spies: number;
+  see_reset_timers: number;
+  tax_brackets: number;
+  post_announcements: number;
+  manage_announcements: number;
+  accept_applicants: number;
+  remove_members: number;
+  edit_alliance_info: number;
+  manage_treaties: number;
+  manage_market_share: number;
+  manage_embargoes: number;
+  promote_self_to_leader: number;
+  permissions: number;
+}

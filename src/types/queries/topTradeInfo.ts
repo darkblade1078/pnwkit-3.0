@@ -1,12 +1,12 @@
 import type { TradeFields } from "./trade"
 
 export interface TopTradeInfoFields {
-    __typename?: 'top_trade_info'
+    __typename?: 'top_trade_info';
     market_index?: number
 }
 
 export interface TopTradeResourceInfoFields {
-    __typename?: 'TopTradeResourceInfo'
+    __typename?: 'top_trade_resource_info';
     resource?: string
     average_price?: number
     best_buy_offer?: TradeFields

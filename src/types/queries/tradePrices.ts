@@ -1,6 +1,7 @@
 import type { DefaultParams } from "../others"
 
 export interface TradepriceFields {
+    __typename?: 'tradeprices';
     id?: string
     date?: string
     coal?: number

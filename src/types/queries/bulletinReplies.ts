@@ -4,6 +4,7 @@ import type { BulletinFields } from "./bulletin";
 import type { NationFields } from "./nation";
 
 export interface BulletinReplyFields {
+  __typename?: 'bulletin_replies';
   id?: string;
   date?: string;
   nation_id?: string;
