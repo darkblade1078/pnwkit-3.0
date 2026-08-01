@@ -1,5 +1,5 @@
 import { percentOfNumber, randBetween, damageFactor } from "../other";
-import { WarPolicy, WarType, VictoryType, type GroundSimResult } from "../../types/utilities/war";
+import { WarPolicy, WarType, type GroundSimResult } from "../../types/utilities/war";
 import { infraPolicyMultiplier, warTypeInfraMultiplier } from "./infrastructureDamage";
 import { lootSim } from "./loot";
 
@@ -183,7 +183,7 @@ export function groundAttackSim(
         const loot = lootSim(
             attackingSoldiers - attackerSoldiersLost,
             attackingTanks - attackerTanksLost,
-            wins as VictoryType,
+            wins,
             defendersMoney,
             warType,
             attackerWarPolicy,
