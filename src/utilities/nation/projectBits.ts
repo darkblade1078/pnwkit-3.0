@@ -9,7 +9,6 @@
  * @param projectPosition - The bit position (0-40) using standard right-to-left indexing
  * @returns true if the nation has the project, false otherwise
  * @throws Error if parameters are invalid
- * 
  * @example
  * ```typescript
  * const hasIronDome = ConvertBitsToProject(data[0].project_bits, 0); // IRON_DOME

@@ -16,6 +16,13 @@
  * @param governmentSupportAgency If true, increases rapidExpansion discount
  * @param bureauOfDomesticAffairs If true, increases rapidExpansion discount further
  * @returns Total land cost after discounts
+ * @throws Error if the difference between startingAmount and endingAmount exceeds 10,000
+ * @throws Error if an unexpected error occurs during calculation
+ * @example
+ * ```typescript
+ * const cost = landCost(20, 500);
+ * console.log(cost); // Total land cost for the increase from 20 to 500
+ * ```
  */
 export default function landCost(
     startingAmount: number, 
@@ -48,6 +55,13 @@ export default function landCost(
  * @param startingAmount Starting land amount
  * @param endingAmount Ending land amount
  * @returns Total cost for the land increase
+ * @throws Error if the difference between startingAmount and endingAmount exceeds 10,000
+ * @throws Error if an unexpected error occurs during calculation
+ * @example
+ * ```typescript
+ * const cost = landCostFormula(20, 500);
+ * console.log(cost); // Total cost for the land increase from 20 to 500
+ * ```
  */
 function landCostFormula(startingAmount: number, endingAmount: number): number 
 {
@@ -69,12 +83,12 @@ function landCostFormula(startingAmount: number, endingAmount: number): number
     // If starting amount is greater than ending amount
     if (difference < 0) 
     {
-        const landPriceValue = 150;
+        const landPriceValue = 50;
         return landPriceValue * difference;
     }
 
     // Break into chunks of 500, and get the price
-    if (difference > 100 && difference % 100 === 0) 
+    if (difference > 500 && difference % 500 === 0) 
     {
         const costOfChunk = Math.round(landPrice(startingAmount) * 100) / 100 * 500;
         // Recursively get value of next chunk

@@ -47,3 +47,37 @@ export function ageBonus(cityAge: number): number
 
     return 1 + Math.log(cityAge) / 15;
 }
+
+/**
+ * Calculates the actual (displayed) population for a city.
+ *
+ * Population = (Base Population - Disease Deaths - Crime Deaths) * Age Bonus
+ *
+ * @param basePopulation - The base population (infrastructure * 100)
+ * @param diseaseDeaths - Population lost to disease (see diseaseDeaths)
+ * @param crimeDeaths - Population lost to crime (see crimeDeaths)
+ * @param ageBonus - The city age bonus modifier (see ageBonus)
+ * @returns The actual population, floored at zero
+ * @throws Error if any input value is negative
+ * @example
+ * ```typescript
+ * const basePop = basePopulation(50); // 5000
+ * const ageBonusValue = ageBonus(20); // Age bonus for a 20-turn-old city
+ * const diseaseDeaths = 120;
+ * const crimeDeaths = 80;
+ * const pop = population(basePop, diseaseDeaths, crimeDeaths, ageBonusValue);
+ * console.log(pop); // Actual population after deaths and age bonus
+ * ```
+ */
+export function population(
+    basePopulation: number,
+    diseaseDeaths: number,
+    crimeDeaths: number,
+    ageBonus: number
+): number
+{
+    if(basePopulation < 0 || diseaseDeaths < 0 || crimeDeaths < 0 || ageBonus < 0)
+        throw new Error('Invalid input: Negative values are not allowed');
+
+    return Math.max((basePopulation - diseaseDeaths - crimeDeaths) * ageBonus, 0);
+}

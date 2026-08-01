@@ -1,3 +1,5 @@
+import { ImprovementLimitPerCity, ImprovementModifiers } from "../../types/utilities/improvements";
+
 /**
  * Calculates the crime percentage for a city using the following formula:
  *
@@ -7,6 +9,12 @@
  * @param infrastructure - The infrastructure value of the city
  * @param policeModifier - The police modifier value
  * @returns The calculated crime rate
+ * @throws Error if any input value is negative
+ * @example
+ * ```typescript
+ * const crime = crimeRate(80, 50, 5);
+ * console.log(crime); // Crime rate for a city with commerce 80, infrastructure 50, and police modifier 5
+ * ```
  */
 export function crimeRate(
     commerce: number,
@@ -31,13 +39,22 @@ export function crimeRate(
  * @param policeStations - Number of police stations in the city
  * @param specializedPoliceTrainingProgram - Whether a Specialized Police Training Program is present (default: false)
  * @returns The police modifier value
+ * @throws Error if the number of police stations is negative
+ * @example
+ * ```typescript
+ * const modifier = policeModifier(3, true);
+ * console.log(modifier); // Police modifier for 3 police stations with a Specialized Police Training Program
+ * ```
  */
 export function policeModifier(policeStations: number, specializedPoliceTrainingProgram: boolean = false): number
 {
     if(policeStations < 0)
         throw new Error('Invalid input: Negative values are not allowed');
 
-    return policeStations * (specializedPoliceTrainingProgram ? 3.5 : 2.5);
+    if(policeStations > ImprovementLimitPerCity.POLICE_STATION)
+        throw new Error('Invalid input: Number of police stations exceeds the limit');
+
+    return policeStations * (specializedPoliceTrainingProgram ? ImprovementModifiers.policeStation.withProject : ImprovementModifiers.policeStation.normal);
 }
 
 /**
@@ -46,6 +63,12 @@ export function policeModifier(policeStations: number, specializedPoliceTraining
  * @param crimeRate - The calculated crime rate
  * @param infrastructure - The infrastructure value of the city
  * @returns The number of crime-related deaths
+ * @throws Error if any input value is negative
+ * @example
+ * ```typescript
+ * const deaths = crimeDeaths(5, 50);
+ * console.log(deaths); // Crime-related deaths for a city with crime rate 5 and infrastructure 50
+ * ```
  */
 export function crimeDeaths(crimeRate: number, infrastructure: number): number
 {

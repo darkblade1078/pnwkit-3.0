@@ -13,3 +13,57 @@ export function buildingBonus(currentbuildings: number, maxbuildings: number): n
 {
     return 1 + (0.5 / (maxbuildings - 1)) * (currentbuildings - 1);
 }
+
+/**
+ * Returns a random integer uniformly distributed in the inclusive range
+ * `[min, max]`.
+ *
+ * Note: the result is floored to an integer, so this is only appropriate for
+ * whole-number ranges. For a continuous fractional multiplier (e.g. the
+ * `RAND(0.85, 1.05)` damage factor) use {@link damageFactor} instead.
+ *
+ * @param min - The lower bound (inclusive)
+ * @param max - The upper bound (inclusive)
+ * @returns A random integer between `min` and `max`
+ */
+export function randBetween(min: number, max: number): number
+{
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+/**
+ * Returns `percent` percent of `number` (i.e. `(percent / 100) * number`).
+ *
+ * @param percent - The percentage to take (e.g. 40 for 40%)
+ * @param number - The value to take the percentage of
+ * @returns The resulting portion of `number`
+ */
+export function percentOfNumber(percent: number, number: number): number
+{
+  return (percent / 100) * number;
+}
+
+/**
+ * Returns a continuous random multiplier in the range [0.85, 1.05], matching the
+ * `RAND(0.85, 1.05)` factor used by the in-game damage formulas.
+ *
+ * (Note: {@link randBetween} floors to an integer and therefore cannot be used
+ * for this fractional range.)
+ */
+export function damageFactor(): number
+{
+    return 0.85 + Math.random() * (1.05 - 0.85);
+}
+
+/**
+ * Returns a continuous random multiplier in the range [0.8, 1.1], matching the
+ * `RAND(0.8, 1.1)` factor used by the in-game ground-battle loot formula.
+ *
+ * (Note: {@link randBetween} floors to an integer and therefore cannot be used
+ * for this fractional range.)
+ */
+export function lootFactor(): number
+{
+    return 0.8 + Math.random() * (1.1 - 0.8);
+}
+

@@ -1,3 +1,5 @@
+import { ImprovementCommercePerTurn, ImprovementLimitPerCity } from '../../types/utilities/improvements';
+
 /**
  * Calculates the commerce value for a city based on the number of various buildings and special infrastructure.
  *
@@ -26,6 +28,12 @@
  * @param telecommunicationsSatellite - Whether the city has a Telecommunications Satellite (default: false)
  * @returns The calculated commerce value for the city
  * @throws Error if any building value exceeds its limit
+ * @throws Error if any building value is negative
+ * @example
+ * ```typescript
+ * const com = commerce(4, 6, 5, 3, 1, true, true);
+ * console.log(com); // Commerce in a city with maximum buildings and both special infrastructures
+ * ```
  */
 export default function commerce(
     superMarkets: number,
@@ -50,22 +58,24 @@ export default function commerce(
 
     if 
     (
-        superMarkets > 4 ||
-        banks > 6 ||
-        shoppingMalls > 5 ||
-        stadiums > 3 ||
-        subway > 1
+        superMarkets > ImprovementLimitPerCity.SUPERMARKET ||
+        banks > ImprovementLimitPerCity.BANK ||
+        shoppingMalls > ImprovementLimitPerCity.SHOPPING_MALL ||
+        stadiums > ImprovementLimitPerCity.STADIUM ||
+        subway > ImprovementLimitPerCity.SUBWAY
     )
         throw new Error('Invalid input: One or more values exceed their limits');
         
     const maxCommerce = internationalTradeCenter ? (telecommunicationsSatellite ? 125 : 115) : 100;
 
     let commerce = 
-        (superMarkets * 15) +
-        (banks * 20) +
-        (shoppingMalls * 25) +
-        (stadiums * 10) +
-        (subway * 15);
+        (superMarkets * ImprovementCommercePerTurn.SUPERMARKET) +
+        (banks * ImprovementCommercePerTurn.BANK) +
+        (shoppingMalls * ImprovementCommercePerTurn.SHOPPING_MALL) +
+        (stadiums * ImprovementCommercePerTurn.STADIUM) +
+        (subway * ImprovementCommercePerTurn.SUBWAY) +
+        (internationalTradeCenter ? 1 : 0) +
+        (telecommunicationsSatellite ? 3 : 0);
 
     commerce += internationalTradeCenter ? (telecommunicationsSatellite ? 3 : 1) : 0;
 

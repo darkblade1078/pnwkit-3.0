@@ -48,6 +48,13 @@ export default function infraCost(
  * @param startingAmount Starting infrastructure amount
  * @param endingAmount Ending infrastructure amount
  * @returns Total cost for the infrastructure increase
+ * @throws Error if the difference between startingAmount and endingAmount exceeds 10,000
+ * @throws Error if an unexpected error occurs during calculation
+ * @example
+ * ```typescript
+ * const cost = infraCostFormula(100, 200);
+ * console.log(cost); // Total cost for the infrastructure increase from 100 to 200
+ * ```
  */
 function infraCostFormula(startingAmount: number, endingAmount: number): number 
 {

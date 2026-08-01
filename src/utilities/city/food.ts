@@ -1,4 +1,4 @@
-import type { Season } from "../../types/utilities/cities";
+import type { Season } from "../../types/utilities/nation";
 import { buildingBonus } from "../other";
 
 /**
@@ -10,6 +10,12 @@ import { buildingBonus } from "../other";
  * @param massIrrigation - Whether mass irrigation is enabled (default: false)
  * @param season - The current season ('spring', 'summer', 'fall', 'winter')
  * @returns The calculated food production value
+ * @throws Error if any input value is negative
+ * @example
+ * ```typescript
+ * const food = foodProduction(10, 5000, 0.05, true, 'summer');
+ * console.log(food); // Food production for a city with 10 farms, 5000 land, radiation modifier 0.05, mass irrigation enabled, and summer season
+ * ```
  */
 export function foodProduction(
     farms: number,
@@ -45,6 +51,12 @@ export function foodProduction(
  * @param continentRadiation - Radiation value for the continent
  * @param globalRadiation - Global radiation value
  * @returns The calculated radiation index modifier
+ * @throws Error if any input value is negative
+ * @example
+ * ```typescript
+ * const modifier = radiationModifier(50, 100);
+ * console.log(modifier); // Radiation index modifier for a continent radiation of 50 and global radiation of 100
+ * ```
  */
 export function radiationModifier(
     continentRadiation: number,
