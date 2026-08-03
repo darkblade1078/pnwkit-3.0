@@ -1,6 +1,7 @@
 import Queries from "./queries/index";
 import Mutations from "./mutations/index";
 import Utilities from "../utilities/index";
+import DataDumps from "../dataDumps/index";   
 import type { CacheOptions } from "../types/pnwkit";
 import GraphQLService from "../services/graphQL";
 import Subscriptions from "./subscriptions/index";
@@ -27,6 +28,9 @@ export default class PnwKitApi
     
     /** Utility functions for calculations and data transformations */
     public readonly utilities: Utilities;
+
+    /** Access to the Politics & War daily data dumps */
+    public readonly dataDumps: DataDumps;  
     
     /** Cache configuration (if enabled) */
     protected readonly cacheOptions?: CacheOptions | undefined;
@@ -57,6 +61,7 @@ export default class PnwKitApi
         this.mutations = new Mutations(this);
         this.subscriptions = new Subscriptions(this.apiKey);
         this.utilities = new Utilities();
+        this.dataDumps = new DataDumps();
     }
     
     /**

@@ -75,6 +75,7 @@ export { default as Utilities } from "./utilities/index";
 export * from "./api/queries/index";
 export * from "./api/mutations/index";
 export { MutationBuilder } from "./services/mutationBuilder";
+export { default as DataDumps } from "./dataDumps/index";
 
 // Enum wrapper for GraphQL enum filter values (e.g. order-by direction/column)
 export { Enum, GraphQLEnum } from "./enum";

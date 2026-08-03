@@ -64,6 +64,23 @@ export function damageFactor(): number
  */
 export function lootFactor(): number
 {
-    return 0.8 + Math.random() * (1.1 - 0.8);
+  return 0.8 + Math.random() * (1.1 - 0.8);
 }
+
+/**
+ * Date (YYYY-MM-DD, UTC) of the most recent dump that should exist.
+ * Dumps generate at 23:55 UTC, so before that the newest available is yesterday's.
+ */
+export function latestDumpDate(now: Date = new Date()): string
+{
+  const GENERATED_AT = 23 * 60 + 55;                 // 23:55 UTC, in minutes
+  const nowMinutes = now.getUTCHours() * 60 + now.getUTCMinutes();
+  const d = new Date(now);
+
+  if (nowMinutes < GENERATED_AT)
+    d.setUTCDate(d.getUTCDate() - 1);
+
+  return d.toISOString().slice(0, 10);
+}
+
 
