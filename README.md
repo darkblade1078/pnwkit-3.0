@@ -9,6 +9,15 @@ A type-safe, fluent [Politics & War](https://politicsandwar.com) GraphQL API wra
 - 📡 **Live subscriptions** — subscribe to real-time game events.
 - 🧮 **Utilities** — helpers for common in-game calculations (city costs, population, projects, and more).
 
+## Shoutouts
+These are shoutouts to everyone who has helped and/or made commits to pnwkit-2.0/3.0.
+- [@Henrik](https://github.com/icehenrik)
+- [@Doctor](https://github.com/BlackAsLight)
+- [@Village](https://github.com/mrvillage)
+- [@leonissenbaum](https://github.com/leonissenbaum)
+- [@Sol](https://github.com/S0l4RIS9uk)
+
+
 ## Installation
 
 ```bash
